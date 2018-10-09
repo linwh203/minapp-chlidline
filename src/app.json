@@ -1,0 +1,21 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/first/main",
+    
+    "pages/list/main",
+    "pages/map/main",
+    "pages/scan/main",
+    "pages/quiz/main",
+    "pages/my/main",
+    "pages/logs/main",
+    "pages/counter/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#53c6f7",
+    "backgroundColor": "#53c6f7",
+    "navigationBarTitleText": "儿童研习径",
+    "navigationBarTextStyle": "#ffffff"
+  }
+}
