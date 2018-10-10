@@ -42,6 +42,7 @@ export default {
       // 查看是否授权
       wx.getSetting({
         success(res) {
+          console.log('success')
           if (res.authSetting["scope.userInfo"]) {
             // 已经授权，可以直接调用 getUserInfo 获取头像昵称
             wx.getUserInfo({
@@ -49,12 +50,13 @@ export default {
                 console.log(res.userInfo);
               }
             });
+          } else {
+            that.motto = true
           }
         },
         fail(res) {
+          console.log('fail')
           console.log(res);
-          console.log(that.motto)
-          that.motto = true
         }
       });
       // 调用登录接口
@@ -82,7 +84,7 @@ export default {
       }
     },
     bindGetUserInfo(e) {
-      // console.log(e.mp.detail.rawData)
+      console.log(e.mp.detail)
       if (e.mp.detail.rawData){
         //用户按了允许授权按钮
         console.log('用户按了允许授权按钮')
