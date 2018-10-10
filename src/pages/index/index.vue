@@ -17,7 +17,7 @@
         <img src="../../assets/icon-index-my.png" alt="">
       </div>
     </div>
-    <scroll-view scroll-x class="index-list">
+    <scroll-view scroll-x class="index-list" v-if="listView">
       <div class="index-list-box">
         <div class="index-list-item">
           <div class="index-list-item-img"><img src="../../assets/list-pic-1.png" alt=""></div>
@@ -60,12 +60,12 @@
           <div class="index-list-item-title">听一场自然音乐会</div>
         </div>
       </div>
-      <div class="index-list-close">
-        <div class="index-list-close-body">
-          <img src="../../assets/btn-close-list.png" alt="">
-        </div>
-      </div>
     </scroll-view>
+    <div class="index-list-close" v-if="listView">
+      <div class="index-list-close-body" @click="hideList">
+        <img src="../../assets/btn-close-list.png" alt="">
+      </div>
+    </div>
     <div class="modal" v-if="motto">
       <div class="modal-container">
         <img src="../../assets/bg-auth.png" alt="">
@@ -81,7 +81,8 @@
 export default {
   data() {
     return {
-      motto: false
+      motto: false,
+      listView:false
     };
   },
 
@@ -121,7 +122,12 @@ export default {
         }
       }); */
     },
-    showList() {},
+    showList() {
+      this.listView = true
+    },
+    hideList() {
+      this.listView = false
+    },
     bindTab(url) {
       wx.navigateTo({ url: url });
     },
@@ -190,16 +196,25 @@ export default {
   right: 0;
   margin: auto;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-around;
   align-items: center;
   &-item {
     width: 100rpx;
     height: 110rpx;
   }
 }
+.index-list-padding{
+  position: absolute;
+  bottom: 220rpx;
+  left: 0;
+  height: 40px;
+  width: 100%;
+  background: transparent;
+}
 .index-list {
   position: absolute;
   bottom: 0;
+  left: 0;
   width: 100%;
   background: rgba(0, 0, 0, 0.7);
   &-box{
@@ -236,6 +251,7 @@ export default {
     position: fixed;;
     bottom: 180rpx;
     right: 74rpx;
+    z-index: 999;
     background: rgba(0, 0, 0, .7);
     display: flex;
     align-items: center;
