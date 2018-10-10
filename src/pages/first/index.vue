@@ -17,12 +17,15 @@ export default {
 
   methods: {
     bindNext() {
+      wx.setStorageSync('firsttime', true)
       const url = "../index/main";
       wx.redirectTo({ url: url });
     }
   },
 
-  created() {}
+  created() {
+    
+  }
 };
 </script>
 

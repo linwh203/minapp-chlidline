@@ -6,3 +6,8 @@ App.mpType = 'app'
 
 const app = new Vue(App)
 app.$mount()
+
+const global = {
+  userInfo:''
+};
+Vue.prototype.GLOBAL = global;
