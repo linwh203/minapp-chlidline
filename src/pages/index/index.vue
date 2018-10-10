@@ -17,6 +17,11 @@
         <img src="../../assets/icon-index-my.png" alt="">
       </div>
     </div>
+    <div class="modal" v-if="motto">
+      <div class="modal-container">
+        <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="getUserInfo1">授权登录</button>
+      </div>
+    </div>
     <img src="../../assets/bg-index.jpg" alt="" class="index-bg">
   </div>
 </template>
@@ -25,7 +30,7 @@
 export default {
   data() {
     return {
-      motto: ""
+      motto: false
     };
   },
 
@@ -33,8 +38,27 @@ export default {
 
   methods: {
     getUserInfo() {
+      var that = this
+      // 查看是否授权
+      wx.getSetting({
+        success(res) {
+          if (res.authSetting["scope.userInfo"]) {
+            // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+            wx.getUserInfo({
+              success: function(res) {
+                console.log(res.userInfo);
+              }
+            });
+          }
+        },
+        fail(res) {
+          console.log(res);
+          console.log(that.motto)
+          that.motto = true
+        }
+      });
       // 调用登录接口
-      wx.login({
+      /* wx.login({
         success: () => {
           wx.getUserInfo({
             success: res => {
@@ -42,17 +66,40 @@ export default {
             }
           });
         }
-      });
+      }); */
     },
     bindTab(url) {
-      wx.navigateTo({ url: url })
+      wx.navigateTo({ url: url });
+    },
+    getUserInfo1(){
+      console.log('click事件首先触发')
+      // 判断小程序的API，回调，参数，组件等是否在当前版本可用。  为false 提醒用户升级微信版本
+      // console.log(wx.canIUse('button.open-type.getUserInfo'))
+      if(wx.canIUse('button.open-type.getUserInfo')){
+        // 用户版本可用
+      }else{
+        console.log('请升级微信版本')
+      }
+    },
+    bindGetUserInfo(e) {
+      // console.log(e.mp.detail.rawData)
+      if (e.mp.detail.rawData){
+        //用户按了允许授权按钮
+        console.log('用户按了允许授权按钮')
+      } else {
+        //用户按了拒绝按钮
+        console.log('用户按了拒绝按钮')
+      }
     }
   },
 
   created() {
     // 调用应用实例的方法获取全局数据
     this.getUserInfo();
-  }
+  },
+  mounted() {
+    
+  },
 };
 </script>
 
@@ -83,5 +130,11 @@ export default {
   width: 100%;
   height: 100%;
   display: block;
+}
+.modal {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background: rgba(0,0,0,.3);
 }
 </style>
