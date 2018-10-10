@@ -37,7 +37,7 @@ export default {
   components: {},
 
   methods: {
-    getUserInfo() {
+    getUser() {
       var that = this
       // 查看是否授权
       wx.getSetting({
@@ -95,7 +95,7 @@ export default {
 
   created() {
     // 调用应用实例的方法获取全局数据
-    this.getUserInfo();
+    this.getUser();
   },
   mounted() {
     
