@@ -9,7 +9,7 @@
 	},
 	"miniprogramRoot": "./dist/",
 	"compileType": "miniprogram",
-	"appid": "wx64104ee36c863058",
+	"appid": "wxd65639dbd883f2cd",
 	"projectname": "childline",
 	"condition": {
 		"search": {
