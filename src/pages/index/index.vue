@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="index-tab">
-      <div class="index-tab-item icon-list" @click="showList">
+      <div class="index-tab-item icon-list" @click="bindTab('../list/main')">
         <img src="../../assets/icon-index-list.png" alt="">
       </div>
       <div class="index-tab-item icon-map" @click="bindTab('../map/main')">
@@ -17,7 +17,7 @@
         <img src="../../assets/icon-index-my.png" alt="">
       </div>
     </div>
-    <scroll-view scroll-x class="index-list" v-if="listView">
+    <!-- <scroll-view scroll-x class="index-list" v-if="listView">
       <div class="index-list-box">
         <div class="index-list-item">
           <div class="index-list-item-img"><img src="../../assets/list-pic-1.png" alt=""></div>
@@ -65,7 +65,7 @@
       <div class="index-list-close-body" @click="hideList">
         <img src="../../assets/btn-close-list.png" alt="">
       </div>
-    </div>
+    </div> -->
     <div class="modal" v-if="motto">
       <div class="modal-container">
         <img src="../../assets/bg-auth.png" alt="">
@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       motto: false,
-      listView:false
+      // listView:false
     };
   },
 
@@ -122,12 +122,12 @@ export default {
         }
       }); */
     },
-    showList() {
+    /* showList() {
       this.listView = true
     },
     hideList() {
       this.listView = false
-    },
+    }, */
     bindTab(url) {
       wx.navigateTo({ url: url });
     },
