@@ -30,7 +30,7 @@
     </div>
     <div class="article">
       <scroll-view scroll-y class="article-view">
-        <img src="https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png" alt="">
+        <img mode="widthFix" :src="mainPic">
       </scroll-view>
     </div>
     <div class="article-border"></div>
@@ -91,11 +91,13 @@
 export default {
   data() {
     return {
-      fromMap:false,
+      fromMap: false,
       showSub: false,
       innerAudioContext: null,
       audioOff: true,
-      audioUrl: 'http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46'
+      audioUrl:
+        "http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46",
+      mainPic: ""
     };
   },
 
@@ -103,71 +105,109 @@ export default {
 
   methods: {
     bindTab() {
-      this.fromMap? wx.navigateTo({ url: '../map/main' }):wx.navigateTo({ url: '../index/main' })
+      this.fromMap
+        ? wx.navigateTo({ url: "../map/main" })
+        : wx.navigateTo({ url: "../index/main" });
       // wx.navigateBack();
     },
     displaySub() {
-      this.showSub = !this.showSub
+      this.showSub = !this.showSub;
     },
     playAudio() {
       if (this.audioOff) {
-        this.audioOff = false
-        this.innerAudioContext.play()
-        
+        this.audioOff = false;
+        this.innerAudioContext.play();
       } else {
-        this.audioOff = true
-        this.innerAudioContext.stop()
+        this.audioOff = true;
+        this.innerAudioContext.stop();
       }
     },
     goVideo() {
-      wx.navigateTo({ url: '../video/main' })
+      wx.navigateTo({ url: "../video/main" });
     }
   },
 
   created() {},
   mounted() {
-    this.innerAudioContext = wx.createInnerAudioContext()
-    this.innerAudioContext.src = this.audioUrl
+    this.innerAudioContext = wx.createInnerAudioContext();
+    this.innerAudioContext.src = this.audioUrl;
   },
   onLoad(option) {
     console.log(option)
     if (option.from) {
       this.fromMap = true
     }
+    if (option.spot_id) {
+      switch (parseInt(option.spot_id)) {
+        case 1:
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png"
+          break
+        case 2:
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1kqGghgDqK1RjSZSyXXaxEVXa-600-2235.png"
+          break
+        case 3:
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1no5jhgHqK1RjSZFkXXX.WFXa-600-6394.png"
+          break
+        case 4:
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1f.idhb2pK1RjSZFsXXaNlXXa-600-4136.png"
+          break
+        case 5:
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1bHihhmzqK1RjSZFLXXcn2XXa-600-6676.png"
+          break
+        case 6:
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1c4unhhTpK1RjSZFMXXbG_VXa-600-2808.png"
+          break
+        case 7:
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1.SOChhnaK1RjSZFBXXcW7VXa-600-8017.png"
+          break
+        case 8:
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1YzKkhkvoK1RjSZFDXXXY3pXa-600-4388.png"
+          break
+        case 9:
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1ChGjhkvoK1RjSZPfXXXPKFXa-600-4368.png"
+          break
+        case 10:
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1g_GjhgHqK1RjSZFkXXX.WFXa-600-6135.png"
+          break
+      }
+    } else {
+      this.mainPic =
+        "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png";
+    }
   },
   onHide() {
-    this.audioOff = true
-    this.showSub = false
-    this.innerAudioContext.stop()
+    this.audioOff = true;
+    this.showSub = false;
+    this.innerAudioContext.stop();
   },
   onShareAppMessage(result) {
-      let title = "右上角转发";
-      let path = "/pages/index";
-      let imageUrl = "../../assets/bg-auth.png"
-      // let desc = '这里是描述哦'
-      if (result.from === "button") {
-        this.billId = "billId-" + new Date().getTime();
-        title = "我发起了一个转发";
-        path = `pages/index/main?billId=${this.billId}`;
-      }
-      return {
-        title,
-        path,
-        imageUrl,
-        // desc,
-        success: res => {
-          console.log('success',res)
-        },
-        fail(e) {
-          console.log(e);
-        }
-      };
+    let title = "右上角转发";
+    let path = "/pages/index";
+    let imageUrl = "../../assets/bg-auth.png";
+    // let desc = '这里是描述哦'
+    if (result.from === "button") {
+      this.billId = "billId-" + new Date().getTime();
+      title = "我发起了一个转发";
+      path = `pages/index/main?billId=${this.billId}`;
     }
+    return {
+      title,
+      path,
+      imageUrl,
+      // desc,
+      success: res => {
+        console.log("success", res);
+      },
+      fail(e) {
+        console.log(e);
+      }
+    };
+  }
 };
 </script>
 
 <style scoped lang="less">
-.center{
+.center {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -176,8 +216,8 @@ export default {
 .container {
   position: relative;
 }
-.sub-nav{
-  position:absolute;
+.sub-nav {
+  position: absolute;
   top: 0;
   right: 25rpx;
   display: flex;
@@ -185,53 +225,53 @@ export default {
   justify-content: flex-start;
   align-items: center;
   z-index: 66;
-  &-line{
+  &-line {
     width: 2px;
     height: 38rpx;
     background: #9e7044;
   }
-  &-btn{
+  &-btn {
     width: 66rpx;
     height: 66rpx;
     border-radius: 50%;
-    border:2rpx solid #9e7044;
+    border: 2rpx solid #9e7044;
     background: #f6ca47;
     .center();
-    &-in{
+    &-in {
       width: 50rpx;
       height: 50rpx;
       border-radius: 50%;
-      border:2rpx solid #9e7044;
+      border: 2rpx solid #9e7044;
       background: #f7eec5;
       position: relative;
       .center();
     }
   }
-  .btn-share-origin{
-    position:absolute;
+  .btn-share-origin {
+    position: absolute;
     top: 0;
     left: 0;
     width: 50rpx;
     height: 50rpx;
     border-radius: 50%;
-    background:transparent;
+    background: transparent;
   }
-  .btn-show{
+  .btn-show {
     width: 30rpx;
     height: 16rpx;
   }
-  .reverse{
-    transform: rotateX(180deg)
+  .reverse {
+    transform: rotateX(180deg);
   }
-  .btn-audio{
+  .btn-audio {
     width: 30rpx;
     height: 26rpx;
   }
-  .btn-video{
+  .btn-video {
     width: 28rpx;
     height: 26rpx;
   }
-  .btn-share{
+  .btn-share {
     width: 24rpx;
     height: 28rpx;
   }
@@ -247,11 +287,13 @@ export default {
   overflow: hidden;
   &-view {
     height: 954rpx;
-    img{
-      height: 7707rpx;
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
   }
-  &-border{
+  &-border {
     height: 16rpx;
     position: absolute;
     left: 10rpx;
@@ -268,6 +310,11 @@ export default {
   left: 0;
   width: 100%;
   background: rgba(0, 0, 0, 0.7);
+  img {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
   &-box {
     padding-top: 40rpx;
     height: 180rpx;
@@ -329,9 +376,4 @@ export default {
   display: block;
 }
 
-img {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
 </style>
