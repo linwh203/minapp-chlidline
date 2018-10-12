@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="article">
-      <scroll-view scroll-y class="article-view">
+      <scroll-view scroll-y class="article-view" :scroll-top="scrollTop">
         <img mode="widthFix" :src="mainPic">
       </scroll-view>
     </div>
@@ -37,43 +37,63 @@
     <scroll-view scroll-x class="index-list">
       <div class="index-list-box">
         <div class="index-list-item">
-          <div class="index-list-item-img"><img src="../../assets/list-pic-1.png" alt=""></div>
+          <div class="index-list-item-img" :class="activeIndex == 1 ? 'index-list-item-img-active':''" @click="changeArticle(1)">
+            <img src="../../assets/list-pic-1.png" alt="">
+          </div>
           <div class="index-list-item-title">深圳多样的生命</div>
         </div>
         <div class="index-list-item">
-          <div class="index-list-item-img"><img src="../../assets/list-pic-2.png" alt=""></div>
+          <div class="index-list-item-img" :class="activeIndex == 2 ? 'index-list-item-img-active':''" @click="changeArticle(2)">
+            <img src="../../assets/list-pic-2.png" alt="">
+          </div>
           <div class="index-list-item-title">哦,你就是蝴蝶</div>
         </div>
         <div class="index-list-item">
-          <div class="index-list-item-img"><img src="../../assets/list-pic-3.png" alt=""></div>
+          <div class="index-list-item-img" :class="activeIndex == 3 ? 'index-list-item-img-active':''" @click="changeArticle(3)">
+            <img src="../../assets/list-pic-3.png" alt="">
+          </div>
           <div class="index-list-item-title">生命的互联网故事</div>
         </div>
         <div class="index-list-item">
-          <div class="index-list-item-img"><img src="../../assets/list-pic-4.png" alt=""></div>
+          <div class="index-list-item-img" :class="activeIndex == 4 ? 'index-list-item-img-active':''" @click="changeArticle(4)">
+            <img src="../../assets/list-pic-4.png" alt="">
+          </div>
           <div class="index-list-item-title">看花识蔬菜</div>
         </div>
         <div class="index-list-item">
-          <div class="index-list-item-img"><img src="../../assets/list-pic-5.png" alt=""></div>
+          <div class="index-list-item-img" :class="activeIndex == 5 ? 'index-list-item-img-active':''" @click="changeArticle(5)">
+            <img src="../../assets/list-pic-5.png" alt="">
+          </div>
           <div class="index-list-item-title">农科院基地的候鸟</div>
         </div>
         <div class="index-list-item">
-          <div class="index-list-item-img"><img src="../../assets/list-pic-6.png" alt=""></div>
+          <div class="index-list-item-img" :class="activeIndex == 6 ? 'index-list-item-img-active':''" @click="changeArticle(6)">
+            <img src="../../assets/list-pic-6.png" alt="">
+          </div>
           <div class="index-list-item-title">大眼睛飞行侠蜻蜓</div>
         </div>
         <div class="index-list-item">
-          <div class="index-list-item-img"><img src="../../assets/list-pic-7.png" alt=""></div>
+          <div class="index-list-item-img" :class="activeIndex == 7 ? 'index-list-item-img-active':''" @click="changeArticle(7)">
+            <img src="../../assets/list-pic-7.png" alt="">
+          </div>
           <div class="index-list-item-title">外星人--昆虫</div>
         </div>
         <div class="index-list-item">
-          <div class="index-list-item-img"><img src="../../assets/list-pic-8.png" alt=""></div>
+          <div class="index-list-item-img" :class="activeIndex == 8 ? 'index-list-item-img-active':''" @click="changeArticle(8)">
+            <img src="../../assets/list-pic-8.png" alt="">
+          </div>
           <div class="index-list-item-title">如何种植水稻</div>
         </div>
         <div class="index-list-item">
-          <div class="index-list-item-img"><img src="../../assets/list-pic-9.png" alt=""></div>
+          <div class="index-list-item-img" :class="activeIndex == 9 ? 'index-list-item-img-active':''" @click="changeArticle(9)">
+            <img src="../../assets/list-pic-9.png" alt="">
+          </div>
           <div class="index-list-item-title">飞吧，鸟儿们</div>
         </div>
         <div class="index-list-item">
-          <div class="index-list-item-img"><img src="../../assets/list-pic-10.png" alt=""></div>
+          <div class="index-list-item-img" :class="activeIndex == 10 ? 'index-list-item-img-active':''" @click="changeArticle(10)">
+            <img src="../../assets/list-pic-10.png" alt="">
+          </div>
           <div class="index-list-item-title">听一场自然音乐会</div>
         </div>
       </div>
@@ -97,7 +117,9 @@ export default {
       audioOff: true,
       audioUrl:
         "http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46",
-      mainPic: ""
+      mainPic: "",
+      scrollTop: 0,
+      activeIndex: 1
     };
   },
 
@@ -124,21 +146,11 @@ export default {
     },
     goVideo() {
       wx.navigateTo({ url: "../video/main" });
-    }
-  },
-
-  created() {},
-  mounted() {
-    this.innerAudioContext = wx.createInnerAudioContext();
-    this.innerAudioContext.src = this.audioUrl;
-  },
-  onLoad(option) {
-    console.log(option)
-    if (option.from) {
-      this.fromMap = true
-    }
-    if (option.spot_id) {
-      switch (parseInt(option.spot_id)) {
+    },
+    changeArticle(id) {
+      const currentId = parseInt(id)
+      this.activeIndex = currentId
+      switch (currentId) {
         case 1:
           this.mainPic = "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png"
           break
@@ -170,6 +182,21 @@ export default {
           this.mainPic = "https://gw.alicdn.com/tfs/TB1g_GjhgHqK1RjSZFkXXX.WFXa-600-6135.png"
           break
       }
+    }
+  },
+
+  created() {},
+  mounted() {
+    this.innerAudioContext = wx.createInnerAudioContext();
+    this.innerAudioContext.src = this.audioUrl;
+  },
+  onLoad(option) {
+    console.log(option)
+    if (option.from) {
+      this.fromMap = true
+    }
+    if (option.spot_id) {
+      this.changeArticle(option.spot_id)
     } else {
       this.mainPic =
         "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png";
@@ -331,9 +358,13 @@ export default {
     &-img {
       width: 120rpx;
       height: 120rpx;
+      border:2px solid #b28e69;
       border-radius: 50%;
       background: #fff;
       margin-bottom: 12rpx;
+    }
+    &-img-active{
+      border:2px solid #00cbff;
     }
     &-title {
       width: 160rpx;

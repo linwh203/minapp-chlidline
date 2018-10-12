@@ -9,7 +9,7 @@ data: { //相关数据}
 
 ## 登录相关接口 
 
-### 1. user_info？user_login?, @params //iv ？signature ？
+### 1. {{url}}/login, @method:POST @params //iv ？signature ？
 ```
 {
     token: '' //或者其他识别信息
@@ -18,7 +18,7 @@ data: { //相关数据}
 
 ## 页面相关接口
 
-### 1.景点导览list的数据
+### 1.景点导览list的数据 {{url}}/spot/list @method:GET 
 ```
 [
     {
@@ -31,7 +31,7 @@ data: { //相关数据}
 ]
 ```
 
-### 2.列表导览的景点详情数据，@params:spot_id
+### 2.列表导览的景点详情数据，{{url}}/spot/list/detail @method:GET @params:spot_id
 ```
 {   
     spot_id: '',
@@ -43,7 +43,7 @@ data: { //相关数据}
 }
 ```
 
-### 3.地图导览的景点详情页底部列表
+### 3.地图导览的景点详情页底部列表 {{url}}/spot/map/nav @method:GET 
 ```
 [
     {   
@@ -54,7 +54,7 @@ data: { //相关数据}
 ]
 ```
 
-### 4.地图导览的景点详情页图片，@params:spot_id，longitude，latitude 可选传参id或者经纬度
+### 4.地图导览的景点详情页图片，{{url}}/spot/map_detail  @method:GET @params:spot_id，longitude，latitude 可选传参id或者经纬度
 ```
 {   
     spot_id: '',
@@ -62,14 +62,14 @@ data: { //相关数据}
 }
 ```
 
-### 5.拍照识别 @params: image_url
+### 5.拍照识别 {{url}}/photo @method:POST @params: image_url
 ```
 {
     webview_url: ''
 }
 ```
 
-### 6.问答列表
+### 6.问答列表 {{url}}/quiz/list @method:GET 
 ```
 [
     {   
@@ -81,21 +81,23 @@ data: { //相关数据}
 ]
 ```
 
-### 7.问答详情 @params: quiz_id
+### 7.问答题目详情 {{url}}/quiz/questions @method:GET @params: quiz_id
 ```
-{
+[
+    {
     title: '',
     hint: '',
     image_list: [
-        {
-            url: '',
-            correct: 1 //1为正确答案，0为错误
-        }
-    ]
-}
+            {
+                url: '',
+                correct: 1 //1为正确答案，0为错误
+            }
+        ]
+    }
+]
 ```
 
-### 8. 问答结果 @params: quiz_id, token
+### 8. 问答结果 {{url}}/quiz/result @method:POST @params: quiz_id, token （login中定义的用户识别字段）
 ```
 {
     reward: '获得勋章',
@@ -103,7 +105,7 @@ data: { //相关数据}
 }
 ```
 
-### 9. 个人成就
+### 9. 个人成就 {{url}}/my/accomplish @method:GET @params: token （login中定义的用户识别字段）
 ```
 {
     stage_number: '',
@@ -112,7 +114,7 @@ data: { //相关数据}
 }
 ```
 
-### 10. 我的消息
+### 10. 我的消息 {{url}}/my/msg @method:GET @params: token （login中定义的用户识别字段）
 ```
 [
     {
@@ -125,7 +127,7 @@ data: { //相关数据}
 ]
 ```
 
-### 11. 意见反馈
+### 11. 意见反馈 {{url}}/my/suggest @method:POST @params: token （login中定义的用户识别字段）
 ```
 {
     msg: 'success'
