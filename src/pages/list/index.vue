@@ -23,8 +23,7 @@
       <div class="sub-nav-line" v-if="showSub"></div>
       <div class="sub-nav-btn" v-if="showSub">
         <div class="sub-nav-btn-in ">
-          <button open-type="share" class="btn-share-origin"></button>
-          <img src="../../assets/icon-list-share.png" alt="" class="btn-share">
+          <img src="../../assets/icon-list-share.png" alt="" class="btn-share" @click="showShareBox">
         </div>
       </div>
     </div>
@@ -103,6 +102,16 @@
         <img src="../../assets/btn-close-list.png" alt="">
       </div>
     </div>
+    <div class="share-box" v-if="sharebox">
+      <div class="share-box-body">
+        <div class="share-box-body-item">
+          <button open-type="share" class="btn-share-origin"></button>
+          <img src="../../assets/icon-share-weixin.png" alt="">
+          
+        </div>
+      </div>
+      <div class="share-box-close" @click="hideShareBox">取消</div>
+    </div>
     <img src="../../assets/bg-index.jpg" alt="" class="index-bg">
   </div>
 </template>
@@ -119,7 +128,8 @@ export default {
         "http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46",
       mainPic: "",
       scrollTop: 0,
-      activeIndex: 1
+      activeIndex: 1,
+      sharebox: false
     };
   },
 
@@ -146,6 +156,12 @@ export default {
     },
     goVideo() {
       wx.navigateTo({ url: "../video/main" });
+    },
+    showShareBox() {
+      this.sharebox = true
+    },
+    hideShareBox() {
+      this.sharebox = false
     },
     changeArticle(id) {
       const currentId = parseInt(id)
@@ -208,15 +224,15 @@ export default {
     this.innerAudioContext.stop();
   },
   onShareAppMessage(result) {
-    let title = "右上角转发";
-    let path = "/pages/index";
-    let imageUrl = "../../assets/bg-auth.png";
+    let title = "儿童研习径";
+    let path = "/pages/list/main?spot_id=" + this.activeIndex;
+    let imageUrl = "../../assets/list-pic-1.png";
     // let desc = '这里是描述哦'
-    if (result.from === "button") {
-      this.billId = "billId-" + new Date().getTime();
-      title = "我发起了一个转发";
-      path = `pages/index/main?billId=${this.billId}`;
-    }
+    // if (result.from === "button") {
+    //   this.billId = "billId-" + new Date().getTime();
+    //   title = "我发起了一个转发";
+    //   path = `pages/index/main?billId=${this.billId}`;
+    // }
     return {
       title,
       path,
@@ -274,15 +290,7 @@ export default {
       .center();
     }
   }
-  .btn-share-origin {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 50rpx;
-    height: 50rpx;
-    border-radius: 50%;
-    background: transparent;
-  }
+  
   .btn-show {
     width: 30rpx;
     height: 16rpx;
@@ -406,5 +414,49 @@ export default {
   height: 100%;
   display: block;
 }
-
+.share-box{
+  width: 100%;
+  height: 320rpx;
+  background: #fff;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  &-body{
+    height: 220rpx;
+    .center();
+    &-item{
+      position: relative;
+      img{
+        width: 144rpx;
+        height: 168rpx;
+        display: block;
+      }
+    }
+  }
+  &-close{
+    width: 100%;
+    height: 100rpx;
+    background: #efefef;
+    color:#000;
+    font-size: 34rpx;
+    text-align: center;
+    line-height: 98rpx;
+  }
+}
+.btn-share-origin {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 144rpx;
+  height: 168rpx;
+  background: transparent;
+  border:none;
+}
+.btn-share-origin::after {
+  border: 0;
+} 
 </style>
