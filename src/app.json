@@ -1,11 +1,11 @@
 {
   "pages": [
-    
+    "pages/map/main",
     "pages/list/main",
     "pages/index/main",
     "pages/first/main",
     "pages/video/main",
-    "pages/map/main",
+    
     "pages/scan/main",
     "pages/quiz/main",
     "pages/my/main",
