@@ -60,7 +60,11 @@ export default {
   },
 
   created() {
-
+      wx.login({
+        success: (res) => {
+          console.log(res)
+        }
+      })
   }
 };
 </script>
