@@ -9,7 +9,7 @@
       </div>
       <div class="map-sub-line"></div>
       <div class="map-sub-btn">
-        <div class="map-sub-btn-in " @click="bindTab('../paint/main')">
+        <div class="map-sub-btn-in " @click="viewDetail">
           <img src="../../assets/icon-map-pic.png" alt="" class="btn-audio" >
         </div>
       </div>
@@ -31,8 +31,9 @@
         <img src="../../assets/icon-index-my.png" alt="">
       </div>
     </div>
-    <scroll-view scroll-x scroll-y class="index-bg">
-      <img src="https://gw.alicdn.com/tfs/TB1Ov4FhwHqK1RjSZFkXXX.WFXa-3000-4641.jpg" alt="" >
+    <scroll-view scroll-x scroll-y scroll-into-view="usericon" class="index-bg">
+      <img class="mapImg" src="../../assets/bg-map.png" alt="" >
+      <img class="userIcon" id="usericon" src="../../assets/icon-avator.png" alt="">
     </scroll-view>
   </div>
 </template>
@@ -41,6 +42,9 @@
 export default {
   data() {
     return {
+      userLng:'',
+      userLat:'',
+      activeSpot:'',
       
     };
   },
@@ -51,17 +55,28 @@ export default {
     bindTab(url) {
       wx.navigateTo({ url: url });
     },
+    viewDetail() {
+
+    },
     locate() {
 
     }
   },
 
   created() {
-      wx.login({
-        success: (res) => {
-          console.log(res)
-        }
-      })
+    wx.getLocation({
+      type: 'wgs84', //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标,
+      success: res => {
+        console.info("getLocation success: ", res);
+        const latitude = res.latitude
+        const longitude = res.longitude
+        const speed = res.speed
+        const accuracy = res.accuracy
+      },
+      fail: () => {
+        console.log("getLocation failed")
+      }
+    });
   }
 };
 </script>
@@ -102,10 +117,19 @@ export default {
   width: auto;
   height: auto;
   padding-bottom:138rpx;
-  // display: block;
-  img{
-    width: 1000rpx;
-    height: 1640rpx;
+  background: #d1a77f;
+  position: relative;
+  .mapImg{
+    width: 1560rpx;
+    height: 2640rpx;
+    
+  }
+  .userIcon{
+    width: 80rpx;
+    height: 120rpx;
+    position:absolute;
+    top: 500rpx;
+    left: 500rpx;
   }
 }
 .map-sub {

@@ -1,136 +1,209 @@
-# 儿童线api相关
-
-## 接口返回的data对象格式
-```
-res_code: 0, // 0表示成功，1表示错误，并在res_msg中返回错误信息
-res_msg: "success",
-data: { //相关数据}
-```
-
-## 登录相关接口 
-
-### 1. {{url}}/login, @method:POST @params //iv ？signature ？
-```
-{
-    token: '' //或者其他识别信息
+// 登录
+interface ILoginRequest {
+  route: "/login";
+  method: "get";
+  param: {
+    code: string;
+    path: string;
+  };
 }
-```
 
-## 页面相关接口
-
-### 1.景点导览list的数据 {{url}}/spot/list @method:GET 
-```
-[
-    {
-        spot_id: '',
-        spot_name: '',
-        spot_image: '',
-        longitude: '', // 经度
-        latitude: '',  // 纬度
-    }
-]
-```
-
-### 2.列表导览的景点详情数据，{{url}}/spot/list/detail @method:GET @params:spot_id
-```
-{   
-    spot_id: '',
-    image_url: '',   // 文章详情为一张图片，该图片的路径
-    audio_url: '',   // 音频地址
-    video_url: '',   // 视频地址
-    share_title: ''  // 分享标题
-    share_image: ''  // 分享略缩图地址
+interface ILoginResponse {
+  // 0 表示没有错误
+  res_code: number;
+  // 错误信息,没有错误的情况下,可以不需要这个属性
+  res_msg?: string;
+  data: {
+    token: string;
+  };
 }
-```
 
-### 3.地图导览的景点详情页底部列表 {{url}}/spot/map/nav @method:GET 
-```
-[
-    {   
-        spot_id: '',
-        spot_image: '',
-        spot_image_active: '',
-    }
-]
-```
-
-### 4.地图导览的景点详情页图片，{{url}}/spot/map_detail  @method:GET @params:spot_id，longitude，latitude 可选传参id或者经纬度
-```
-{   
-    spot_id: '',
-    image_url: ''
+// 景点导览list的数据
+interface ISpotRequest {
+  route: "/spot/list";
+  method: "get";
+  param: {
+    // 路线
+    path: string;
+  };
 }
-```
 
-### 5.拍照识别 {{url}}/photo @method:POST @params: image_url
-```
-{
-    webview_url: ''
+interface ISpotResponse {
+  res_code: number;
+  res_msg?: string;
+  data: {
+    // 景点id
+    spot_id: string;
+    // 景点名称
+    spot_name: string;
+    // 景点图片url,悬浮层图片
+    spot_image: string;
+    // 经度
+    longitude: number;
+    // 纬度
+    latitude: number;
+  }[];
 }
-```
 
-### 6.问答列表 {{url}}/quiz/list @method:GET 
-```
-[
-    {   
-        quiz_id: '',
-        quiz_title: '',
-        quiz_image: '',
-        passed: 0, //0为未通过，1为已通过
-    }
-]
-```
-
-### 7.问答题目详情 {{url}}/quiz/questions @method:GET @params: quiz_id
-```
-[
-    {
-    title: '',
-    hint: '',
-    image_list: [
-            {
-                url: '',
-                correct: 1 //1为正确答案，0为错误
-            }
-        ]
-    }
-]
-```
-
-### 8. 问答结果 {{url}}/quiz/result @method:POST @params: quiz_id, token （login中定义的用户识别字段）
-```
-{
-    reward: '获得勋章',
-    reward_image: ''
+// 列表导览的景点详情
+interface ISpotDetailRequest {
+  route: "/spot/list/detail";
+  method: "get";
+  param: {
+    // 路线
+    path: string;
+    spot_id: string;
+  };
 }
-```
 
-### 9. 个人成就 {{url}}/my/accomplish @method:GET @params: token （login中定义的用户识别字段）
-```
-{
-    stage_number: '',
-    reward_number: '', //勋章数量
-    stage_status: []   //闯关记录
+interface ISpotDetailResponse {
+  res_code: number;
+  res_msg?: string;
+  data: {
+    // 景点id
+    spot_id: string;
+    // 知识图url
+    image_url: string;
+    // 音频url
+    audio_url: string;
+    // 视频url
+    video_url: string;
+    // 分享的title
+    share_title: string;
+  };
 }
-```
 
-### 10. 我的消息 {{url}}/my/msg @method:GET @params: token （login中定义的用户识别字段）
-```
-[
-    {
-        id: '',
-        title: '',
-        desc: '',
-        image: ''
-        time: ''
-    }
-]
-```
-
-### 11. 意见反馈 {{url}}/my/suggest @method:POST @params: token （login中定义的用户识别字段）
-```
-{
-    msg: 'success'
+// 手绘图列表
+interface IPicRequest {
+  route: "/pic/list";
+  method: "get";
+  param: {
+    // 路线
+    path: string;
+  };
 }
-```
 
+interface IPicResponse {
+  res_code: number;
+  res_msg?: string;
+  data: {
+    // 手绘大图
+    pic_image: string;
+    // 图标
+    pic_icon: string;
+    // 高亮图标(被选中状态)
+    pic_icon_active: string;
+  }[];
+}
+
+// 知识问答列表
+interface IQuizRequest {
+  route: "/quiz/list";
+  method: "get";
+  param: {
+    // 路线
+    path: string;
+    token: string;
+  };
+}
+
+interface IQuizResponse {
+  res_code: number;
+  res_msg?: string;
+  data: {
+    // 题目id
+    id: string;
+    // 标题
+    title: string;
+    // 题目类型,类型枚举:'文本选择','看图识别','声音识别'
+    type: "text" | "image" | "video";
+    // 问题的提示
+    tooltip: string;
+    // 问题正文,如果是'看图识别'和'声音识别'就应该是个url字符串
+    quiz: string;
+    // 答案列表,如果是'看图识别'就应该是个图片地址
+    answer_list: string[];
+    // 正确答案的序号
+    right_answer: number;
+    // 我是否答对
+    is_right: boolean;
+  }[];
+}
+
+// 答题
+interface IAnswerRequest {
+  route: "/quiz/answer";
+  method: "post";
+  body: {
+    // 用户token
+    token: string;
+    // 路线
+    path: string;
+    // 题目id
+    id: string;
+    // 答案序号
+    answer: number;
+  };
+}
+
+interface IAnswerResponse {
+  res_code: number;
+  res_msg?: string;
+  data: {
+    // 我是否答对
+    is_right: boolean;
+  };
+}
+
+// 我的建议
+interface ISuggestRequest {
+  route: "/my/suggest";
+  method: "post";
+  body: {
+    // 用户token
+    token: string;
+    // 路线
+    path: string;
+    // 建议
+    suggest: string;
+    // 电话
+    phone: string;
+    // 图片url列表
+    image_url_list: string[];
+  };
+}
+
+interface ISuggestResponse {
+  res_code: number;
+  res_msg?: string;
+}
+
+// 拍照识别
+interface IPhotoRequest {
+  route: "/photo";
+  method: "post";
+  body: {
+    // 用户token
+    token: string;
+    // 图片url
+    image_url: string;
+    // 线路
+    path: string;
+  };
+}
+
+interface IPhotoResponse {
+  res_code: number;
+  res_msg?: string;
+  // 识别的列表,因为可能匹配多个照片,但是有匹配度的区别
+  data: {
+    // 动植物名字
+    name: string;
+    // 匹配度
+    match: number;
+    // 描述
+    desc: string;
+    // 详细信息的url
+    detail_url: string;
+  }[];
+}

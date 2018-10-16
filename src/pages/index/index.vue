@@ -66,13 +66,7 @@
         <img src="../../assets/btn-close-list.png" alt="">
       </div>
     </div> -->
-    <div class="modal" v-if="motto">
-      <div class="modal-container">
-        <img src="../../assets/bg-auth.png" alt="">
-        <button class="auth-confirm" open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="getUserInfo1">授权登录</button>
-        <button class="auth-cancel" @click="cancelAuth">拒绝授权</button>
-      </div>
-    </div>
+    
     <img src="../../assets/bg-index.jpg" alt="" class="index-bg">
   </div>
 </template>
@@ -81,47 +75,13 @@
 export default {
   data() {
     return {
-      motto: false,
-      // listView:false
+      
     };
   },
 
   components: {},
 
   methods: {
-    getUser() {
-      var that = this;
-      // 查看是否授权
-      wx.getSetting({
-        success(res) {
-          console.log("success");
-          if (res.authSetting["scope.userInfo"]) {
-            // 已经授权，可以直接调用 getUserInfo 获取头像昵称
-            wx.getUserInfo({
-              success: function(res) {
-                console.log(res.userInfo);
-              }
-            });
-          } else {
-            that.motto = true;
-          }
-        },
-        fail(res) {
-          console.log("fail");
-          console.log(res);
-        }
-      });
-      // 调用登录接口
-      /* wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: res => {
-              this.userInfo = res.userInfo;
-            }
-          });
-        }
-      }); */
-    },
     /* showList() {
       this.listView = true
     },
@@ -131,46 +91,18 @@ export default {
     bindTab(url) {
       wx.navigateTo({ url: url });
     },
-    getUserInfo1() {
-      console.log("click事件首先触发");
-      // 判断小程序的API，回调，参数，组件等是否在当前版本可用。  为false 提醒用户升级微信版本
-      // console.log(wx.canIUse('button.open-type.getUserInfo'))
-      if (wx.canIUse("button.open-type.getUserInfo")) {
-        // 用户版本可用
-      } else {
-        console.log("请升级微信版本");
-      }
-    },
-    bindGetUserInfo(e) {
-      console.log(e.mp.detail);
-      if (e.mp.detail.rawData) {
-        //用户按了允许授权按钮
-        console.log("用户按了允许授权按钮");
-        const userInfo = e.mp.detail.userInfo;
-        const nickName = userInfo.nickName;
-        const avatarUrl = userInfo.avatarUrl;
-        const gender = userInfo.gender; //性别 0：未知、1：男、2：女
-        const province = userInfo.province;
-        const city = userInfo.city;
-        const country = userInfo.country;
-        wx.setStorageSync("userInfo", userInfo);
-        this.motto = false;
-      } else {
-        //用户按了拒绝按钮
-        console.log("用户按了拒绝按钮");
-      }
-    },
-    cancelAuth() {
-      this.motto = false;
-    }
+    
   },
 
   created() {
-    // 调用应用实例的方法获取全局数据
-    this.getUser();
+    wx.login({
+      success: (res) => {
+        console.log('loginCode',res.code)
+      }
+    }); 
   },
   mounted() {
-    console.log(this.GLOBAL);
+    // console.log(this.GLOBAL);
   },
   onLoad() {
     // 判断是否第一次使用
@@ -277,37 +209,7 @@ export default {
   height: 100%;
   display: block;
 }
-.modal {
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  background: rgba(0, 0, 0, 0.3);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  &-container {
-    width: 544rpx;
-    height: 696rpx;
-    position: relative;
-  }
-}
-.auth-confirm {
-  width: 224rpx;
-  height: 92rpx;
-  position: absolute;
-  right: 42rpx;
-  bottom: 0;
-  opacity: 0;
-}
-.auth-cancel {
-  width: 224rpx;
-  height: 92rpx;
-  position: absolute;
-  left: 42rpx;
-  bottom: 0;
-  opacity: 0;
-}
+
 img {
   width: 100%;
   height: 100%;

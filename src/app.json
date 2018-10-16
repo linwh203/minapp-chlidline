@@ -1,13 +1,12 @@
 {
   "pages": [
-    "pages/paint/main",
     "pages/map/main",
-    "pages/list/main",
     "pages/index/main",
     "pages/first/main",
+    "pages/list/main",
+    
     "pages/video/main",
-    
-    
+    "pages/paint/main",
     "pages/scan/main",
     "pages/quiz/main",
     "pages/my/main",

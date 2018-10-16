@@ -1,6 +1,9 @@
 <template>
   <div class="container">
     <video id="myVideo" :src="videoSrc" :poster="coverSrc" controls objectFit="cover" class="video-container" v-if="!showModal"></video>
+    <cover-view class="reverse" @click="reverse">
+      <cover-image class="img" src="../../assets/icon-list-audio.png" />
+    </cover-view>
     <div class="modal" v-if="showModal">
       <div class="modal-top"><img src="../../assets/video-hint-1.png" alt=""></div>
       <div class="modal-mid"><img src="../../assets/video-hint-2.png" alt=""></div>
@@ -13,9 +16,13 @@
 export default {
   data() {
     return {
+      videoCtx: null,
+      fullSize: false,
       showModal: false,
-      coverSrc: 'https://gw.alicdn.com/tfs/TB1IegWhkPoK1RjSZKbXXX1IXXa-640-1008.jpg',
-      videoSrc: 'http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400'
+      coverSrc:
+        "https://gw.alicdn.com/tfs/TB1IegWhkPoK1RjSZKbXXX1IXXa-640-1008.jpg",
+      videoSrc:
+        "http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400"
     };
   },
 
@@ -23,16 +30,27 @@ export default {
 
   methods: {
     closeModal() {
-      wx.setStorageSync('firstvideo', true)
-      this.showModal = false
+      wx.setStorageSync("firstvideo", true);
+      this.showModal = false;
+    },
+    reverse() {
+      if (this.fullSize) {
+        this.videoCtx.exitFullScreen();
+      } else {
+        this.videoCtx.requestFullScreen();
+      }
+      this.fullSize = !this.fullSize;
     }
   },
 
   created() {
     const isFirst = wx.getStorageSync("firstvideo");
     if (!isFirst) {
-      this.showModal = true
+      this.showModal = true;
     }
+  },
+  onReady() {
+    this.videoCtx = wx.createVideoContext("myVideo");
   }
 };
 </script>
@@ -46,40 +64,52 @@ export default {
   height: 100%;
   display: block;
 }
-.modal{
+.reverse {
+  position: fixed;
+  bottom: 10rpx;
+  right: 0;
+  z-index: 99;
+}
+.modal {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   // background: rgba(0,0,0,.6);
-  background: url('https://gw.alicdn.com/tfs/TB1IegWhkPoK1RjSZKbXXX1IXXa-640-1008.jpg') no-repeat top/cover;
-  z-index:999;
-  &-top{
+  background: url("https://gw.alicdn.com/tfs/TB1IegWhkPoK1RjSZKbXXX1IXXa-640-1008.jpg")
+    no-repeat top/cover;
+  z-index: 999;
+  &-top {
     position: absolute;
     width: 460rpx;
     height: 180rpx;
     top: 0;
     left: 40rpx;
   }
-  &-mid{
+  &-mid {
     position: absolute;
     width: 452rpx;
     height: 132rpx;
-    top: 0;bottom:0;
-    left: 0;right: 0;margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
   }
-  &-btm{
+  &-btm {
     position: absolute;
     width: 300rpx;
     height: 84rpx;
     bottom: 100rpx;
-    left: 0;right: 0;margin: auto;
+    left: 0;
+    right: 0;
+    margin: auto;
   }
 }
-image{
+image {
   width: 100%;
-  height:100%;
+  height: 100%;
   display: block;
 }
 </style>
