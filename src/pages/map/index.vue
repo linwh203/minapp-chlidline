@@ -31,9 +31,10 @@
         <img src="../../assets/icon-index-my.png" alt="">
       </div>
     </div>
-    <scroll-view scroll-x scroll-y scroll-into-view="usericon" class="index-bg">
+    <scroll-view scroll-y scroll-x scroll-into-view="mid" :scroll-top="userLat" :scroll-left="userLng" class="index-bg" scroll-with-animation>
       <img class="mapImg" src="../../assets/bg-map.png" alt="" >
-      <img class="userIcon" id="usericon" src="../../assets/icon-avator.png" alt="">
+      <img class="userIcon" id="usericon" src="../../assets/icon-avator.png" v-bind:style="{ top: userLat + 'rpx',left: userLng + 'rpx'}">
+      <div id="mid"></div>
     </scroll-view>
   </div>
 </template>
@@ -42,8 +43,8 @@
 export default {
   data() {
     return {
-      userLng:'',
-      userLat:'',
+      userLng:0,
+      userLat:0,
       activeSpot:'',
       
     };
@@ -72,6 +73,9 @@ export default {
         const longitude = res.longitude
         const speed = res.speed
         const accuracy = res.accuracy
+
+        this.userLng = 1000
+        this.userLat = 1200
       },
       fail: () => {
         console.log("getLocation failed")
@@ -87,6 +91,14 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+#mid{
+  width: 10px;
+  height: 10px;
+  background: red;
+  position: absolute;
+  top: 0;bottom: 0;left: 0;right: 0;margin:auto;
+  z-index: 99999;
 }
 .container {
   position: relative;
@@ -119,17 +131,18 @@ export default {
   padding-bottom:138rpx;
   background: #d1a77f;
   position: relative;
+  overflow: auto;
   .mapImg{
     width: 1560rpx;
     height: 2640rpx;
-    
+    display: inline-table;
   }
   .userIcon{
     width: 80rpx;
     height: 120rpx;
     position:absolute;
-    top: 500rpx;
-    left: 500rpx;
+    // top: 1000rpx;
+    // left: 600rpx;
   }
 }
 .map-sub {
