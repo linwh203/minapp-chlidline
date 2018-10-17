@@ -1,5 +1,9 @@
 <template>
-  <div class="container">
+  <movable-area class="container">
+    <movable-view class="index-bg" direction="all" :x="x" :y="y" :class="init?'init':''" @change="startTouch">
+      <img class="mapImg" src="../../assets/bg-map.png" alt="" >
+      <img class="userIcon" id="usericon" src="../../assets/icon-avator.png" v-bind:style="{ top: userLat + 'rpx',left: userLng + 'rpx'}">
+    </movable-view>
     <div class="map-sub">
       <div class="map-sub-line"></div>
       <div class="map-sub-btn">
@@ -31,22 +35,25 @@
         <img src="../../assets/icon-index-my.png" alt="">
       </div>
     </div>
-    <scroll-view scroll-y scroll-x scroll-into-view="mid" :scroll-top="userLat" :scroll-left="userLng" class="index-bg" scroll-with-animation>
+    <!-- <scroll-view scroll-y scroll-x scroll-into-view="mid" class="index-bg"> -->
+    <!-- <scroll-view scroll-x scroll-y scroll-top="1400" scroll-left="210" class="index-bg">
       <img class="mapImg" src="../../assets/bg-map.png" alt="" >
       <img class="userIcon" id="usericon" src="../../assets/icon-avator.png" v-bind:style="{ top: userLat + 'rpx',left: userLng + 'rpx'}">
       <div id="mid"></div>
-    </scroll-view>
-  </div>
+    </scroll-view> -->
+  </movable-area>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      userLng:0,
-      userLat:0,
+      userLng:600,
+      userLat:1000,
       activeSpot:'',
-      
+      init:true,
+      x:0,
+      y:0
     };
   },
 
@@ -61,6 +68,9 @@ export default {
     },
     locate() {
 
+    },
+    startTouch() {
+      this.init = false
     }
   },
 
@@ -74,13 +84,20 @@ export default {
         const speed = res.speed
         const accuracy = res.accuracy
 
-        this.userLng = 1000
-        this.userLat = 1200
+        this.userLng = 600
+        this.userLat = 1000
       },
       fail: () => {
         console.log("getLocation failed")
       }
     });
+  },
+  onReady() {
+    this.x = -200
+    this.y = -300
+    setTimeout(()=>{
+      this.init = false
+    },3000)
   }
 };
 </script>
@@ -97,10 +114,12 @@ export default {
   height: 10px;
   background: red;
   position: absolute;
-  top: 0;bottom: 0;left: 0;right: 0;margin:auto;
+  top: 1000rpx;
+  left:430rpx;
   z-index: 99999;
 }
 .container {
+  width: 100%;
   position: relative;
 }
 .map-tab {
@@ -131,19 +150,20 @@ export default {
   padding-bottom:138rpx;
   background: #d1a77f;
   position: relative;
-  overflow: auto;
   .mapImg{
-    width: 1560rpx;
-    height: 2640rpx;
-    display: inline-table;
+    // width: 1560rpx;
+    // height: 2640rpx;
+    width: 1180rpx;
+    height: 2000rpx;
   }
   .userIcon{
     width: 80rpx;
     height: 120rpx;
     position:absolute;
-    // top: 1000rpx;
-    // left: 600rpx;
   }
+}
+.init{
+  // transform: translateX(-216px) translateY(-301px) !important;
 }
 .map-sub {
   position: fixed;
