@@ -1,8 +1,14 @@
 <template>
   <movable-area class="container">
-    <movable-view class="index-bg" direction="all" :x="x" :y="y" :class="init?'init':''" @change="startTouch">
+    <movable-view class="index-bg" direction="all" :x="x" :y="y" @change="startTouch">
       <img class="mapImg" src="../../assets/bg-map.png" alt="" >
       <img class="userIcon" id="usericon" src="../../assets/icon-avator.png" v-bind:style="{ top: userLat + 'rpx',left: userLng + 'rpx'}">
+      <cover-view class="spot-icon icon-five">5</cover-view>
+      <cover-view class="spot-window window-five">
+        <cover-view class="spot-window-text">生命多样性研习点</cover-view>
+        <cover-image class="spot-window-img"></cover-image>
+      </cover-view>
+
     </movable-view>
     <div class="map-sub">
       <div class="map-sub-line"></div>
@@ -19,7 +25,7 @@
       </div>
     </div>
     <div class="map-tab">
-      <div class="map-tab-item icon-list" @click="bindTab('../index/main')">
+      <div class="map-tab-item icon-list" @click="bindTab('../list/main')">
         <img src="../../assets/icon-index-list.png" alt="">
       </div>
       <div class="map-tab-item icon-map" @click="bindTab('../map/main')">
@@ -95,9 +101,6 @@ export default {
   onReady() {
     this.x = -200
     this.y = -300
-    setTimeout(()=>{
-      this.init = false
-    },3000)
   }
 };
 </script>
@@ -162,8 +165,41 @@ export default {
     position:absolute;
   }
 }
-.init{
-  // transform: translateX(-216px) translateY(-301px) !important;
+.spot-window{
+  position: absolute;
+  width: 248rpx;
+  height: 248rpx;
+  border: 6rpx solid #bc8d5d;
+  background: #00baea;
+  border-radius: 28rpx;
+  .center();
+  &-text{
+    font-size: 26rpx;
+    color:#fff;
+    line-height: 90rpx;
+  }
+  &-img{
+    width: 220rpx;
+    height: 144rpx;
+    border-radius: 24rpx;
+  }
+}
+.window-five{
+  left: 712rpx;
+  top: 612rpx;
+}
+.spot-icon{
+  width: 60rpx;
+  height: 46rpx;
+  line-height: 46rpx;
+  background: red;
+  position: absolute;
+  text-align: center;
+  // background: url('../../assets/icon-map-spot.png') no-repeat center/cover;
+}
+.icon-five{
+  left:810rpx;
+  top:880rpx;
 }
 .map-sub {
   position: fixed;
