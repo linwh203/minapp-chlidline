@@ -3,10 +3,11 @@
     <movable-view class="index-bg" direction="all" :x="x" :y="y" @change="startTouch">
       <img class="mapImg" src="../../assets/bg-map.png" alt="" >
       <img class="userIcon" id="usericon" src="../../assets/icon-avator.png" v-bind:style="{ top: userLat + 'rpx',left: userLng + 'rpx'}">
-      <cover-view class="spot-icon icon-five">5</cover-view>
+      <cover-view class="spot-icon icon-five" v-if="activeSpot == 5"><cover-image class="active-spot" src="https://gw.alicdn.com/tfs/TB1aICmi6DpK1RjSZFrXXa78VXa-30-24.png"></cover-image></cover-view>
+      <cover-view class="spot-icon icon-five" v-else>5</cover-view>
       <cover-view class="spot-window window-five">
         <cover-view class="spot-window-text">生命多样性研习点</cover-view>
-        <cover-image class="spot-window-img"></cover-image>
+        <cover-image class="spot-window-img" src="https://gw.alicdn.com/tfs/TB1K_SBi4jaK1RjSZFAXXbdLFXa-222-146.png"></cover-image>
       </cover-view>
 
     </movable-view>
@@ -59,7 +60,8 @@ export default {
       activeSpot:'',
       init:true,
       x:0,
-      y:0
+      y:0,
+      activeSpot:5
     };
   },
 
@@ -170,9 +172,12 @@ export default {
   width: 248rpx;
   height: 248rpx;
   border: 6rpx solid #bc8d5d;
-  background: #00baea;
-  border-radius: 28rpx;
-  .center();
+  // background: #00baea;
+  background: url('https://gw.alicdn.com/tfs/TB1Mxiei4TpK1RjSZR0XXbEwXXa-248-248.png') no-repeat center/cover;
+  border-radius: 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   &-text{
     font-size: 26rpx;
     color:#fff;
@@ -188,14 +193,20 @@ export default {
   left: 712rpx;
   top: 612rpx;
 }
+.active-spot{
+  width: 40rpx;
+  height: 30rpx;
+  margin:auto;
+}
 .spot-icon{
   width: 60rpx;
   height: 46rpx;
-  line-height: 46rpx;
-  background: red;
+  line-height: 40rpx;
+  background: url('https://gw.alicdn.com/tfs/TB1dOumi4TpK1RjSZFMXXbG_VXa-64-46.png') no-repeat center/cover;
   position: absolute;
   text-align: center;
-  // background: url('../../assets/icon-map-spot.png') no-repeat center/cover;
+  color:#fff;
+  font-size:30rpx;
 }
 .icon-five{
   left:810rpx;
