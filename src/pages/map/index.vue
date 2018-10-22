@@ -3,12 +3,12 @@
     <movable-view class="index-bg" direction="all" :x="x" :y="y" @change="startTouch">
       <img class="mapImg" src="../../assets/bg-map.png" alt="" >
       <img class="userIcon" id="usericon" src="../../assets/icon-avator.png" v-bind:style="{ top: userLat + 'rpx',left: userLng + 'rpx'}">
-      <cover-view class="spot-icon icon-five" v-if="activeSpot == 5"><cover-image class="active-spot" src="https://gw.alicdn.com/tfs/TB1aICmi6DpK1RjSZFrXXa78VXa-30-24.png"></cover-image></cover-view>
-      <cover-view class="spot-icon icon-five" v-else>5</cover-view>
-      <cover-view class="spot-window window-five">
-        <cover-view class="spot-window-text">生命多样性研习点</cover-view>
-        <cover-image class="spot-window-img" src="https://gw.alicdn.com/tfs/TB1K_SBi4jaK1RjSZFAXXbdLFXa-222-146.png"></cover-image>
-      </cover-view>
+      <div class="spot-icon icon-five" v-if="activeSpot == 5"><img class="active-spot" src="https://gw.alicdn.com/tfs/TB1aICmi6DpK1RjSZFrXXa78VXa-30-24.png" /></div>
+      <div class="spot-icon icon-five" v-else>5</div>
+      <div class="spot-window window-five">
+        <div class="spot-window-text">生命多样性研习点</div>
+        <img class="spot-window-img" src="https://gw.alicdn.com/tfs/TB1K_SBi4jaK1RjSZFAXXbdLFXa-222-146.png" />
+      </div>
 
     </movable-view>
     <div class="map-sub">
