@@ -1,14 +1,14 @@
 <template>
   <div class="container">
     <div class="quiz-top">
-      <div class="quiz-top-left"></div>
-      <div class="quiz-top-mid">{{index}}</div>
-      <div class="quiz-top-right"></div>
+      <div class="quiz-top-left" @click="prev"></div>
+      <div class="quiz-top-mid">{{index+1}}</div>
+      <div class="quiz-top-right" @click="next"></div>
     </div>
     <div class="quiz-mid">
       <div class="quiz-mid-question">
         <div class="quiz-mid-question-body">
-          <div class="quiz-mid-question-body-text">听音频，选出发出这种声音的动物</div>
+          <div class="quiz-mid-question-body-text">{{currentQuiz.quiz}}</div>
           <img class="quiz-mid-question-body-play" src="https://gw.alicdn.com/tfs/TB1.aY2j9zqK1RjSZPxXXc4tVXa-69-70.png" v-if="hasAudio && !isPlayAudio" />
           <img class="quiz-mid-question-body-pause" src="https://gw.alicdn.com/tfs/TB163v1j9rqK1RjSZK9XXXyypXa-69-70.png" v-if="hasAudio && isPlayAudio" />
         </div>
@@ -20,17 +20,17 @@
     </div>
     <div class="quiz-choice">
       <div class="quiz-choice-body">
-        <div class="quiz-choice-body-item" @click="chooseItem(1,'aaaaa')">
-          <span class="quiz-choice-body-item-text"><span class="quiz-choice-body-item-icon" v-if="choiceIndex == 1"></span>A.abisdbiasbd</span> 
+        <div class="quiz-choice-body-item" @click="chooseItem(0,currentQuiz.answer_list[0])">
+          <span class="quiz-choice-body-item-text"><span class="quiz-choice-body-item-icon" v-if="choiceIndex == 0"></span>{{currentQuiz.answer_list[0]}}</span> 
         </div>
-        <div class="quiz-choice-body-item" @click="chooseItem(2,'bbbbbb')">
-          <span class="quiz-choice-body-item-text"><span class="quiz-choice-body-item-icon" v-if="choiceIndex == 2"></span>A.abisdbiasbd</span> 
+        <div class="quiz-choice-body-item" @click="chooseItem(1,currentQuiz.answer_list[1])">
+          <span class="quiz-choice-body-item-text"><span class="quiz-choice-body-item-icon" v-if="choiceIndex == 1"></span>{{currentQuiz.answer_list[1]}}</span> 
         </div>
-        <div class="quiz-choice-body-item" @click="chooseItem(3,'ccccccc')">
-          <span class="quiz-choice-body-item-text"><span class="quiz-choice-body-item-icon" v-if="choiceIndex == 3"></span>A.abisdbiasbd</span> 
+        <div class="quiz-choice-body-item" @click="chooseItem(2,currentQuiz.answer_list[2])">
+          <span class="quiz-choice-body-item-text"><span class="quiz-choice-body-item-icon" v-if="choiceIndex == 2"></span>{{currentQuiz.answer_list[2]}}</span> 
         </div>
-        <div class="quiz-choice-body-item" @click="chooseItem(4,'ddddddd')">
-          <span class="quiz-choice-body-item-text"><span class="quiz-choice-body-item-icon" v-if="choiceIndex == 4"></span>A.abisdbiasbd</span> 
+        <div class="quiz-choice-body-item" @click="chooseItem(3,currentQuiz.answer_list[3])">
+          <span class="quiz-choice-body-item-text"><span class="quiz-choice-body-item-icon" v-if="choiceIndex == 3"></span>{{currentQuiz.answer_list[3]}}</span> 
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
         <div class="hint" v-if="showHint">
           <div class="hint-title">温馨提示</div>
           <div class="hint-text">
-            爱神的箭哈市打开手机啊很多哎湖湿地哈斯毒害俗话 
+            {{currentQuiz.tooltip}}
           </div>
           <div class="hint-close" @click="closeHint">
             <img src="../../assets/btn-close-list.png" alt="">
@@ -69,15 +69,42 @@
 export default {
   data() {
     return {
-      index: 1,
+      index: 0,
       showHint:false,
       hasAudio:false,
       isPlayAudio:false,
-      choiceIndex:0,
+      choiceIndex:-1,
       choiceName:'',
-      correctIndex:4,
+      currentQuiz:{
+        id:null,title:null,type:null,tooltip:null,quiz:null,answer_list:[],right_answer:null,is_right:null
+      },
       wrongAnswer:false,
-      showAnswer:false
+      showAnswer:false,
+      questionList:[
+        {
+          // 题目id
+          id: 1,
+          // 标题
+          title: 'this is title No.1',
+          // 题目类型,类型枚举:'文本选择 text','看图识别 image','声音识别 video',
+          type: 1,
+          // 问题的提示
+          tooltip: 'this is hint No.1',
+          // 问题正文,如果是'看图识别'和'声音识别'就应该是个url字符串
+          quiz: 'this is the question No.1',
+          // 答案列表,如果是'看图识别'就应该是个图片地址
+          answer_list: ['A choice 1','B choice 2','C choice 3','D choice 4'],
+          // 正确答案的序号
+          right_answer: 3,
+          // 我是否答对
+          is_right: false
+        },
+        {id:2,title:'this is title No.2',type:2,tooltip:'this is hint No.2',quiz:'this is the question No.2',
+          answer_list:['A choice 11','B choice 22','C choice 33','D choice 44'],right_answer:2,is_right:false},
+        {id:3,title:'this is title No.3',type:3,tooltip:'this is hint No.3',quiz:'this is the question No.3',
+          answer_list:['A choice 111','B choice 222','C choice 333','D choice 444'],right_answer:3,is_right:false},
+      ]
+      
     };
   },
 
@@ -93,7 +120,7 @@ export default {
     },
     submitAnswer() {
       this.showAnswer = true
-      if (this.choiceIndex != this.correctIndex) {
+      if (this.choiceIndex != this.currentQuiz.right_answer) {
         this.wrongAnswer = true
       }
     },
@@ -108,13 +135,39 @@ export default {
       if (this.wrongAnswer) {
         this.wrongAnswer = false
       } else {
+        this.questionList[this.index].is_right = true
         this.index += 1
-        this.choiceIndex = 0
+        this.choiceIndex = -1
+        this.choiceName = ''
+        this.currentQuiz = this.questionList[this.index]
+      }
+    },
+    prev() {
+      if (this.index == 0) {
+        return
+      } else {
+        this.index --
+        this.currentQuiz = this.questionList[this.index]
+        this.choiceIndex = this.currentQuiz.right_answer
+      }
+    },
+    next() {
+      if (this.index == this.questionList.length-1) {
+        return 
+      } else {
+        if (this.questionList[this.index].is_right) {
+          this.index ++
+          this.currentQuiz = this.questionList[this.index]
+          this.questionList[this.index].is_right?this.choiceIndex = this.currentQuiz.right_answer:this.choiceIndex = -1
+        } else {
+          return
+        }
       }
     }
   },
 
   created() {
+    this.currentQuiz = this.questionList[0]
   },
   onLoad(option) {
     console.log(option.quizid)
