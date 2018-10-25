@@ -102,6 +102,21 @@ export default {
     }); 
   },
   mounted() {
+    const self = this
+    wx.request({
+      url: 'http://39.106.120.41:8499/GuideWechat/spot/list', //开发者服务器接口地址",
+      data: {
+        lineId:`D508727E-3A3E-48BE-9F1B-6EB2F4063B2C`
+      }, //请求的参数",
+      method: 'GET',
+      dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+      success: res => {
+        // console.log(res)
+        self.GLOBAL.spot_list = res.data.data
+      },
+      fail: () => {},
+      complete: () => {}
+    });
     // console.log(this.GLOBAL);
   },
   onLoad() {

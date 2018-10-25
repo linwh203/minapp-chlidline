@@ -9,8 +9,8 @@
       <div class="quiz-mid-question">
         <div class="quiz-mid-question-body">
           <div class="quiz-mid-question-body-text">{{currentQuiz.quiz}}</div>
-          <img class="quiz-mid-question-body-play" src="https://gw.alicdn.com/tfs/TB1.aY2j9zqK1RjSZPxXXc4tVXa-69-70.png" v-if="hasAudio && !isPlayAudio" />
-          <img class="quiz-mid-question-body-pause" src="https://gw.alicdn.com/tfs/TB163v1j9rqK1RjSZK9XXXyypXa-69-70.png" v-if="hasAudio && isPlayAudio" />
+          <img class="quiz-mid-question-body-play" src="https://gw.alicdn.com/tfs/TB1.aY2j9zqK1RjSZPxXXc4tVXa-69-70.png" v-if="hasAudio && !isPlayAudio" @click="startAudio" />
+          <img class="quiz-mid-question-body-pause" src="https://gw.alicdn.com/tfs/TB163v1j9rqK1RjSZK9XXXyypXa-69-70.png" v-if="hasAudio && isPlayAudio" @click="pauseAudio" />
         </div>
       </div>
       <div class="quiz-mid-msg">从下面选出正确的答案</div>
@@ -19,7 +19,33 @@
       </div>
     </div>
     <div class="quiz-choice">
-      <div class="quiz-choice-body">
+      <div class="image-choice" v-if="imageType">
+        <div class="image-choice-item">
+          <img src="https://gw.alicdn.com/tfs/TB1WmxvkFzqK1RjSZFoXXbfcXXa-229-140.png" @click="showLargeImg(currentQuiz.answer_list[0])">
+          <div class="image-choose"  @click="chooseItem(0,currentQuiz.answer_list[0])">
+            <img src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png" v-if="choiceIndex == 0">
+          </div>
+        </div>
+        <div class="image-choice-item">
+          <img src="https://gw.alicdn.com/tfs/TB1WmxvkFzqK1RjSZFoXXbfcXXa-229-140.png" @click="showLargeImg(currentQuiz.answer_list[1])">
+          <div class="image-choose"  @click="chooseItem(1,currentQuiz.answer_list[1])">
+            <img src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png" v-if="choiceIndex == 1">
+          </div>
+        </div>
+        <div class="image-choice-item">
+          <img src="https://gw.alicdn.com/tfs/TB1WmxvkFzqK1RjSZFoXXbfcXXa-229-140.png" @click="showLargeImg(currentQuiz.answer_list[2])">
+          <div class="image-choose"  @click="chooseItem(2,currentQuiz.answer_list[2])">
+            <img src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png" v-if="choiceIndex == 2">
+          </div>
+        </div>
+        <div class="image-choice-item">
+          <img src="https://gw.alicdn.com/tfs/TB1WmxvkFzqK1RjSZFoXXbfcXXa-229-140.png" @click="showLargeImg(currentQuiz.answer_list[3])">
+          <div class="image-choose"  @click="chooseItem(3,currentQuiz.answer_list[3])">
+            <img src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png" v-if="choiceIndex == 3">
+          </div>
+        </div>
+      </div>
+      <div class="quiz-choice-body" v-if="!imageType">
         <div class="quiz-choice-body-item" @click="chooseItem(0,currentQuiz.answer_list[0])">
           <span class="quiz-choice-body-item-text"><span class="quiz-choice-body-item-icon" v-if="choiceIndex == 0"></span>{{currentQuiz.answer_list[0]}}</span> 
         </div>
@@ -37,7 +63,7 @@
     <div class="quiz-btm" @click="submitAnswer">
 
     </div>
-    <div class="modal" v-if="showHint || showAnswer">
+    <div class="modal" v-if="showHint || showAnswer || showFinish">
       <div class="modal-container">
         <div class="hint" v-if="showHint">
           <div class="hint-title">温馨提示</div>
@@ -60,6 +86,26 @@
             <img src="../../assets/btn-close-list.png" alt="">
           </div>
         </div>
+        <div class="hint finish" v-if="showFinish">
+          <div class="finish-title">恭喜你，闯关成功</div>
+          <img src="../../assets/icon-reward.png" class="finish-icon">
+          <div class="finish-text">获得:1个勋章</div>
+          <div class="finish-btns">
+            <div class="finish-btns-left" @click="bindTab('../quiz/main')">继续闯关</div>
+            <div class="finish-btns-right" @click="bindTab('../my/reward')">查看成就</div>
+          </div>
+          <div class="hint-close" @click="bindTab('../quiz/main')">
+            <img src="../../assets/btn-close-list.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal" v-if="showLarge">
+      <div class="largeImg">
+        <img :src="largeSrc">
+        <div class="hint-close" @click="showLarge = false">
+            <img src="../../assets/btn-close-list.png" alt="">
+          </div>
       </div>
     </div>
   </div>
@@ -71,15 +117,20 @@ export default {
     return {
       index: 0,
       showHint:false,
-      hasAudio:false,
       isPlayAudio:false,
       choiceIndex:-1,
       choiceName:'',
+      largeSrc:'',
       currentQuiz:{
         id:null,title:null,type:null,tooltip:null,quiz:null,answer_list:[],right_answer:null,is_right:null
       },
       wrongAnswer:false,
       showAnswer:false,
+      showFinish:false,
+      showLarge:false,
+      innerAudioContext: null,
+      audioUrl:
+        "http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46",
       questionList:[
         {
           // 题目id
@@ -87,7 +138,7 @@ export default {
           // 标题
           title: 'this is title No.1',
           // 题目类型,类型枚举:'文本选择 text','看图识别 image','声音识别 video',
-          type: 1,
+          type: 2,
           // 问题的提示
           tooltip: 'this is hint No.1',
           // 问题正文,如果是'看图识别'和'声音识别'就应该是个url字符串
@@ -99,24 +150,38 @@ export default {
           // 我是否答对
           is_right: false
         },
-        {id:2,title:'this is title No.2',type:2,tooltip:'this is hint No.2',quiz:'this is the question No.2',
+        {id:2,title:'this is title No.2',type:3,tooltip:'this is hint No.2',quiz:'this is the question No.2',
           answer_list:['A choice 11','B choice 22','C choice 33','D choice 44'],right_answer:2,is_right:false},
-        {id:3,title:'this is title No.3',type:3,tooltip:'this is hint No.3',quiz:'this is the question No.3',
+        {id:3,title:'this is title No.3',type:1,tooltip:'this is hint No.3',quiz:'this is the question No.3',
           answer_list:['A choice 111','B choice 222','C choice 333','D choice 444'],right_answer:3,is_right:false},
       ]
       
     };
   },
-
+  computed: {
+    hasAudio: function(){
+      // this.audioUrl = this.currentQuiz.audioSrc;
+      this.audioUrl = 'http://www.ytmp3.cn/down/53825.mp3'
+      this.innerAudioContext.src = this.audioUrl;
+      return this.currentQuiz.type == 3? true : false
+    },
+    imageType: function(){
+      return this.currentQuiz.type == 2? true : false
+    }
+  },
   components: {},
 
   methods: {
-    bindTab(e) {
-      wx.navigateTo({ url: "../index/main" });
+    bindTab(url) {
+      wx.navigateTo({ url: url });
     },
     chooseItem(index, name) {
       this.choiceIndex = index
       this.choiceName = name
+    },
+    showLargeImg(item) {
+      this.largeSrc = 'https://gw.alicdn.com/tfs/TB1ENNLkHvpK1RjSZPiXXbmwXXa-472-712.png'
+      this.showLarge = true
     },
     submitAnswer() {
       this.showAnswer = true
@@ -131,16 +196,30 @@ export default {
       this.showHint = false
     },
     closeAnswer() {
+      this.isPlayAudio = false
+      this.innerAudioContext.stop()
       this.showAnswer = false
       if (this.wrongAnswer) {
         this.wrongAnswer = false
       } else {
         this.questionList[this.index].is_right = true
-        this.index += 1
-        this.choiceIndex = -1
-        this.choiceName = ''
-        this.currentQuiz = this.questionList[this.index]
+        if (this.index == this.questionList.length-1) {
+          this.showFinish = true
+        } else {
+          this.index += 1
+          this.choiceIndex = -1
+          this.choiceName = ''
+          this.currentQuiz = this.questionList[this.index]
+        }
       }
+    },
+    startAudio() {
+      this.isPlayAudio = true
+      this.innerAudioContext.play();
+    },
+    pauseAudio() {
+      this.isPlayAudio = false
+      this.innerAudioContext.pause();
     },
     prev() {
       if (this.index == 0) {
@@ -149,6 +228,8 @@ export default {
         this.index --
         this.currentQuiz = this.questionList[this.index]
         this.choiceIndex = this.currentQuiz.right_answer
+        this.isPlayAudio = false
+        this.innerAudioContext.stop()
       }
     },
     next() {
@@ -159,6 +240,8 @@ export default {
           this.index ++
           this.currentQuiz = this.questionList[this.index]
           this.questionList[this.index].is_right?this.choiceIndex = this.currentQuiz.right_answer:this.choiceIndex = -1
+          this.isPlayAudio = false
+          this.innerAudioContext.stop()
         } else {
           return
         }
@@ -169,9 +252,30 @@ export default {
   created() {
     this.currentQuiz = this.questionList[0]
   },
+  mounted() {
+    
+  },
   onLoad(option) {
     console.log(option.quizid)
+    this.innerAudioContext = wx.createInnerAudioContext();
   },
+  onShow(option) {
+    this.currentQuiz = this.questionList[0]
+  },
+  onHide() {
+    this.index = 0
+    this.showHint = false
+    this.hasAudio = false
+    this.isPlayAudio = false
+    this.choiceIndex = -1
+    this.choiceName = ''
+    this.currentQuiz = {
+      id:null,title:null,type:null,tooltip:null,quiz:null,answer_list:[],right_answer:null,is_right:null
+    }
+    this.wrongAnswer = false
+    this.showAnswer = false
+    this.showFinish = false
+  }
 };
 </script>
 
@@ -318,6 +422,40 @@ export default {
   background: url('https://gw.alicdn.com/tfs/TB1KWMEjIfpK1RjSZFOXXa6nFXa-300-98.png') no-repeat top/cover;
   margin-bottom: 100rpx;
 }
+.image-choice{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 16rpx;
+  overflow: hidden;
+  &-item{
+    border:1px solid #9e7044;
+    position: relative;
+    img{
+      width: 267rpx;
+      height:100%;
+    }
+  }
+}
+.image-choose{
+  height: 54rpx;
+  width: 52rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background:#fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-bottom-right-radius: 25rpx;
+  img{
+    width: 32rpx;
+    height: 32rpx;
+    display: block;
+  }
+}
 .modal {
   width: 100%;
   height: 100%;
@@ -400,6 +538,54 @@ export default {
     color:#00baea;
     font-size: 36rpx;
     line-height: 90rpx;
+  }
+}
+.finish{
+  color:#000;
+  font-size: 36rpx;
+  &-title{
+    line-height: 82rpx;
+  }
+  &-icon{
+    width: 128rpx;
+    height: 84rpx;
+  }
+  &-text{
+    line-height: 64rpx;
+    font-size: 24rpx;
+  }
+  &-btns{
+    width: 100%;
+    height: 105rpx;
+    border-top:1px solid #a0a0a0; 
+    display: flex;
+    &-left{
+      flex:1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-right:1px solid #a0a0a0;
+      color:#00baea;
+    }
+    &-right{
+      flex:1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color:#ff1919;
+    }
+  }
+}
+.largeImg{
+  width: 538rpx;
+  height: 823rpx;
+  border-radius: 12rpx;
+  overflow: hidden;
+  position: relative;
+  img{
+    width: 100%;
+    height: 100%;
+    display: block;
   }
 }
 </style>

@@ -35,6 +35,14 @@
     <div class="article-border"></div>
     <scroll-view scroll-x class="index-list">
       <div class="index-list-box">
+        <div class="index-list-item" v-for="(item,index) in listItem" :key=index>
+          <div class="index-list-item-img" :class="activeIndex == index+1 ? 'index-list-item-img-active':''" @click="changeArticle(index+1,item.spot_image)">
+            <img :src="'../../assets/list-pic-'+(index+1)+'.png'" alt="">
+          </div>
+          <div class="index-list-item-title">{{item.spot_name}}</div>
+        </div>
+      </div>
+      <!-- <div class="index-list-box">
         <div class="index-list-item">
           <div class="index-list-item-img" :class="activeIndex == 1 ? 'index-list-item-img-active':''" @click="changeArticle(1)">
             <img src="../../assets/list-pic-1.png" alt="">
@@ -95,7 +103,7 @@
           </div>
           <div class="index-list-item-title">听一场自然音乐会</div>
         </div>
-      </div>
+      </div> -->
     </scroll-view>
     <div class="index-list-close">
       <div class="index-list-close-body" @click="bindTab">
@@ -129,7 +137,8 @@ export default {
       mainPic: "",
       scrollTop: 0,
       activeIndex: 1,
-      sharebox: false
+      sharebox: false,
+      listItem:[]
     };
   },
 
@@ -163,10 +172,11 @@ export default {
     hideShareBox() {
       this.sharebox = false
     },
-    changeArticle(id) {
+    changeArticle(id,img) {
       const currentId = parseInt(id)
       this.activeIndex = currentId
-      switch (currentId) {
+      this.mainPic = `http://39.106.120.41:8499/${img}`
+      /* switch (currentId) {
         case 1:
           this.mainPic = "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png"
           break
@@ -197,7 +207,7 @@ export default {
         case 10:
           this.mainPic = "https://gw.alicdn.com/tfs/TB1g_GjhgHqK1RjSZFkXXX.WFXa-600-6135.png"
           break
-      }
+      } */
     }
   },
 
@@ -205,6 +215,7 @@ export default {
   mounted() {
     this.innerAudioContext = wx.createInnerAudioContext();
     this.innerAudioContext.src = this.audioUrl;
+    this.listItem = this.GLOBAL.spot_list;
   },
   onLoad(option) {
     console.log(option)
