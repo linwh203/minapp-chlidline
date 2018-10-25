@@ -1,8 +1,8 @@
 {
   "pages": [
+    "pages/scan/main",
     
-    "pages/quizdetail/main",
-    "pages/quiz/main",
+    
     
     "pages/index/main",
     "pages/first/main",
@@ -10,7 +10,8 @@
     "pages/map/main",
     "pages/video/main",
     "pages/paint/main",
-    "pages/scan/main",
+    "pages/quiz/main",
+    "pages/quizdetail/main",
     "pages/my/main",
     "pages/logs/main",
     "pages/counter/main"
