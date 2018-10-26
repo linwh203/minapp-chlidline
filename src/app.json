@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/my-reward/main",
     "pages/my/main",
     "pages/my-rule/main",
     "pages/my-statement/main",

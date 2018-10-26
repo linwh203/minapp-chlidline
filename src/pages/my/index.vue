@@ -13,7 +13,7 @@
         </div>
       </div>
       <div class="my-tab-body">
-        <div class="my-tab-body-item" @click="bindTab('../file/main')">
+        <div class="my-tab-body-item" @click="bindTab('../my-reward/main')">
           <img src="https://gw.alicdn.com/tfs/TB1VPxWk9zqK1RjSZFjXXblCFXa-179-132.png" class="my-tab-body-item-icon"/>
           <div class="my-tab-body-item-name">个人成就</div>
         </div>
