@@ -20,8 +20,15 @@
       
     </div>
     <div class="result-tab" v-if="showResult">
-        <img :src="src" class="result-tab-pic active">
+      <div class="result-tab-item">
+        <div class="result-tab-item-name">大葱</div>
+        <div class="result-tab-item-desc">大葱辣眼睛，你比大葱凶</div>
+        <div class="result-tab-item-pic active">
+          <img :src="src" >
+          <div class="result-tab-item-pic-hint">点击查看详情</div>
+        </div>
       </div>
+    </div>
     <cover-view class="desc" v-if="showDesc">
       <cover-view>拍照识别物种：对准你好奇的物种，</cover-view>
       <cover-view>点击拍一拍吧！</cover-view>
@@ -169,17 +176,44 @@ img {
   width: 100%;
   height: 60%;
   background: #fff;
-  &-pic{
-
-  }
-  &-pic:nth-of-type(1){
-    margin-left: 100rpx;
-  }
-  .active{
+  &-item{
     width: 550rpx;
-    height: 550rpx;
-    border-radius: 50%;
-    border:2px solid #f3f3f3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    &-name{
+      font-size: 40rpx;
+      line-height: 86rpx;
+    }
+    &-desc{
+      font-size: 24rpx;
+      color:#909090;
+      margin-bottom: 30rpx;
+    }
+    &-pic{
+      overflow: hidden;
+      position: relative;
+      &-hint{
+        width: 100%;
+        line-height: 70rpx;
+        font-size: 24rpx;
+        position: absolute;
+        bottom: 0;
+        text-align: center;
+        color:#fff;
+        background: rgba(0,0,0,.5)
+      }
+    }
+    .active{
+      width: 550rpx;
+      height: 550rpx;
+      border-radius: 50%;
+      border:2px solid #f3f3f3;
+    }
+  }
+  &-item:nth-of-type(1){
+    margin-left: 100rpx;
   }
 }
 </style>

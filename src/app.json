@@ -1,8 +1,9 @@
 {
   "pages": [
-    "pages/scan/main",
-    
-    
+    "pages/my/main",
+    "pages/my-rule/main",
+    "pages/my-statement/main",
+    "pages/my-about/main",
     
     "pages/index/main",
     "pages/first/main",
@@ -12,7 +13,7 @@
     "pages/paint/main",
     "pages/quiz/main",
     "pages/quizdetail/main",
-    "pages/my/main",
+    "pages/scan/main",
     "pages/logs/main",
     "pages/counter/main"
   ],
