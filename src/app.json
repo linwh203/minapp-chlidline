@@ -1,23 +1,33 @@
 {
   "pages": [
-    
-    "pages/my-suggest/main",
-    "pages/my/main",
-    "pages/my-rule/main",
-    "pages/my-statement/main",
-    "pages/my-about/main",
-    "pages/my-reward/main",
+    "pages/quizdetail/main",
+
+    "pages/quiz/main",
+    "pages/map/main",
+
+    "pages/paint/main",
     "pages/my-msg/main",
+    "pages/my-suggest/main",
+    "pages/my-reward/main",
 
     "pages/index/main",
     "pages/first/main",
     "pages/list/main",
-    "pages/map/main",
+    
     "pages/video/main",
-    "pages/paint/main",
-    "pages/quiz/main",
-    "pages/quizdetail/main",
+    
+    
+    
     "pages/scan/main",
+
+    "pages/my/main",
+    
+    
+    
+    "pages/my-rule/main",
+    "pages/my-statement/main",
+    "pages/my-about/main",
+
     "pages/logs/main",
     "pages/counter/main"
   ],

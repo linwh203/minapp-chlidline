@@ -48,6 +48,7 @@
 </template>
 
 <script>
+// import { config } from '../../utils/index'
 export default {
   data() {
     return {
@@ -62,11 +63,12 @@ export default {
       wx.navigateTo({ url: "../index/main" });
     },
     startQuiz(id) {
-      wx.navigateTo({ url: "../quizdetail/main?quizid=" + id });
+      wx.navigateTo({ url: "../quizdetail/main?checkpoint=" + id });
     }
   },
 
   created() {
+    
   }
 };
 </script>

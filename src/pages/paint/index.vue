@@ -2,22 +2,24 @@
   <div class="container">
     <scroll-view scroll-x class="index-list">
       <div class="index-list-box">
-        <div class="index-list-item" v-for="(item, index) in tabList" :key="index">
-          <img :src="item.src" @load="setWidth(index,$event)" data-index=index v-bind:style="{ width: item.width + 'rpx'}" class="index-list-item-img" @click="changeArticle(index)">
+        <div class="index-list-item" v-for="(item, index) in paintList" :key="index">
+          <img :src="'http://39.106.120.41:8499'+item.pic_icon" @load="setWidth(index,$event)" data-index=index v-bind:style="{ width: item.width + 'rpx'}" class="index-list-item-img" @click="changeArticle(index,item)">
         </div>]
       </div>
     </scroll-view>
     <scroll-view scroll-x class="paint-bg">
-      <img :src="mainPic" @load="imageLoad" lazy-load v-bind:style="{ width: imgWidth + 'rpx'}">
+      <img :src="'http://39.106.120.41:8499'+mainPic" @load="imageLoad" lazy-load v-bind:style="{ width: imgWidth + 'rpx'}">
     </scroll-view>
   </div>
 </template>
 
 <script>
+import { config } from '../../utils/index'
 export default {
   data() {
     return {
-      mainPic:'https://gw.alicdn.com/tfs/TB1jQgHiXzqK1RjSZFCXXbbxVXa-3657-2717.jpg',
+      // mainPic:'https://gw.alicdn.com/tfs/TB1jQgHiXzqK1RjSZFCXXbbxVXa-3657-2717.jpg',
+      mainPic:'',
       imgWidth:'',
       activeIndex:0,
       tabList:[
@@ -31,7 +33,8 @@ export default {
         {src:"https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"},
         {src:"https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"},
         {src:"https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"}
-      ]
+      ],
+      paintList:[]
     };
   },
 
@@ -50,10 +53,11 @@ export default {
       const ratio = e.target.width/e.target.height
       this.imgWidth = parseInt(height*ratio)
     },
-    changeArticle(id) {
+    changeArticle(id,item) {
       const currentId = parseInt(id)
       this.activeIndex = currentId
-      switch (currentId) {
+      this.mainPic = item.pic_image
+      /* switch (currentId) {
         case 0:
           this.mainPic = "https://gw.alicdn.com/tfs/TB1jQgHiXzqK1RjSZFCXXbbxVXa-3657-2717.jpg"
           break
@@ -84,13 +88,30 @@ export default {
         case 9:
           this.mainPic = "https://gw.alicdn.com/tfs/TB1Q47Cib2pK1RjSZFsXXaNlXXa-2835-2015.jpg"
           break
-      }
+      } */
     }
   },
 
   created() {
     
-  }
+  },
+  mounted() {
+    wx.request({
+      url: config.base + 'pic/list', //开发者服务器接口地址",
+      data: {
+        lineId: config.lineId
+      }, //请求的参数",
+      method: 'GET',
+      dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+      success: res => {
+        // console.log(res.data)
+        this.paintList = res.data.data
+        this.mainPic = this.paintList[0].pic_image
+      },
+      fail: () => {},
+      complete: () => {}
+    });
+  },
 };
 </script>
 

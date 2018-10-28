@@ -1,15 +1,17 @@
 <template>
   <div class="container">
     <scroll-view scroll-y class="article-view">
-      <div class="msg-item">
-        <div class="msg-item-pic"></div>
+      <div class="msg-item" v-for="(item,index) in msgList" :key="index">
+        <div class="msg-item-pic">
+          <img :src="item.image" style="width:100%;height:100%;display:block;">
+        </div>
         <div class="msg-item-main">
           <div class="msg-item-main-top">
-            <div class="msg-item-main-top-left">这里是标题</div>
-            <div class="msg-item-main-top-right">这里是时间</div>
+            <div class="msg-item-main-top-left">{{item.title}}</div>
+            <div class="msg-item-main-top-right" v-if="item.time">{{item.time}}</div>
           </div>
           <div class="msg-item-main-btm">
-            这里是正文。这里是正文。这里是正文。这里是正文。这里是正文。这里是正文。这里是正文。
+            {{item.text}}
           </div>
         </div>
       </div>
@@ -18,10 +20,12 @@
 </template>
 
 <script>
+import { config } from '../../utils/index'
 export default {
   data() {
     return {
-
+      userCode:'',
+      msgList:[]
     };
   },
 
@@ -31,8 +35,24 @@ export default {
 
   },
 
-  created() {},
+  created() {
+    this.userCode = wx.getStorageSync('userCode');
+  },
   mounted() {
+    wx.request({
+      url: config.base + 'message/list', //开发者服务器接口地址",
+      data: {
+        lineId:config.lineId
+      }, //请求的参数",
+      method: 'GET',
+      dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+      success: res => {
+        console.log(res.data)
+        this.msgList = res.data.data
+      },
+      fail: () => {},
+      complete: () => {}
+    });
   }
 };
 </script>

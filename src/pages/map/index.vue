@@ -20,7 +20,7 @@
       </div>
       <div class="map-sub-line"></div>
       <div class="map-sub-btn">
-        <div class="map-sub-btn-in " @click="viewDetail">
+        <div class="map-sub-btn-in " @click="bindTab('../paint/main')">
           <img src="../../assets/icon-map-pic.png" alt="" class="btn-audio" >
         </div>
       </div>

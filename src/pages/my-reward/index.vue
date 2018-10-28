@@ -51,10 +51,11 @@
 </template>
 
 <script>
+import { config } from '../../utils/index'
 export default {
   data() {
     return {
-      
+      userCode:''
     };
   },
 
@@ -67,8 +68,19 @@ export default {
   },
 
   created() {
-    
-  }
+    this.userCode = wx.getStorageSync('userCode');
+  },
+  mounted() {
+    // wx.request({
+    //   url: config.base + 'url', 
+    //   data: 'data', 
+    //   method: 'GET',
+    //   dataType: 'json', 
+    //   success: res => {},
+    //   fail: () => {},
+    //   complete: () => {}
+    // });
+  },
 };
 </script>
 

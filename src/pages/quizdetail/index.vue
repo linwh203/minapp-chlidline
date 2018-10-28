@@ -112,9 +112,11 @@
 </template>
 
 <script>
+import {config} from '../../utils/index'
 export default {
   data() {
     return {
+      userCode:'',
       index: 0,
       showHint:false,
       isPlayAudio:false,
@@ -251,9 +253,25 @@ export default {
 
   created() {
     this.currentQuiz = this.questionList[0]
+    this.userCode = wx.getStorageSync('userCode');
   },
   mounted() {
-    
+    wx.request({
+      url: config.base + 'quiz/list', //开发者服务器接口地址",
+      data: {
+        lineId: config.lineId,
+        token: this.userCode,
+        checkpoint: 1,
+        newExtract: 0
+      }, //请求的参数",
+      method: 'GET',
+      dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+      success: res => {
+        console.log(res.data)
+      },
+      fail: () => {},
+      complete: () => {}
+    });
   },
   onLoad(option) {
     console.log(option.quizid)

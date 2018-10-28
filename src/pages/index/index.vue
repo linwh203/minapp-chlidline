@@ -109,7 +109,8 @@ export default {
         method: 'GET',
         dataType: 'json', 
         success: res => {
-          // console.log('login',res)
+          // console.log('login',res.data.data)
+          wx.setStorageSync('userCode',res.data.data)
         },
         fail: err => {
           console.log('hasError',err)

@@ -17,13 +17,13 @@
           <img src="https://gw.alicdn.com/tfs/TB1VPxWk9zqK1RjSZFjXXblCFXa-179-132.png" class="my-tab-body-item-icon"/>
           <div class="my-tab-body-item-name">个人成就</div>
         </div>
-        <div class="my-tab-body-item" @click="bindTab('../file/main')">
+        <div class="my-tab-body-item" @click="bindTab('../my-msg/main')">
           <img src="https://gw.alicdn.com/tfs/TB1PVF0k7zoK1RjSZFlXXai4VXa-178-132.png" class="my-tab-body-item-icon"/>
           <div class="my-tab-body-item-name">消息中心</div>
         </div>
       </div>
       <div class="my-tab-body">
-        <div class="my-tab-body-item" @click="bindTab('../file/main')">
+        <div class="my-tab-body-item" @click="bindTab('../my-suggest/main')">
           <img src="https://gw.alicdn.com/tfs/TB145NVk3TqK1RjSZPhXXXfOFXa-179-132.png" class="my-tab-body-item-icon"/>
           <div class="my-tab-body-item-name">意见反馈</div>
         </div>
