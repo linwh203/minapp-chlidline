@@ -1,11 +1,14 @@
 {
   "pages": [
-    "pages/my-reward/main",
+    
+    "pages/my-suggest/main",
     "pages/my/main",
     "pages/my-rule/main",
     "pages/my-statement/main",
     "pages/my-about/main",
-    
+    "pages/my-reward/main",
+    "pages/my-msg/main",
+
     "pages/index/main",
     "pages/first/main",
     "pages/list/main",

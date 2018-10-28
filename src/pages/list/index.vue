@@ -7,15 +7,15 @@
           <img src="../../assets/icon-list-show.png" alt="" class="btn-show" :class="showSub?'':'reverse'">
         </div>
       </div>
-      <div class="sub-nav-line" v-if="showSub"></div>
-      <div class="sub-nav-btn" v-if="showSub">
+      <div class="sub-nav-line" v-if="showSub && audioUrl != ''"></div>
+      <div class="sub-nav-btn" v-if="showSub && audioUrl != ''">
         <div class="sub-nav-btn-in " @click="playAudio">
           <img src="../../assets/icon-list-audio.png" alt="" class="btn-audio" v-if="audioOff">
           <img src="../../assets/icon-list-audio-play.png" alt="" class="btn-audio" v-else>
         </div>
       </div>
-      <div class="sub-nav-line" v-if="showSub"></div>
-      <div class="sub-nav-btn" v-if="showSub">
+      <div class="sub-nav-line" v-if="showSub && videoUrl != ''"></div>
+      <div class="sub-nav-btn" v-if="showSub && videoUrl != ''">
         <div class="sub-nav-btn-in " @click="goVideo">
           <img src="../../assets/icon-list-video.png" alt="" class="btn-video">
         </div>
@@ -36,7 +36,7 @@
     <scroll-view scroll-x class="index-list">
       <div class="index-list-box">
         <div class="index-list-item" v-for="(item,index) in listItem" :key=index>
-          <div class="index-list-item-img" :class="activeIndex == index+1 ? 'index-list-item-img-active':''" @click="changeArticle(index+1,item.spot_image)">
+          <div class="index-list-item-img" :class="activeIndex == index+1 ? 'index-list-item-img-active':''" @click="changeArticle(index+1,item)">
             <img :src="'../../assets/list-pic-'+(index+1)+'.png'" alt="">
           </div>
           <div class="index-list-item-title">{{item.spot_name}}</div>
@@ -125,15 +125,17 @@
 </template>
 
 <script>
+import {config} from '../../utils/index'
 export default {
   data() {
     return {
       fromMap: false,
       showSub: false,
       innerAudioContext: null,
+      videoUrl:'',
       audioOff: true,
-      audioUrl:
-        "http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46",
+      audioUrl: '',
+        // "http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46",
       mainPic: "",
       scrollTop: 0,
       activeIndex: 1,
@@ -141,7 +143,9 @@ export default {
       listItem:[]
     };
   },
+  computed: {
 
+  },
   components: {},
 
   methods: {
@@ -157,6 +161,7 @@ export default {
     playAudio() {
       if (this.audioOff) {
         this.audioOff = false;
+        this.innerAudioContext.src = this.audioUrl;
         this.innerAudioContext.play();
       } else {
         this.audioOff = true;
@@ -164,7 +169,7 @@ export default {
       }
     },
     goVideo() {
-      wx.navigateTo({ url: "../video/main" });
+      wx.navigateTo({ url: "../video/main?video_url=" + this.videoUrl });
     },
     showShareBox() {
       this.sharebox = true
@@ -172,11 +177,29 @@ export default {
     hideShareBox() {
       this.sharebox = false
     },
-    changeArticle(id,img) {
+    changeArticle(id,item) {
+      this.audioOff = true;
+      if (this.innerAudioContext) { this.innerAudioContext.stop() }
       const currentId = parseInt(id)
       this.activeIndex = currentId
-      this.mainPic = `http://39.106.120.41:8499/${img}`
-      /* switch (currentId) {
+      wx.request({
+        url: config.base + 'spot/listdetail', //开发者服务器接口地址",
+        data: {
+          spot_id: item.spot_id,
+          lineId: config.lineId
+        }, //请求的参数",
+        method: 'GET',
+        dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+        success: res => {
+          console.log(res.data.data[0])
+          this.audioUrl = res.data.data[0].audio_url == null ? '' : config.base + res.data.data[0].audio_url
+          this.videoUrl = res.data.data[0].video_url == null ? '' : config.base + res.data.data[0].video_url
+        },
+        fail: () => {},
+        complete: () => {}
+      });
+      // this.mainPic = `http://39.106.120.41:8499/${item.spot_image}`
+      switch (currentId) {
         case 1:
           this.mainPic = "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png"
           break
@@ -207,26 +230,26 @@ export default {
         case 10:
           this.mainPic = "https://gw.alicdn.com/tfs/TB1g_GjhgHqK1RjSZFkXXX.WFXa-600-6135.png"
           break
-      } */
+      } 
     }
   },
 
   created() {},
   mounted() {
     this.innerAudioContext = wx.createInnerAudioContext();
-    this.innerAudioContext.src = this.audioUrl;
-    this.listItem = this.GLOBAL.spot_list;
+    // this.innerAudioContext.src = this.audioUrl;
   },
   onLoad(option) {
-    console.log(option)
+    this.listItem = wx.getStorageSync('spotList');
     if (option.from) {
       this.fromMap = true
     }
     if (option.spot_id) {
-      this.changeArticle(option.spot_id)
+      this.changeArticle(option.spot_index, option.spot_id)
     } else {
-      this.mainPic =
-        "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png";
+      this.changeArticle(1,this.listItem[0])
+      // this.mainPic =
+      //   "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png";
     }
   },
   onHide() {
