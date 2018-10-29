@@ -160,6 +160,12 @@ export default {
     }
   },
   onShow() {
+    wx.login({
+      success: (res) => {
+        console.log(res)
+        this.login(res.code);
+      }
+    }); 
     this.getSpot();
   }
 };
