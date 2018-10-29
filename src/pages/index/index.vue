@@ -158,6 +158,9 @@ export default {
     } else {
       console.log(firsttime);
     }
+  },
+  onShow() {
+    this.getSpot();
   }
 };
 </script>
