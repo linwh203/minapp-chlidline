@@ -73,23 +73,36 @@ export default {
       wx.request({
         url: config.base + 'my/suggest', //开发者服务器接口地址",
         data: {
-          token: this.userCode,
+          
           lineId: config.lineId,
           suggest: this.text,
           phone: this.contact,
           image_url_list: this.imgList
         }, //请求的参数",
         method: 'post',
+        header: {
+          token: this.userCode,
+        },
         dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
         success: res => {
           console.log(res.data)
-          wx.showToast({
-            title: res.data.res_msg, //提示的内容,
-            icon: 'success', //图标,
-            duration: 2000, //延迟时间,
-            mask: true, //显示透明蒙层，防止触摸穿透,
-            success: res => {}
-          });
+          if (res.data.res_code == 0) {
+            wx.showToast({
+              title: '反馈成功', //提示的内容,
+              icon: 'success', //图标,
+              duration: 2000, //延迟时间,
+              mask: true, //显示透明蒙层，防止触摸穿透,
+              success: res => {}
+            });
+          } else {
+            wx.showToast({
+              title: '反馈失败，请稍后再试', //提示的内容,
+              duration: 2000, //延迟时间,
+              mask: true, //显示透明蒙层，防止触摸穿透,
+              success: res => {}
+            });
+          }
+         
         },
         fail: () => {},
         complete: () => {}

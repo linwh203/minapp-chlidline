@@ -3,8 +3,9 @@
     <scroll-view scroll-x class="index-list">
       <div class="index-list-box">
         <div class="index-list-item" v-for="(item, index) in paintList" :key="index">
-          <img :src="'http://39.106.120.41:8499'+item.pic_icon" @load="setWidth(index,$event)" data-index=index v-bind:style="{ width: item.width + 'rpx'}" class="index-list-item-img" @click="changeArticle(index,item)">
-        </div>]
+          <img :src="'http://39.106.120.41:8499'+item.pic_icon_active" @load="setWidth(index,$event)" data-index=index v-bind:style="{ width: item.width + 'rpx'}" class="index-list-item-img" @click="changeArticle(index,item)" v-if="activeIndex == index">
+          <img :src="'http://39.106.120.41:8499'+item.pic_icon" @load="setWidth(index,$event)" data-index=index v-bind:style="{ width: item.width + 'rpx'}" class="index-list-item-img" @click="changeArticle(index,item)" v-else>
+        </div>
       </div>
     </scroll-view>
     <scroll-view scroll-x class="paint-bg">

@@ -36,74 +36,12 @@
     <scroll-view scroll-x class="index-list">
       <div class="index-list-box">
         <div class="index-list-item" v-for="(item,index) in listItem" :key=index>
-          <div class="index-list-item-img" :class="activeIndex == index+1 ? 'index-list-item-img-active':''" @click="changeArticle(index+1,item)">
+          <div class="index-list-item-img" :class="activeIndex == index+1 ? 'index-list-item-img-active':''" @click="changeArticle(index+1,item.spot_id)">
             <img :src="'../../assets/list-pic-'+(index+1)+'.png'" alt="">
           </div>
           <div class="index-list-item-title">{{item.spot_name}}</div>
         </div>
       </div>
-      <!-- <div class="index-list-box">
-        <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 1 ? 'index-list-item-img-active':''" @click="changeArticle(1)">
-            <img src="../../assets/list-pic-1.png" alt="">
-          </div>
-          <div class="index-list-item-title">深圳多样的生命</div>
-        </div>
-        <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 2 ? 'index-list-item-img-active':''" @click="changeArticle(2)">
-            <img src="../../assets/list-pic-2.png" alt="">
-          </div>
-          <div class="index-list-item-title">哦,你就是蝴蝶</div>
-        </div>
-        <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 3 ? 'index-list-item-img-active':''" @click="changeArticle(3)">
-            <img src="../../assets/list-pic-3.png" alt="">
-          </div>
-          <div class="index-list-item-title">生命的互联网故事</div>
-        </div>
-        <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 4 ? 'index-list-item-img-active':''" @click="changeArticle(4)">
-            <img src="../../assets/list-pic-4.png" alt="">
-          </div>
-          <div class="index-list-item-title">看花识蔬菜</div>
-        </div>
-        <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 5 ? 'index-list-item-img-active':''" @click="changeArticle(5)">
-            <img src="../../assets/list-pic-5.png" alt="">
-          </div>
-          <div class="index-list-item-title">农科院基地的候鸟</div>
-        </div>
-        <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 6 ? 'index-list-item-img-active':''" @click="changeArticle(6)">
-            <img src="../../assets/list-pic-6.png" alt="">
-          </div>
-          <div class="index-list-item-title">大眼睛飞行侠蜻蜓</div>
-        </div>
-        <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 7 ? 'index-list-item-img-active':''" @click="changeArticle(7)">
-            <img src="../../assets/list-pic-7.png" alt="">
-          </div>
-          <div class="index-list-item-title">外星人--昆虫</div>
-        </div>
-        <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 8 ? 'index-list-item-img-active':''" @click="changeArticle(8)">
-            <img src="../../assets/list-pic-8.png" alt="">
-          </div>
-          <div class="index-list-item-title">如何种植水稻</div>
-        </div>
-        <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 9 ? 'index-list-item-img-active':''" @click="changeArticle(9)">
-            <img src="../../assets/list-pic-9.png" alt="">
-          </div>
-          <div class="index-list-item-title">飞吧，鸟儿们</div>
-        </div>
-        <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 10 ? 'index-list-item-img-active':''" @click="changeArticle(10)">
-            <img src="../../assets/list-pic-10.png" alt="">
-          </div>
-          <div class="index-list-item-title">听一场自然音乐会</div>
-        </div>
-      </div> -->
     </scroll-view>
     <div class="index-list-close">
       <div class="index-list-close-body" @click="bindTab">
@@ -135,7 +73,6 @@ export default {
       videoUrl:'',
       audioOff: true,
       audioUrl: '',
-        // "http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E061FF02C31F716658E5C81F5594D561F2E88B854E81CAAB7806D5E4F103E55D33C16F3FAC506D1AB172DE8600B37E43FAD&fromtag=46",
       mainPic: "",
       scrollTop: 0,
       activeIndex: 1,
@@ -161,7 +98,6 @@ export default {
     playAudio() {
       if (this.audioOff) {
         this.audioOff = false;
-        this.innerAudioContext.src = this.audioUrl;
         this.innerAudioContext.play();
       } else {
         this.audioOff = true;
@@ -177,23 +113,28 @@ export default {
     hideShareBox() {
       this.sharebox = false
     },
-    changeArticle(id,item) {
+    changeArticle(id,spot_id) {
       this.audioOff = true;
       if (this.innerAudioContext) { this.innerAudioContext.stop() }
+
       const currentId = parseInt(id)
       this.activeIndex = currentId
       wx.request({
         url: config.base + 'spot/listdetail', //开发者服务器接口地址",
         data: {
-          spot_id: item.spot_id,
+          spot_id: spot_id,
           lineId: config.lineId
         }, //请求的参数",
         method: 'GET',
         dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
         success: res => {
-          console.log(res.data.data[0])
-          this.audioUrl = res.data.data[0].audio_url == null ? '' : config.base + res.data.data[0].audio_url
-          this.videoUrl = res.data.data[0].video_url == null ? '' : config.base + res.data.data[0].video_url
+          console.log(res.data.data)
+          this.innerAudioContext = wx.createInnerAudioContext();
+          this.audioUrl = res.data.data[0].audio_url == null ? '' :  "http://39.106.120.41:8499" + res.data.data[0].audio_url
+          this.videoUrl = res.data.data[0].video_url == null ? '' :  "http://39.106.120.41:8499" + res.data.data[0].video_url
+          if (this.audioUrl) {
+            this.innerAudioContext.src = this.audioUrl
+          }
         },
         fail: () => {},
         complete: () => {}
@@ -236,18 +177,16 @@ export default {
 
   created() {},
   mounted() {
-    this.innerAudioContext = wx.createInnerAudioContext();
+    
     // this.innerAudioContext.src = this.audioUrl;
   },
   onLoad(option) {
     this.listItem = wx.getStorageSync('spotList');
     if (option.from) {
       this.fromMap = true
-    }
-    if (option.spot_id) {
       this.changeArticle(option.spot_index, option.spot_id)
     } else {
-      this.changeArticle(1,this.listItem[0])
+      this.changeArticle(1,this.listItem[0].spot_id)
       // this.mainPic =
       //   "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png";
     }
@@ -256,6 +195,18 @@ export default {
     this.audioOff = true;
     this.showSub = false;
     this.innerAudioContext.stop();
+    // this.innerAudioContext = null
+  },
+  onUnload() {
+    this.audioOff = true;
+    this.showSub = false;
+    this.innerAudioContext.stop();
+    // this.innerAudioContext = null
+  },
+  onShow() {
+    // console.log(1)
+    // this.changeArticle(1,this.listItem[0].spot_id)
+    // this.innerAudioContext = wx.createInnerAudioContext();
   },
   onShareAppMessage(result) {
     let title = "儿童研习径";

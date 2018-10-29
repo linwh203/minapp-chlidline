@@ -5,43 +5,48 @@
       <div class="my-tab-top">
         <div class="my-tab-top-left">
           <img src="https://gw.alicdn.com/tfs/TB1Krl6k3HqK1RjSZFgXXa7JXXa-111-76.png" class="icon-stage">
-          <div class="icon-stage-text">第 <span>0</span> 关</div>
+          <div class="icon-stage-text">第 <span>{{score}}</span> 关</div>
         </div>
         <div class="my-tab-top-right">
           <img src="https://gw.alicdn.com/tfs/TB1Ww4Yk9rqK1RjSZK9XXXyypXa-110-72.png" class="icon-reward">
-          <div class="icon-reward-text">勋章 <span>0</span> 枚</div>
+          <div class="icon-reward-text">勋章 <span>{{score}}</span> 枚</div>
         </div>
       </div>
       <div class="my-tab-btm">
         <div class="my-tab-btm-head">闯关记录</div>
         <div class="my-tab-btm-main">
           <div class="my-tab-btm-item relative mrgin70">
-            <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear">
+            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<1" >
+            <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
             <div class="my-tab-btm-item-name">第一关</div>
-            <div class="my-tab-btm-item-time">(******)</div>
+            <!-- <div class="my-tab-btm-item-time">(******)</div> -->
             <div class="my-tab-btm-item-line"></div>
           </div>
           <div class="my-tab-btm-item relative mrgin70">
-            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear">
+            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<2" >
+            <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
             <div class="my-tab-btm-item-name">第二关</div>
-            <div class="my-tab-btm-item-time">(******)</div>
+            <!-- <div class="my-tab-btm-item-time">(******)</div> -->
             <div class="my-tab-btm-item-line"></div>
           </div>
           <div class="my-tab-btm-item relative">
-            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear">
+            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<3" >
+            <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
             <div class="my-tab-btm-item-name">第三关</div>
-            <div class="my-tab-btm-item-time">(******)</div>
+            <!-- <div class="my-tab-btm-item-time">(******)</div> -->
           </div>
           <div class="my-tab-btm-item relative mrgin70">
-            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear">
+            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<4" >
+            <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
             <div class="my-tab-btm-item-name">第四关</div>
-            <div class="my-tab-btm-item-time">(******)</div>
+            <!-- <div class="my-tab-btm-item-time">(******)</div> -->
             <div class="my-tab-btm-item-line"></div>
           </div>
           <div class="my-tab-btm-item relative">
-            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear">
+            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<5" >
+            <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
             <div class="my-tab-btm-item-name">第五关</div>
-            <div class="my-tab-btm-item-time">(******)</div>
+            <!-- <div class="my-tab-btm-item-time">(******)</div> -->
           </div>
         </div>
         <img src="../../assets/bg-my-reward.png" class="my-tab-btm-bg">
@@ -55,7 +60,8 @@ import { config } from '../../utils/index'
 export default {
   data() {
     return {
-      userCode:''
+      userCode:'',
+      score:''
     };
   },
 
@@ -71,16 +77,22 @@ export default {
     this.userCode = wx.getStorageSync('userCode');
   },
   mounted() {
-    // wx.request({
-    //   url: config.base + 'url', 
-    //   data: 'data', 
-    //   method: 'GET',
-    //   dataType: 'json', 
-    //   success: res => {},
-    //   fail: () => {},
-    //   complete: () => {}
-    // });
-  },
+    wx.request({
+      url: config.base + 'quiz/getcheckpoint', 
+      data: {
+        LineId: config.lineId,
+        token: this.userCode
+      }, 
+      method: 'GET',
+      dataType: 'json', 
+      success: res => {
+        console.log(res.data)
+        this.score = res.data.data
+      },
+      fail: () => {},
+      complete: () => {}
+    });
+  }
 };
 </script>
 

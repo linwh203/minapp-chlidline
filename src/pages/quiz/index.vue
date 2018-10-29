@@ -10,28 +10,28 @@
         </div>
         <div class="index-list-item">
           <div class="index-list-item-img" :class="activeIndex == 2 ? 'index-list-item-img-active':''" @click="startQuiz(2)">
-            <img src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png" class="unlock" v-if="locked">
+            <img src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png" class="unlock" v-if="score<1">
             <div class="stage" v-else> 第<span class="stage-number">2</span>关 </div>
           </div>
           <div class="index-list-item-title">萌力担当</div>
         </div>
         <div class="index-list-item">
           <div class="index-list-item-img" :class="activeIndex == 3 ? 'index-list-item-img-active':''" @click="startQuiz(3)">
-            <img src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png" class="unlock" v-if="locked">
+            <img src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png" class="unlock" v-if="score<2">
             <div class="stage" v-else> 第<span class="stage-number">3</span>关 </div>
           </div>
           <div class="index-list-item-title">虫虫小将</div>
         </div>
         <div class="index-list-item">
           <div class="index-list-item-img" :class="activeIndex == 4 ? 'index-list-item-img-active':''" @click="startQuiz(4)">
-            <img src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png" class="unlock" v-if="locked">
+            <img src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png" class="unlock" v-if="score<3">
             <div class="stage" v-else> 第<span class="stage-number">4</span>关 </div>
           </div>
           <div class="index-list-item-title">舞林萌主</div>
         </div>
         <div class="index-list-item">
           <div class="index-list-item-img" :class="activeIndex == 5 ? 'index-list-item-img-active':''" @click="startQuiz(5)">
-            <img src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png" class="unlock" v-if="locked">
+            <img src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png" class="unlock" v-if="score<4">
             <div class="stage" v-else> 第<span class="stage-number">5</span>关 </div>
           </div>
           <div class="index-list-item-title">一代虫师</div>
@@ -48,11 +48,12 @@
 </template>
 
 <script>
-// import { config } from '../../utils/index'
+import { config } from '../../utils/index'
 export default {
   data() {
     return {
-      locked:true
+      userCode:'',
+      score:''
     };
   },
 
@@ -68,7 +69,41 @@ export default {
   },
 
   created() {
-    
+    this.userCode = wx.getStorageSync('userCode');
+  },
+  mounted() {
+    wx.request({
+      url: config.base + 'quiz/getcheckpoint', 
+      data: {
+        LineId: config.lineId,
+        token: this.userCode
+      }, 
+      method: 'GET',
+      dataType: 'json', 
+      success: res => {
+        console.log(res.data)
+        this.score = res.data.data
+      },
+      fail: () => {},
+      complete: () => {}
+    });
+  },
+  onShow() {
+    wx.request({
+      url: config.base + 'quiz/getcheckpoint', 
+      data: {
+        LineId: config.lineId,
+        token: this.userCode
+      }, 
+      method: 'GET',
+      dataType: 'json', 
+      success: res => {
+        console.log(res.data)
+        this.score = res.data.data
+      },
+      fail: () => {},
+      complete: () => {}
+    });
   }
 };
 </script>
