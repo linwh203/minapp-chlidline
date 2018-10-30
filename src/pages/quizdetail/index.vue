@@ -317,14 +317,24 @@ export default {
         method: "GET",
         dataType: "json", //如果设为json，会尝试对返回的数据做一次 JSON.parse
         success: res => {
-          this.questionList = res.data.data;
-          if (this.questionList.length>0){
-            this.questionList.forEach(item => {
-              item.answer_list = selectSort(item.answer_list);
-              this.currentQuiz = this.questionList[0];
+          if (res.data.res_code == 0) {
+            this.questionList = res.data.data;
+            if (this.questionList.length>0){
+              this.questionList.forEach(item => {
+                item.answer_list = selectSort(item.answer_list);
+                this.currentQuiz = this.questionList[0];
+              });
+            }
+          } else {
+            wx.showToast({
+              title: res.data.res_msg, 
+              duration: 1000, 
+              mask: true,
+              success: res=>{
+                
+              }
             });
           }
-          console.log(this.questionList);
         },
         fail: () => {},
         complete: () => {}

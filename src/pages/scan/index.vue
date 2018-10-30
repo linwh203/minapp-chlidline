@@ -75,9 +75,24 @@ export default {
         success: (res) => {
           this.src = res.tempImagePath
           this.showResult = true
-          this.postPhoto(res.tempImagePath)
+          this.upload(res.tempImagePath)
+          // this.postPhoto(res.tempImagePath)
         }
       })
+    },
+    upload(file) {
+      wx.uploadFile({
+        url: config.base + 'photo/UpdatePhoto', //开发者服务器 url
+        filePath: file, //要上传文件资源的路径
+        name: 'name', //文件对应的 key , 开发者在服务器端通过这个 key 可以获取到文件二进制内容
+        success: res => {
+          let data = JSON.parse(res.data).data
+          console.log(data)
+          this.postPhoto('http://39.106.120.41:8499' + data)
+        },
+        fail: () => {},
+        complete: () => {}
+      });
     },
     postPhoto(imgList) {
       

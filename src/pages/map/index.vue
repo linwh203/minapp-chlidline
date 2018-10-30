@@ -17,7 +17,7 @@
     <div class="map-sub">
       <div class="map-sub-line"></div>
       <div class="map-sub-btn">
-        <div class="map-sub-btn-in" @click="locate">
+        <div class="map-sub-btn-in" @click="showNear">
           <img src="../../assets/icon-map-gps.png" alt="" class="btn-show">
         </div>
       </div>
@@ -55,11 +55,8 @@ export default {
   data() {
     return {
       spotList:[],
-      userLng:450,
-      userLat:720,
       activeSpot:0,
       activeWindow:-1,
-      
       x:0,
       y:0, 
       mapStart:{
@@ -69,10 +66,66 @@ export default {
       mapEnd:{
         lng:114.50023,
         lat:22.59959
-      }
+      },
+      nearSpot:0
     };
   },
   computed: {
+     userLat(){
+      //  top
+      switch(this.nearSpot){
+        case 0 :
+          return 720
+        case 1 :
+          return 700
+        case 2 :
+          return 550
+        case 3 :
+          return 400
+        case 4 :
+          return 400
+        case 5 :
+          return 800
+        case 6 :
+          return 1030
+        case 7 :
+          return 1350
+        case 8 :
+          return 1600
+        case 9 :
+          return 1400
+        case 10 :
+          return 1050
+      }
+    },
+    userLng(){
+      // left
+      switch(this.nearSpot){
+        case 0 :
+          return 450
+        case 1 :
+          return 470
+        case 2 :
+          return 500
+        case 3 :
+          return 500
+        case 4 :
+          return 800
+        case 5 :
+          return 780
+        case 6 :
+          return 750
+        case 7 :
+          return 650
+        case 8 :
+          return 850
+        case 9 :
+          return 500
+        case 10 :
+          return 370
+      }
+    }
+   
   },
 
   components: {},
@@ -92,6 +145,13 @@ export default {
         wx.getStorage(key)
       }
     },
+    showNear() {
+      if(this.nearSpot == 0) {
+        this.showWindow(this.nearSpot)
+      } else {
+        this.showWindow(this.nearSpot-1)
+      }
+    },
     bindTab(url) {
       wx.navigateTo({ url: url });
     },
@@ -104,6 +164,48 @@ export default {
     showWindow(index) {
       this.activeWindow == index ? this.activeWindow = -1 : this.activeWindow = index;
       this.activeSpot = index ? this.activeSpot = -1 : this.activeSpot = index;
+      switch(index){
+        case 0:
+          this.x = -100
+          this.y = -200
+          break
+        case 1:
+          this.x = -100
+          this.y = -200
+          break
+        case 2:
+          this.x = -100
+          this.y = -100
+          break
+        case 3:
+          this.x = -150
+          this.y = -80
+          break
+        case 4:
+          this.x = -100
+          this.y = -200
+          break
+        case 5:
+          this.x = -100
+          this.y = -200
+          break
+        case 6:
+          this.x = -200
+          this.y = -400
+          break
+        case 7:
+          this.x = -200
+          this.y = -400
+          break
+        case 8:
+          this.x = -100
+          this.y = -400
+          break
+        case 9:
+          this.x = -100
+          this.y = -300
+          break
+      }
     },
     locate(point1,point2) {
       function rad(d){
@@ -117,10 +219,35 @@ export default {
       s = s * 6378.137;
       // EARTH_RADIUS;
       s = Math.round(s * 10000) / 10000;
-      console.log(s)
-      return {
-        s
+      // console.log(s)
+      return s
+    },
+    narrowSpot(userlat,userlng) {
+      const userPoint = {
+        lat:userlat,
+        lng:userlng
       }
+      let distance1 = 0
+      let distance2 = 0
+      let nearSpot = 1
+      const self = this
+      for(let i=0;i<this.spotList.length;i++) {
+        let spotPoint = {
+          lat:self.spotList[i].latitude,
+          lng:self.spotList[i].longitude
+        }
+        if(i==0){
+          distance1 = self.locate(userPoint,spotPoint)
+        } else {
+          distance2 = self.locate(userPoint,spotPoint)
+        }
+        if(distance1<distance2){
+          distance1 = distance2
+          nearSpot = self.spotList[i].sortNo
+        }
+      }
+      this.nearSpot = nearSpot
+      // console.log(nearSpot)
     },
     getSpot() {
       const self = this
@@ -142,7 +269,6 @@ export default {
       });
     }
   },
-
   created() {
     if (this.getStorage('spotList')) {
       this.spotList = this.getStorage('spotList');
@@ -157,9 +283,7 @@ export default {
         const longitude = res.longitude
         const speed = res.speed
         const accuracy = res.accuracy
-
-        this.userLng = 450
-        this.userLat = 720
+        this.narrowSpot(latitude,longitude)
       },
       fail: () => {
         console.log("getLocation failed")
@@ -170,6 +294,7 @@ export default {
    this.locate(this.mapStart,this.mapEnd)
   },
   onReady() {
+    
     this.x = -100
     this.y = -200
   }

@@ -159,10 +159,10 @@ export default {
           this.mainPic = "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png"
           break
         case 2:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1kqGghgDqK1RjSZSyXXaxEVXa-600-2235.png"
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1YzKkhkvoK1RjSZFDXXXY3pXa-600-4388.png"
           break
         case 3:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1no5jhgHqK1RjSZFkXXX.WFXa-600-6394.png"
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1kqGghgDqK1RjSZSyXXaxEVXa-600-2235.png"
           break
         case 4:
           this.mainPic = "https://gw.alicdn.com/tfs/TB1f.idhb2pK1RjSZFsXXaNlXXa-600-4136.png"
@@ -171,16 +171,16 @@ export default {
           this.mainPic = "https://gw.alicdn.com/tfs/TB1bHihhmzqK1RjSZFLXXcn2XXa-600-6676.png"
           break
         case 6:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1c4unhhTpK1RjSZFMXXbG_VXa-600-2808.png"
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1ChGjhkvoK1RjSZPfXXXPKFXa-600-4368.png"
           break
         case 7:
           this.mainPic = "https://gw.alicdn.com/tfs/TB1.SOChhnaK1RjSZFBXXcW7VXa-600-8017.png"
           break
         case 8:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1YzKkhkvoK1RjSZFDXXXY3pXa-600-4388.png"
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1no5jhgHqK1RjSZFkXXX.WFXa-600-6394.png"
           break
         case 9:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1ChGjhkvoK1RjSZPfXXXPKFXa-600-4368.png"
+          this.mainPic = "https://gw.alicdn.com/tfs/TB1c4unhhTpK1RjSZFMXXbG_VXa-600-2808.png"
           break
         case 10:
           this.mainPic = "https://gw.alicdn.com/tfs/TB1g_GjhgHqK1RjSZFkXXX.WFXa-600-6135.png"
