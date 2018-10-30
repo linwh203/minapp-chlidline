@@ -147,7 +147,7 @@ export default {
           // 标题
           title: "",
           // 题目类型,类型枚举:'文本选择 text','看图识别 image','声音识别 video',
-          type: 2,
+          type: 1,
           // 问题的提示
           tooltip: "",
           // 问题正文,如果是'看图识别'和'声音识别'就应该是个url字符串
@@ -155,7 +155,7 @@ export default {
           // 答案列表,如果是'看图识别'就应该是个图片地址
           answer_list: ["A ", "B ", "C", "D "],
           // 正确答案的序号
-          right_answer: 3,
+          right_answer: -1,
           // 我是否答对
           is_right: false
         }
@@ -276,6 +276,24 @@ export default {
         }
       }
     },
+    login(code) {
+      wx.request({
+        url: config.base + 'wxlogin/login',
+        data: {
+          code: code,
+          lineId: config.lineId
+        }, 
+        method: 'GET',
+        dataType: 'json', 
+        success: res => {
+          // console.log('login',res.data.data)
+          this.setStorage('userCode',res.data.data)
+        },
+        fail: err => {
+          console.log('hasError',err)
+        }
+      });
+    },
     getList() {
       function selectSort(arr) {
         var len = arr.length;
@@ -300,11 +318,13 @@ export default {
         dataType: "json", //如果设为json，会尝试对返回的数据做一次 JSON.parse
         success: res => {
           this.questionList = res.data.data;
-          this.questionList.forEach(item => {
-            item.answer_list = selectSort(item.answer_list);
-          });
+          if (this.questionList.length>0){
+            this.questionList.forEach(item => {
+              item.answer_list = selectSort(item.answer_list);
+              this.currentQuiz = this.questionList[0];
+            });
+          }
           console.log(this.questionList);
-          this.currentQuiz = this.questionList[0];
         },
         fail: () => {},
         complete: () => {}

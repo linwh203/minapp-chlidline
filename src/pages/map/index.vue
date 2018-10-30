@@ -49,12 +49,14 @@
 </template>
 
 <script>
+import { config } from '../../utils/index';
+
 export default {
   data() {
     return {
       spotList:[],
-      userLng:600,
-      userLat:1000,
+      userLng:450,
+      userLat:720,
       activeSpot:0,
       activeWindow:-1,
       
@@ -76,6 +78,20 @@ export default {
   components: {},
 
   methods: {
+    setStorage(key, val) {
+      try {
+        wx.setStorageSync(key,val)
+      } catch(e) {
+        wx.setStorage(key,val)
+      }
+    },
+    getStorage(key) {
+      try {
+        wx.getStorageSync(key)
+      } catch(e) {
+        wx.getStorage(key)
+      }
+    },
     bindTab(url) {
       wx.navigateTo({ url: url });
     },
@@ -106,13 +122,33 @@ export default {
         s
       }
     },
-    startTouch() {
-      
+    getSpot() {
+      const self = this
+      wx.request({
+        url: config.base + 'spot/list', //开发者服务器接口地址",
+        data: {
+          lineId:config.lineId
+        }, //请求的参数",
+        method: 'GET',
+        dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+        success: res => {
+          // console.log(res)
+          // self.GLOBAL.spot_list = res.data.data
+          this.spotList = res.data.data
+          this.setStorage('spotList',res.data.data)
+        },
+        fail: () => {},
+        complete: () => {}
+      });
     }
   },
 
   created() {
-    this.spotList = wx.getStorageSync('spotList');
+    if (this.getStorage('spotList')) {
+      this.spotList = this.getStorage('spotList');
+    } else {
+      this.getSpot()
+    }
     wx.getLocation({
       type: 'wgs84', //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标,
       success: res => {

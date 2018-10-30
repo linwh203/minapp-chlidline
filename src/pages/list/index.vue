@@ -86,6 +86,20 @@ export default {
   components: {},
 
   methods: {
+    setStorage(key, val) {
+      try {
+        wx.setStorageSync(key,val)
+      } catch(e) {
+        wx.setStorage(key,val)
+      }
+    },
+    getStorage(key) {
+      try {
+        wx.getStorageSync(key)
+      } catch(e) {
+        wx.getStorage(key)
+      }
+    },
     bindTab() {
       this.fromMap
         ? wx.navigateTo({ url: "../map/main" })
@@ -172,6 +186,25 @@ export default {
           this.mainPic = "https://gw.alicdn.com/tfs/TB1g_GjhgHqK1RjSZFkXXX.WFXa-600-6135.png"
           break
       } 
+    },
+    getSpot() {
+      const self = this
+      wx.request({
+        url: config.base + 'spot/list', //开发者服务器接口地址",
+        data: {
+          lineId:config.lineId
+        }, //请求的参数",
+        method: 'GET',
+        dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+        success: res => {
+          // console.log(res)
+          // self.GLOBAL.spot_list = res.data.data
+          this.listItem = res.data.data
+          this.setStorage('spotList',res.data.data)
+        },
+        fail: () => {},
+        complete: () => {}
+      });
     }
   },
 
@@ -181,12 +214,16 @@ export default {
     // this.innerAudioContext.src = this.audioUrl;
   },
   onLoad(option) {
-    this.listItem = wx.getStorageSync('spotList');
+    if (wx.getStorageSync('spotList')) {
+      this.listItem = wx.getStorageSync('spotList');
+    } else {
+      this.getSpot()
+    }
     if (option.from) {
       this.fromMap = true
       this.changeArticle(option.spot_index, option.spot_id)
     } else {
-      this.changeArticle(1,this.listItem[0].spot_id)
+      this.changeArticle(1,'bb022960-ee1c-4d54-a9ab-7fff67e63c45')
       // this.mainPic =
       //   "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png";
     }
@@ -210,7 +247,7 @@ export default {
   },
   onShareAppMessage(result) {
     let title = "儿童研习径";
-    let path = "/pages/list/main?spot_id=" + this.activeIndex;
+    let path = "/pages/list/main?spot_index=" + this.activeIndex;
     let imageUrl = "../../assets/list-pic-1.png";
     // let desc = '这里是描述哦'
     // if (result.from === "button") {
@@ -305,8 +342,9 @@ export default {
   border-radius: 8rpx;
   background: #fff;
   overflow: hidden;
+  height: 84%;
   &-view {
-    height: 954rpx;
+    height: 100%;
     img {
       width: 100%;
       height: auto;
@@ -318,7 +356,7 @@ export default {
     position: absolute;
     left: 10rpx;
     right: 10rpx;
-    top: 972rpx;
+    top: 85%;
     margin: auto;
     border-radius: 8rpx;
     background: #a97b4f;
@@ -336,8 +374,8 @@ export default {
     display: block;
   }
   &-box {
-    padding-top: 40rpx;
-    height: 180rpx;
+    padding-top: 5%;
+    height: 20%;
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
@@ -371,7 +409,7 @@ export default {
     height: 80rpx;
     border-radius: 50%;
     position: fixed;
-    bottom: 180rpx;
+    bottom: 12.5%;
     right: 74rpx;
     z-index: 999;
     background: rgba(0, 0, 0, 0.7);

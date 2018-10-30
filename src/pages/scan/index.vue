@@ -21,11 +21,11 @@
     </div>
     <div class="result-tab" v-if="showResult">
       <div class="result-tab-item">
-        <div class="result-tab-item-name">大葱</div>
-        <div class="result-tab-item-desc">大葱辣眼睛，你比大葱凶</div>
+        <div class="result-tab-item-name">{{matchName}}</div>
+        <div class="result-tab-item-desc">{{matchDesc}}</div>
         <div class="result-tab-item-pic active">
           <img :src="src" >
-          <div class="result-tab-item-pic-hint">点击查看详情</div>
+          <div class="result-tab-item-pic-hint">匹配度:{{match}}</div>
         </div>
       </div>
     </div>
@@ -37,13 +37,21 @@
 </template>
 
 <script>
+import { config } from '../../utils/index';
+
 export default {
   data() {
     return {
       src: "",
       cameraDirection:'back',
       showDesc:false,
-      showResult:false
+      showResult:false,
+      userCode:'',
+      matchName:'',
+      match:0,
+      matchDesc:'',
+      matchUrl:'',
+      data:''
     };
   },
 
@@ -67,8 +75,41 @@ export default {
         success: (res) => {
           this.src = res.tempImagePath
           this.showResult = true
+          this.postPhoto(res.tempImagePath)
         }
       })
+    },
+    postPhoto(imgList) {
+      
+      wx.request({
+        url: config.base + 'identify/photo', //开发者服务器接口地址",
+        data: {
+          image_url: imgList,
+          lineId: config.lineId
+        }, //请求的参数",
+        header:{
+          token: this.userCode
+        },
+        method: 'POST',
+        dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+        success: res => {
+          const data = res.data
+          console.log(data)
+          if(data.res_msg == 0){
+            this.matchName=data.data.name
+            this.match=data.data.match
+            this.matchDesc=data.data.desc
+            this.matchUrl=data.data.detail_url
+          } else {
+            this.matchName='未能识别...'
+            this.match=0
+            this.matchDesc='请换个生物拍一拍'
+            this.matchUrl=''
+          }
+        },
+        fail: () => {},
+        complete: () => {}
+      });
     },
     error(e) {
       console.log(e.detail)
@@ -76,12 +117,13 @@ export default {
   },
 
   created() {
-    
+    this.userCode = wx.getStorageSync('userCode');
   },
   onLoad() {
     const firsttime = wx.getStorageSync("firstPhoto");
     if (!firsttime) {
       this.showDesc = true
+      setTimeout(()=>{this.showDesc = false},2000)
     }
   },
   onShow() {
