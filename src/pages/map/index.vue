@@ -10,7 +10,7 @@
         <div class="spot-icon" :class="'icon-'+item.sortNo" v-else @click="showWindow(index)">{{item.sortNo}}</div>
         <div class="spot-window" :class="'window-'+item.sortNo" v-if="activeWindow == index" @click="viewDetail(item)">
           <div class="spot-window-text">{{item.spot_name}}</div>
-          <img class="spot-window-img" :src="'http://39.106.120.41:8499'+item.spot_image" />
+          <img class="spot-window-img" :src="prefix + item.spot_image" />
         </div>
       </div>
     </movable-view>
@@ -67,7 +67,8 @@ export default {
         lng:114.50023,
         lat:22.59959
       },
-      nearSpot:0
+      nearSpot:0,
+      prefix:config.prefix
     };
   },
   computed: {

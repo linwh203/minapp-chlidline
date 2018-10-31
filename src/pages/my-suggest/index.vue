@@ -61,7 +61,7 @@ export default {
         success: res => {
           let data = JSON.parse(res.data).data
           console.log(res.data)
-          this.tempFile.push('http://39.106.120.41:8499' + data)
+          this.tempFile.push(config.prefix + data)
         },
         fail: () => {},
         complete: () => {}
@@ -88,6 +88,7 @@ export default {
         });
         return 
       }
+      const token = wx.getStorageSync('userCode');
       wx.request({
         url: config.base + 'my/suggest', //开发者服务器接口地址",
         data: {
@@ -98,7 +99,7 @@ export default {
         }, //请求的参数",
         method: 'post',
         header: {
-          token: this.userCode,
+          token: token,
         },
         dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
         success: res => {

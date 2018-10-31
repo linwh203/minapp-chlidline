@@ -20,14 +20,18 @@
       
     </div>
     <div class="result-tab" v-if="showResult">
-      <div class="result-tab-item">
-        <div class="result-tab-item-name">{{matchName}}</div>
-        <div class="result-tab-item-desc">{{matchDesc}}</div>
-        <div class="result-tab-item-pic active">
-          <img :src="src" >
-          <div class="result-tab-item-pic-hint">匹配度:{{match}}</div>
+      <scroll-view scroll-x class="result-tab-scroll" :scroll-into-view="toView">
+        <div class="result-tab-box">
+          <div class="result-tab-item" v-for="(item,index) in matchItem" :key="index" :id="'result'+index">
+            <div class="result-tab-item-name">{{item.name}}</div>
+            <div class="result-tab-item-desc">{{item.desc}}</div>
+            <div class="result-tab-item-pic active">
+              <img :src="src" >
+              <div class="result-tab-item-pic-hint">匹配度:{{item.match}}%</div>
+            </div>
+         </div>
         </div>
-      </div>
+      </scroll-view>
     </div>
     <cover-view class="desc" v-if="showDesc">
       <cover-view>拍照识别物种：对准你好奇的物种，</cover-view>
@@ -47,11 +51,8 @@ export default {
       showDesc:false,
       showResult:false,
       userCode:'',
-      matchName:'',
-      match:0,
-      matchDesc:'',
-      matchUrl:'',
-      data:''
+      matchItem:[],
+      toView:'result0'
     };
   },
 
@@ -88,7 +89,7 @@ export default {
         success: res => {
           let data = JSON.parse(res.data).data
           console.log(data)
-          this.postPhoto('http://39.106.120.41:8499' + data)
+          this.postPhoto(data)
         },
         fail: () => {},
         complete: () => {}
@@ -110,16 +111,24 @@ export default {
         success: res => {
           const data = res.data
           console.log(data)
-          if(data.res_msg == 0){
-            this.matchName=data.data.name
-            this.match=data.data.match
-            this.matchDesc=data.data.desc
-            this.matchUrl=data.data.detail_url
+          if(data.res_code == 0){
+            const list = res.data.data
+            if(list.length>0){
+              list.forEach(item => {
+                let m = parseFloat(item.match).toFixed(2) * 100
+                item.match = m
+              });
+              this.matchItem = list
+            } else {
+              this.matchItem = res.data.data
+            }
+            console.log(this.matchItem)
           } else {
-            this.matchName='未能识别...'
-            this.match=0
-            this.matchDesc='请换个生物拍一拍'
-            this.matchUrl=''
+            this.matchItem = [{
+              name:'未能识别...',
+              desc:'请换个生物拍一拍',
+              match:0
+            }]
           }
         },
         fail: () => {},
@@ -233,12 +242,21 @@ img {
   width: 100%;
   height: 60%;
   background: #fff;
+  &-scroll{
+    width: 100%;
+  }
+  &-box{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
   &-item{
     width: 550rpx;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding-right:100rpx;
     &-name{
       font-size: 40rpx;
       line-height: 86rpx;
@@ -270,7 +288,7 @@ img {
     }
   }
   &-item:nth-of-type(1){
-    margin-left: 100rpx;
+    padding-left: 100rpx;
   }
 }
 </style>

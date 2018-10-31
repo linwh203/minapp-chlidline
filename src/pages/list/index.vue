@@ -143,9 +143,10 @@ export default {
         dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
         success: res => {
           console.log(res.data.data)
+          this.mainPic = config.prefix + res.data.data[0].image_url
           this.innerAudioContext = wx.createInnerAudioContext();
-          this.audioUrl = res.data.data[0].audio_url == null ? '' :  "http://39.106.120.41:8499" + res.data.data[0].audio_url
-          this.videoUrl = res.data.data[0].video_url == null ? '' :  "http://39.106.120.41:8499" + res.data.data[0].video_url
+          this.audioUrl = res.data.data[0].audio_url == null ? '' :  config.prefix + res.data.data[0].audio_url
+          this.videoUrl = res.data.data[0].video_url == null ? '' :  config.prefix + res.data.data[0].video_url
           if (this.audioUrl) {
             this.innerAudioContext.src = this.audioUrl
           }
@@ -154,38 +155,38 @@ export default {
         complete: () => {}
       });
       // this.mainPic = `http://39.106.120.41:8499/${item.spot_image}`
-      switch (currentId) {
-        case 1:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png"
-          break
-        case 2:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1YzKkhkvoK1RjSZFDXXXY3pXa-600-4388.png"
-          break
-        case 3:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1kqGghgDqK1RjSZSyXXaxEVXa-600-2235.png"
-          break
-        case 4:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1f.idhb2pK1RjSZFsXXaNlXXa-600-4136.png"
-          break
-        case 5:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1bHihhmzqK1RjSZFLXXcn2XXa-600-6676.png"
-          break
-        case 6:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1ChGjhkvoK1RjSZPfXXXPKFXa-600-4368.png"
-          break
-        case 7:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1.SOChhnaK1RjSZFBXXcW7VXa-600-8017.png"
-          break
-        case 8:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1no5jhgHqK1RjSZFkXXX.WFXa-600-6394.png"
-          break
-        case 9:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1c4unhhTpK1RjSZFMXXbG_VXa-600-2808.png"
-          break
-        case 10:
-          this.mainPic = "https://gw.alicdn.com/tfs/TB1g_GjhgHqK1RjSZFkXXX.WFXa-600-6135.png"
-          break
-      } 
+      // switch (currentId) {
+      //   case 1:
+      //     this.mainPic = "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png"
+      //     break
+      //   case 2:
+      //     this.mainPic = "https://gw.alicdn.com/tfs/TB1YzKkhkvoK1RjSZFDXXXY3pXa-600-4388.png"
+      //     break
+      //   case 3:
+      //     this.mainPic = "https://gw.alicdn.com/tfs/TB1kqGghgDqK1RjSZSyXXaxEVXa-600-2235.png"
+      //     break
+      //   case 4:
+      //     this.mainPic = "https://gw.alicdn.com/tfs/TB1f.idhb2pK1RjSZFsXXaNlXXa-600-4136.png"
+      //     break
+      //   case 5:
+      //     this.mainPic = "https://gw.alicdn.com/tfs/TB1bHihhmzqK1RjSZFLXXcn2XXa-600-6676.png"
+      //     break
+      //   case 6:
+      //     this.mainPic = "https://gw.alicdn.com/tfs/TB1ChGjhkvoK1RjSZPfXXXPKFXa-600-4368.png"
+      //     break
+      //   case 7:
+      //     this.mainPic = "https://gw.alicdn.com/tfs/TB1.SOChhnaK1RjSZFBXXcW7VXa-600-8017.png"
+      //     break
+      //   case 8:
+      //     this.mainPic = "https://gw.alicdn.com/tfs/TB1no5jhgHqK1RjSZFkXXX.WFXa-600-6394.png"
+      //     break
+      //   case 9:
+      //     this.mainPic = "https://gw.alicdn.com/tfs/TB1c4unhhTpK1RjSZFMXXbG_VXa-600-2808.png"
+      //     break
+      //   case 10:
+      //     this.mainPic = "https://gw.alicdn.com/tfs/TB1g_GjhgHqK1RjSZFkXXX.WFXa-600-6135.png"
+      //     break
+      // } 
     },
     getSpot() {
       const self = this
@@ -227,6 +228,7 @@ export default {
       // this.mainPic =
       //   "https://gw.alicdn.com/tfs/TB1xjt7hmzqK1RjSZFLXXcn2XXa-600-6588.png";
     }
+    this.innerAudioContext = wx.createInnerAudioContext()
   },
   onHide() {
     this.audioOff = true;

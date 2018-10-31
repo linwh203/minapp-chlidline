@@ -21,25 +21,25 @@
     <div class="quiz-choice">
       <div class="image-choice" v-if="imageType">
         <div class="image-choice-item">
-          <img :src="'http://39.106.120.41:8499'+currentQuiz.answer_list[0].image" @click="showLargeImg(currentQuiz.answer_list[0].image_big)">
+          <img :src="prefix+currentQuiz.answer_list[0].image" @click="showLargeImg(currentQuiz.answer_list[0].image_big)">
           <div class="image-choose"  @click="chooseItem(0,currentQuiz.answer_list[0])">
             <img src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png" v-if="choiceIndex == 0">
           </div>
         </div>
         <div class="image-choice-item">
-          <img :src="'http://39.106.120.41:8499'+currentQuiz.answer_list[1].image" @click="showLargeImg(currentQuiz.answer_list[1].image_big)">
+          <img :src="prefix+currentQuiz.answer_list[1].image" @click="showLargeImg(currentQuiz.answer_list[1].image_big)">
           <div class="image-choose"  @click="chooseItem(1,currentQuiz.answer_list[1])">
             <img src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png" v-if="choiceIndex == 1">
           </div>
         </div>
         <div class="image-choice-item">
-          <img :src="'http://39.106.120.41:8499'+currentQuiz.answer_list[2].image" @click="showLargeImg(currentQuiz.answer_list[2].image_big)">
+          <img :src="prefix+currentQuiz.answer_list[2].image" @click="showLargeImg(currentQuiz.answer_list[2].image_big)">
           <div class="image-choose"  @click="chooseItem(2,currentQuiz.answer_list[2])">
             <img src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png" v-if="choiceIndex == 2">
           </div>
         </div>
         <div class="image-choice-item">
-          <img :src="'http://39.106.120.41:8499'+currentQuiz.answer_list[3].image" @click="showLargeImg(currentQuiz.answer_list[3].image_big)">
+          <img :src="prefix+currentQuiz.answer_list[3].image" @click="showLargeImg(currentQuiz.answer_list[3].image_big)">
           <div class="image-choose"  @click="chooseItem(3,currentQuiz.answer_list[3])">
             <img src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png" v-if="choiceIndex == 3">
           </div>
@@ -102,7 +102,7 @@
     </div>
     <div class="modal" v-if="showLarge">
       <div class="largeImg">
-        <img :src="'http://39.106.120.41:8499'+largeSrc">
+        <img :src="prefix+largeSrc">
         <div class="hint-close" @click="showLarge = false">
             <img src="../../assets/btn-close-list.png" alt="">
           </div>
@@ -116,6 +116,7 @@ import { config } from "../../utils/index";
 export default {
   data() {
     return {
+      prefix:config.prefix,
       userCode: "",
       index: 0,
       showHint: false,
@@ -164,7 +165,7 @@ export default {
   },
   computed: {
     hasAudio: function() {
-      this.audioUrl = "http://39.106.120.41:8499" + this.currentQuiz.quiz;
+      this.audioUrl = config.prefix + this.currentQuiz.quiz;
       // this.audioUrl = "http://www.ytmp3.cn/down/53825.mp3";
       this.innerAudioContext.src = this.audioUrl;
       return this.currentQuiz.type == 3 ? true : false;
@@ -306,11 +307,12 @@ export default {
         }
         return arr;
       }
+      const token = wx.getStorageSync("userCode");
       wx.request({
         url: config.base + "quiz/list", //开发者服务器接口地址",
         data: {
           lineId: config.lineId,
-          token: this.userCode,
+          token: token,
           checkpoint: this.checkpoint,
           newExtract: 0
         }, //请求的参数",
@@ -344,10 +346,10 @@ export default {
 
   created() {
     this.currentQuiz = this.questionList[0];
-    this.userCode = wx.getStorageSync("userCode");
+    
   },
   mounted() {
-    this.getList()
+    // this.getList()
   },
   onLoad(option) {
     console.log(option.checkpoint);
@@ -355,7 +357,8 @@ export default {
     this.innerAudioContext = wx.createInnerAudioContext();
   },
   onShow(option) {
-    this.innerAudioContext = wx.createInnerAudioContext();
+    this.userCode = wx.getStorageSync("userCode");
+    // this.innerAudioContext = wx.createInnerAudioContext();
     this.getList()
   },
   onHide() {
