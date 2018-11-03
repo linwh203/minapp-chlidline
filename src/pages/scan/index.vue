@@ -76,10 +76,15 @@ export default {
       ctx.takePhoto({
         quality: 'high',
         success: (res) => {
+          console.log('拍摄成功')
+          console.log(res)
           this.src = res.tempImagePath
           this.showResult = true
           this.upload(res.tempImagePath)
           // this.postPhoto(res.tempImagePath)
+        },
+        fail: (err)=>{
+          console.log('拍摄失败')
         }
       })
     },
@@ -98,7 +103,7 @@ export default {
       });
     },
     postPhoto(imgList) {
-      
+      console.log('开始传输照片')
       wx.request({
         url: config.base + 'identify/photo', //开发者服务器接口地址",
         data: {
@@ -133,8 +138,12 @@ export default {
             }]
           }
         },
-        fail: () => {},
-        complete: () => {}
+        fail: () => {
+          console.log('传输失败')
+        },
+        complete: () => {
+          console.log('传输完成')
+        }
       });
     },
     error(e) {
