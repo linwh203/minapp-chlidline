@@ -45,6 +45,12 @@
         <img src="../../assets/icon-index-my.png" alt="">
       </div>
     </div>
+    <div class="message" v-if="showMessage">
+      <div class="message-close">
+        <img src="../../assets/btn-close-list.png" alt="" @click="closeMessage">
+      </div>
+      您当前不在研习径范围内,不能进行定位讲解
+    </div>
   </movable-area>
 </template>
 
@@ -68,7 +74,9 @@ export default {
         lat: 22.59959
       },
       nearSpot: 0,
-      prefix: config.prefix
+      prefix: config.prefix,
+      // showMessage: false
+      showMessage: true
     };
   },
   computed: {
@@ -287,6 +295,9 @@ export default {
         fail: () => {},
         complete: () => {}
       });
+    },
+    closeMessage() {
+      this.showMessage = false;
     }
   },
   created() {
@@ -312,6 +323,28 @@ export default {
   },
   mounted() {
     this.locate(this.mapStart, this.mapEnd);
+
+    wx.getLocation({
+      type: "wgs84", //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标,
+      success: res => {
+        console.info("getLocation success: ", res);
+        const latitude = res.latitude;
+        const longitude = res.longitude;
+        const speed = res.speed;
+        const accuracy = res.accuracy;
+        let isOut =
+          latitude < Math.min(this.mapStart.lat, this.mapEnd.lat) ||
+          latitude > Math.max(this.mapStart.lat, this.mapStart.lat) ||
+          longitude < Math.min(this.mapStart.lng, this.mapEnd.lng) ||
+          longitude > Math.max(this.mapStart.lng, this.mapEnd.lng);
+        if (isOut) {
+          this.showMessage = true;
+        }
+      },
+      fail: () => {
+        console.log("getLocation failed");
+      }
+    });
   },
   onReady() {
     this.x = -100;
@@ -321,6 +354,32 @@ export default {
 </script>
 
 <style scoped lang="less">
+.message {
+  @w: 80vw;
+  @h: 20vh;
+  width: @w;
+  height: @h;
+  position: absolute;
+  top: calc(50% - @h / 2);
+  left: calc(50% - @w / 2);
+  background-color: black;
+  opacity: 0.6;
+  color: white;
+  padding: 5% 15% 0;
+  box-sizing: border-box;
+  &-close {
+    position: absolute;
+    @size: 50rpx;
+    width: @size;
+    height: @size;
+    right: 20rpx;
+    top: 20rpx;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
 .center {
   display: flex;
   flex-direction: column;
