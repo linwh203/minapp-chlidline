@@ -354,8 +354,9 @@ export default {
   background: #d5aa80;
   z-index: 99;
   &-item {
-    width: 100rpx;
-    height: 110rpx;
+    @size: 110rpx;
+    width: @size;
+    height: @size+10rpx;
     img {
       width: 100%;
       height: 100%;
