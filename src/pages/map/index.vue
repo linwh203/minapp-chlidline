@@ -49,84 +49,83 @@
 </template>
 
 <script>
-import { config } from '../../utils/index';
+import { config } from "../../utils/index";
 
 export default {
   data() {
     return {
-      spotList:[],
-      activeSpot:0,
-      activeWindow:-1,
-      x:0,
-      y:0, 
-      mapStart:{
-        lng:114.49358,
-        lat:22.61034
+      spotList: [],
+      activeSpot: 0,
+      activeWindow: -1,
+      x: 0,
+      y: 0,
+      mapStart: {
+        lng: 114.49358,
+        lat: 22.61034
       },
-      mapEnd:{
-        lng:114.50023,
-        lat:22.59959
+      mapEnd: {
+        lng: 114.50023,
+        lat: 22.59959
       },
-      nearSpot:0,
-      prefix:config.prefix
+      nearSpot: 0,
+      prefix: config.prefix
     };
   },
   computed: {
-     userLat(){
+    userLat() {
       //  top
-      switch(this.nearSpot){
-        case 0 :
-          return 720
-        case 1 :
-          return 700
-        case 2 :
-          return 550
-        case 3 :
-          return 400
-        case 4 :
-          return 400
-        case 5 :
-          return 800
-        case 6 :
-          return 1030
-        case 7 :
-          return 1350
-        case 8 :
-          return 1600
-        case 9 :
-          return 1400
-        case 10 :
-          return 1050
+      switch (this.nearSpot) {
+        case 0:
+          return 720;
+        case 1:
+          return 700;
+        case 2:
+          return 550;
+        case 3:
+          return 400;
+        case 4:
+          return 400;
+        case 5:
+          return 800;
+        case 6:
+          return 1030;
+        case 7:
+          return 1350;
+        case 8:
+          return 1600;
+        case 9:
+          return 1400;
+        case 10:
+          return 1050;
       }
     },
-    userLng(){
+    userLng() {
       // left
-      switch(this.nearSpot){
-        case 0 :
-          return 450
-        case 1 :
-          return 470
-        case 2 :
-          return 500
-        case 3 :
-          return 500
-        case 4 :
-          return 800
-        case 5 :
-          return 780
-        case 6 :
-          return 750
-        case 7 :
-          return 650
-        case 8 :
-          return 850
-        case 9 :
-          return 500
-        case 10 :
-          return 370
+      switch (this.nearSpot) {
+        case 0:
+          return 450;
+        case 1:
+          return 470;
+        case 2:
+          return 500;
+        case 3:
+          return 500;
+        case 4:
+          return 800;
+        case 5:
+          return 780;
+        case 6:
+          return 750;
+        case 7:
+          return 650;
+        case 8:
+          return 850;
+        case 9:
+          return 500;
+        case 10:
+          return 370;
       }
     }
-   
   },
 
   components: {},
@@ -134,136 +133,156 @@ export default {
   methods: {
     setStorage(key, val) {
       try {
-        wx.setStorageSync(key,val)
-      } catch(e) {
-        wx.setStorage(key,val)
+        wx.setStorageSync(key, val);
+      } catch (e) {
+        wx.setStorage(key, val);
       }
     },
     getStorage(key) {
       try {
-        wx.getStorageSync(key)
-      } catch(e) {
-        wx.getStorage(key)
+        wx.getStorageSync(key);
+      } catch (e) {
+        wx.getStorage(key);
       }
     },
     showNear() {
-      if(this.nearSpot == 0) {
-        this.showWindow(this.nearSpot)
+      if (this.nearSpot == 0) {
+        this.showWindow(this.nearSpot);
       } else {
-        this.showWindow(this.nearSpot-1)
+        this.showWindow(this.nearSpot - 1);
       }
     },
     bindTab(url) {
       wx.navigateTo({ url: url });
     },
     viewDetail(item) {
-      console.log(item)
-      const spotId = item.spot_id
-      const spot_index = item.sortNo
-      wx.navigateTo({ url: '../list/main?spot_id=' + spotId + '&spot_index=' + spot_index + '&from=map'});
+      console.log(item);
+      const spotId = item.spot_id;
+      const spot_index = item.sortNo;
+      wx.navigateTo({
+        url:
+          "../list/main?spot_id=" +
+          spotId +
+          "&spot_index=" +
+          spot_index +
+          "&from=map"
+      });
     },
     showWindow(index) {
-      this.activeWindow == index ? this.activeWindow = -1 : this.activeWindow = index;
-      this.activeSpot = index ? this.activeSpot = -1 : this.activeSpot = index;
-      switch(index){
+      this.activeWindow == index
+        ? (this.activeWindow = -1)
+        : (this.activeWindow = index);
+      this.activeSpot = index
+        ? (this.activeSpot = -1)
+        : (this.activeSpot = index);
+      switch (index) {
         case 0:
-          this.x = -100
-          this.y = -200
-          break
+          this.x = -100;
+          this.y = -200;
+          break;
         case 1:
-          this.x = -100
-          this.y = -200
-          break
+          this.x = -100;
+          this.y = -200;
+          break;
         case 2:
-          this.x = -100
-          this.y = -100
-          break
+          this.x = -100;
+          this.y = -100;
+          break;
         case 3:
-          this.x = -150
-          this.y = -80
-          break
+          this.x = -150;
+          this.y = -80;
+          break;
         case 4:
-          this.x = -100
-          this.y = -200
-          break
+          this.x = -100;
+          this.y = -200;
+          break;
         case 5:
-          this.x = -100
-          this.y = -200
-          break
+          this.x = -100;
+          this.y = -200;
+          break;
         case 6:
-          this.x = -200
-          this.y = -400
-          break
+          this.x = -200;
+          this.y = -400;
+          break;
         case 7:
-          this.x = -200
-          this.y = -400
-          break
+          this.x = -200;
+          this.y = -400;
+          break;
         case 8:
-          this.x = -100
-          this.y = -400
-          break
+          this.x = -100;
+          this.y = -400;
+          break;
         case 9:
-          this.x = -100
-          this.y = -300
-          break
+          this.x = -100;
+          this.y = -300;
+          break;
       }
     },
-    locate(point1,point2) {
-      function rad(d){
-        return d * Math.PI / 180.0;//经纬度转换成三角函数中度分表形式。
+    locate(point1, point2) {
+      function rad(d) {
+        return d * Math.PI / 180.0; //经纬度转换成三角函数中度分表形式。
       }
       let radLat1 = rad(point1.lat);
       let radLat2 = rad(point2.lat);
       let a = radLat1 - radLat2;
       let b = rad(point1.lng) - rad(point2.lng);
-      let s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+      let s =
+        2 *
+        Math.asin(
+          Math.sqrt(
+            Math.pow(Math.sin(a / 2), 2) +
+              Math.cos(radLat1) *
+                Math.cos(radLat2) *
+                Math.pow(Math.sin(b / 2), 2)
+          )
+        );
       s = s * 6378.137;
       // EARTH_RADIUS;
       s = Math.round(s * 10000) / 10000;
       // console.log(s)
-      return s
+      return s;
     },
-    narrowSpot(userlat,userlng) {
+    narrowSpot(userlat, userlng) {
       const userPoint = {
-        lat:userlat,
-        lng:userlng
-      }
-      let distance1 = 0
-      let distance2 = 0
-      let nearSpot = 1
-      const self = this
-      for(let i=0;i<this.spotList.length;i++) {
+        lat: userlat,
+        lng: userlng
+      };
+      let distance1 = 0;
+      let distance2 = 0;
+      let nearSpot = 1;
+      const self = this;
+      for (let i = 0; i < this.spotList.length; i++) {
         let spotPoint = {
-          lat:self.spotList[i].latitude,
-          lng:self.spotList[i].longitude
-        }
-        if(i==0){
-          distance1 = self.locate(userPoint,spotPoint)
+          lat: self.spotList[i].latitude,
+          lng: self.spotList[i].longitude
+        };
+        if (i == 0) {
+          distance1 = self.locate(userPoint, spotPoint);
         } else {
-          distance2 = self.locate(userPoint,spotPoint)
+          distance2 = self.locate(userPoint, spotPoint);
         }
-        if(distance1<distance2){
-          distance1 = distance2
-          nearSpot = self.spotList[i].sortNo
+        if (distance1 < distance2) {
+          distance1 = distance2;
+          nearSpot = self.spotList[i].sortNo;
         }
       }
-      this.nearSpot = nearSpot
+      this.nearSpot = nearSpot;
       // console.log(nearSpot)
     },
     getSpot() {
-      const self = this
+      const self = this;
       wx.request({
-        url: config.base + 'spot/list', //开发者服务器接口地址",
+        url: config.base + "spot/list", //开发者服务器接口地址",
         data: {
-          lineId:config.lineId
+          lineId: config.lineId
         }, //请求的参数",
-        method: 'GET',
-        dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+        method: "GET",
+        dataType: "json", //如果设为json，会尝试对返回的数据做一次 JSON.parse
         success: res => {
           // console.log(res)
           // self.GLOBAL.spot_list = res.data.data
-          this.spotList = res.data.data
-          this.setStorage('spotList',res.data.data)
+          this.spotList = res.data.data;
+          this.setStorage("spotList", res.data.data);
         },
         fail: () => {},
         complete: () => {}
@@ -271,33 +290,32 @@ export default {
     }
   },
   created() {
-    if (this.getStorage('spotList')) {
-      this.spotList = this.getStorage('spotList');
+    if (this.getStorage("spotList")) {
+      this.spotList = this.getStorage("spotList");
     } else {
-      this.getSpot()
+      this.getSpot();
     }
     wx.getLocation({
-      type: 'wgs84', //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标,
+      type: "wgs84", //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标,
       success: res => {
         console.info("getLocation success: ", res);
-        const latitude = res.latitude
-        const longitude = res.longitude
-        const speed = res.speed
-        const accuracy = res.accuracy
-        this.narrowSpot(latitude,longitude)
+        const latitude = res.latitude;
+        const longitude = res.longitude;
+        const speed = res.speed;
+        const accuracy = res.accuracy;
+        this.narrowSpot(latitude, longitude);
       },
       fail: () => {
-        console.log("getLocation failed")
+        console.log("getLocation failed");
       }
     });
   },
   mounted() {
-   this.locate(this.mapStart,this.mapEnd)
+    this.locate(this.mapStart, this.mapEnd);
   },
   onReady() {
-    
-    this.x = -100
-    this.y = -200
+    this.x = -100;
+    this.y = -200;
   }
 };
 </script>
@@ -309,19 +327,19 @@ export default {
   justify-content: center;
   align-items: center;
 }
-#mid{
+#mid {
   width: 10px;
   height: 10px;
   background: red;
   position: absolute;
   top: 1000rpx;
-  left:430rpx;
+  left: 430rpx;
   z-index: 99999;
 }
 .container {
   width: 100%;
   position: relative;
-  z-index:2;
+  z-index: 2;
 }
 .map-tab {
   height: 150rpx;
@@ -348,141 +366,143 @@ export default {
 .index-bg {
   width: auto;
   height: auto;
-  padding-bottom:138rpx;
+  padding-bottom: 138rpx;
   background: #d1a77f;
   position: relative;
-  .mapImg{
+  .mapImg {
     // width: 1560rpx;
     // height: 2640rpx;
     width: 1180rpx;
     height: 2000rpx;
   }
-  .userIcon{
+  .userIcon {
     width: 80rpx;
     height: 120rpx;
-    position:absolute;
+    position: absolute;
   }
 }
-.spot-window{
+.spot-window {
   position: absolute;
-  z-index:999;
+  z-index: 999;
   width: 248rpx;
   height: 248rpx;
   border: 6rpx solid #bc8d5d;
   // background: #00baea;
-  background: url('https://gw.alicdn.com/tfs/TB1Mxiei4TpK1RjSZR0XXbEwXXa-248-248.png') no-repeat center/cover;
+  background: url("https://gw.alicdn.com/tfs/TB1Mxiei4TpK1RjSZR0XXbEwXXa-248-248.png")
+    no-repeat center/cover;
   border-radius: 40rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
-  &-text{
+  &-text {
     font-size: 26rpx;
-    color:#fff;
+    color: #fff;
     line-height: 90rpx;
   }
-  &-img{
+  &-img {
     width: 220rpx;
     height: 144rpx;
     border-radius: 24rpx;
   }
 }
-.active-spot{
+.active-spot {
   width: 40rpx;
   height: 30rpx;
-  margin:auto;
+  margin: auto;
 }
-.spot-icon{
+.spot-icon {
   width: 60rpx;
   height: 46rpx;
   line-height: 40rpx;
-  background: url('https://gw.alicdn.com/tfs/TB1dOumi4TpK1RjSZFMXXbG_VXa-64-46.png') no-repeat center/cover;
+  background: url("https://gw.alicdn.com/tfs/TB1dOumi4TpK1RjSZFMXXbG_VXa-64-46.png")
+    no-repeat center/cover;
   position: absolute;
   z-index: 888;
   text-align: center;
-  color:#fff;
-  font-size:30rpx;
+  color: #fff;
+  font-size: 30rpx;
 }
-.icon-five{
-  left:810rpx;
-  top:880rpx;
+.icon-five {
+  left: 810rpx;
+  top: 880rpx;
 }
-.icon-1{
-  left:500rpx;
-  top:770rpx;
+.icon-1 {
+  left: 500rpx;
+  top: 770rpx;
 }
-.window-1{
+.window-1 {
   left: 412rpx;
   top: 500rpx;
 }
-.icon-2{
-  left:510rpx;
-  top:620rpx;
+.icon-2 {
+  left: 510rpx;
+  top: 620rpx;
 }
-.window-2{
+.window-2 {
   left: 412rpx;
   top: 350rpx;
 }
-.icon-3{
-  left:525rpx;
-  top:500rpx;
+.icon-3 {
+  left: 525rpx;
+  top: 500rpx;
 }
-.window-3{
+.window-3 {
   left: 412rpx;
   top: 230rpx;
 }
-.icon-4{
-  left:830rpx;
-  top:480rpx;
+.icon-4 {
+  left: 830rpx;
+  top: 480rpx;
 }
-.window-4{
+.window-4 {
   left: 730rpx;
   top: 210rpx;
 }
-.icon-5{
-  left:806rpx;
-  top:870rpx;
+.icon-5 {
+  left: 806rpx;
+  top: 870rpx;
 }
-.window-5{
+.window-5 {
   left: 700rpx;
   top: 600rpx;
 }
-.icon-6{
-  left:790rpx;
-  top:1100rpx;
+.icon-6 {
+  left: 790rpx;
+  top: 1100rpx;
 }
-.window-6{
+.window-6 {
   left: 690rpx;
   top: 830rpx;
 }
-.icon-7{
-  left:670rpx;
-  top:1430rpx;
+.icon-7 {
+  left: 670rpx;
+  top: 1430rpx;
 }
-.window-7{
+.window-7 {
   left: 580rpx;
   top: 1160rpx;
 }
-.icon-8{
-  left:870rpx;
-  top:1690rpx;
+.icon-8 {
+  left: 870rpx;
+  top: 1690rpx;
 }
-.window-8{
+.window-8 {
   left: 770rpx;
   top: 1410rpx;
 }
-.icon-9{
-  left:510rpx;
-  top:1480rpx;
+.icon-9 {
+  left: 510rpx;
+  top: 1480rpx;
 }
-.window-9{
+.window-9 {
   left: 410rpx;
   top: 1200rpx;
 }
-.icon-10{
-  left:400rpx;
-  top:1140rpx;
+.icon-10 {
+  left: 400rpx;
+  top: 1140rpx;
 }
-.window-10{
+.window-10 {
   left: 300rpx;
   top: 870rpx;
 }
@@ -501,15 +521,17 @@ export default {
     background: #9e7044;
   }
   &-btn {
-    width: 66rpx;
-    height: 66rpx;
+    @size: 80rpx;
+    width: @size;
+    height: @size;
     border-radius: 50%;
     border: 2rpx solid #9e7044;
     background: #f6ca47;
     .center();
     &-in {
-      width: 50rpx;
-      height: 50rpx;
+      @insize: 0.76 * @size;
+      width: @insize;
+      height: @insize;
       border-radius: 50%;
       border: 2rpx solid #9e7044;
       background: #f7eec5;
@@ -517,7 +539,7 @@ export default {
       .center();
     }
   }
-  
+
   .btn-show {
     width: 30rpx;
     height: 30rpx;
