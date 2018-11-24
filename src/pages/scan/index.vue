@@ -41,18 +41,18 @@
 </template>
 
 <script>
-import { config } from '../../utils/index';
+import { config } from "../../utils/index";
 
 export default {
   data() {
     return {
       src: "",
-      cameraDirection:'back',
-      showDesc:false,
-      showResult:false,
-      userCode:'',
-      matchItem:[],
-      toView:'result0'
+      cameraDirection: "back",
+      showDesc: false,
+      showResult: false,
+      userCode: "",
+      matchItem: [],
+      toView: "result0"
     };
   },
 
@@ -63,107 +63,112 @@ export default {
       console.log(e.currentTarget);
     },
     reverse() {
-      this.cameraDirection == 'back' ? this.cameraDirection = 'front' : this.cameraDirection = 'back'
+      this.cameraDirection == "back"
+        ? (this.cameraDirection = "front")
+        : (this.cameraDirection = "back");
     },
     init() {
-      this.showResult = false
-      this.src = '';
+      this.showResult = false;
+      this.src = "";
       this.matchItem = [];
     },
     takePhoto() {
       this.showDesc = false;
-      const ctx = wx.createCameraContext()
+      const ctx = wx.createCameraContext();
       ctx.takePhoto({
-        quality: 'high',
-        success: (res) => {
-          console.log('拍摄成功')
-          console.log(res)
-          this.src = res.tempImagePath
-          this.showResult = true
-          this.upload(res.tempImagePath)
+        quality: "high",
+        success: res => {
+          console.log("拍摄成功");
+          console.log(res);
+          this.src = res.tempImagePath;
+          this.showResult = true;
+          this.upload(res.tempImagePath);
           // this.postPhoto(res.tempImagePath)
         },
-        fail: (err)=>{
-          console.log('拍摄失败')
+        fail: err => {
+          console.log("拍摄失败");
         }
-      })
+      });
     },
     upload(file) {
       wx.uploadFile({
-        url: config.base + 'photo/UpdatePhoto', //开发者服务器 url
+        url: config.base + "photo/UpdatePhoto", //开发者服务器 url
         filePath: file, //要上传文件资源的路径
-        name: 'name', //文件对应的 key , 开发者在服务器端通过这个 key 可以获取到文件二进制内容
+        name: "name", //文件对应的 key , 开发者在服务器端通过这个 key 可以获取到文件二进制内容
         success: res => {
-          let data = JSON.parse(res.data).data
-          console.log(data)
-          this.postPhoto(data)
+          let data = JSON.parse(res.data).data;
+          console.log(data);
+          this.postPhoto(data);
         },
         fail: () => {},
         complete: () => {}
       });
     },
     postPhoto(imgList) {
-      console.log('开始传输照片')
+      console.log("开始传输照片");
       wx.request({
-        url: config.base + 'identify/photo', //开发者服务器接口地址",
+        url: config.base + "identify/photo", //开发者服务器接口地址",
         data: {
           image_url: imgList,
           lineId: config.lineId
         }, //请求的参数",
-        header:{
+        header: {
           token: this.userCode
         },
-        method: 'POST',
-        dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+        method: "POST",
+        dataType: "json", //如果设为json，会尝试对返回的数据做一次 JSON.parse
         success: res => {
-          const data = res.data
-          console.log(data)
-          if(data.res_code == 0){
-            const list = res.data.data
-            if(list.length>0){
+          const data = res.data;
+          console.log(data);
+          if (data.res_code == 0) {
+            const list = res.data.data;
+            if (list.length > 0) {
               list.forEach(item => {
-                let m = parseFloat(item.match).toFixed(2) * 100
-                item.match = m
+                let m = parseFloat(item.match).toFixed(2) * 100;
+                item.match = m;
               });
-              this.matchItem = list
+              this.matchItem = list;
             } else {
-              this.matchItem = res.data.data
+              this.matchItem = res.data.data;
             }
-            console.log(this.matchItem)
+            console.log(this.matchItem);
           } else {
-            this.matchItem = [{
-              name:'未能识别...',
-              desc:'请换个生物拍一拍',
-              match:0
-            }]
+            this.matchItem = [
+              {
+                name: "未能识别...",
+                desc: "请换个生物拍一拍",
+                match: 0
+              }
+            ];
           }
         },
         fail: () => {
-          console.log('传输失败')
+          console.log("传输失败");
         },
         complete: () => {
-          console.log('传输完成')
+          console.log("传输完成");
         }
       });
     },
     error(e) {
-      console.log(e.detail)
+      console.log(e.detail);
     }
   },
 
   created() {
-    this.userCode = wx.getStorageSync('userCode');
+    this.userCode = wx.getStorageSync("userCode");
   },
   onLoad() {
     const firsttime = wx.getStorageSync("firstPhoto");
     if (!firsttime) {
-      this.showDesc = true
-      setTimeout(()=>{this.showDesc = false},2000)
+      this.showDesc = true;
+      setTimeout(() => {
+        this.showDesc = false;
+      }, 2000);
     }
   },
   onShow() {
-    wx.setStorageSync('firstPhoto',true);
-    
+    wx.setStorageSync("firstPhoto", true);
   },
   onHide() {
     this.init();
@@ -191,30 +196,32 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  p{
+  padding: 0 3%;
+  p {
     margin-top: 18rpx;
     text-align: center;
     font-size: 24rpx;
   }
+  @sidesize: 105rpx;
   &-left {
-    color:#000;
-    img{
-      width: 94rpx;
-      height: 94rpx;
+    color: #000;
+    img {
+      width: @sidesize;
+      height: @sidesize;
     }
   }
   &-mid {
-    color:#000;
-    img{
+    color: #000;
+    img {
       width: 140rpx;
       height: 140rpx;
     }
   }
   &-right {
-    color:#000;
-    img{
-      width: 94rpx;
-      height: 94rpx;
+    color: #000;
+    img {
+      width: @sidesize;
+      height: @sidesize;
     }
   }
 }
@@ -223,24 +230,24 @@ img {
   height: 100%;
   display: block;
 }
-.cameraArea{
+.cameraArea {
   width: 100%;
   height: 76%;
 }
-.desc{
+.desc {
   width: 520rpx;
   height: 126rpx;
   padding: 0 20rpx;
   font-size: 30rpx;
-  color:#fff;
+  color: #fff;
   border-radius: 18rpx;
-  background: rgba(0,0,0,.5);
-  border:1px solid #84988b;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #84988b;
   position: absolute;
-  top:62%;
+  top: 62%;
   right: 0;
   left: 0;
-  margin:auto;
+  margin: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -254,58 +261,58 @@ img {
   left: 0;
   background: rgba(0, 0, 0, 0.6);
 }
-.result-tab{
+.result-tab {
   position: fixed;
   bottom: 0;
   width: 100%;
   height: 60%;
   background: #fff;
-  &-scroll{
+  &-scroll {
     width: 100%;
   }
-  &-box{
+  &-box {
     display: flex;
     justify-content: flex-start;
     align-items: center;
   }
-  &-item{
+  &-item {
     width: 550rpx;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-right:100rpx;
-    &-name{
+    padding-right: 100rpx;
+    &-name {
       font-size: 40rpx;
       line-height: 86rpx;
     }
-    &-desc{
+    &-desc {
       font-size: 24rpx;
-      color:#909090;
+      color: #909090;
       margin-bottom: 30rpx;
     }
-    &-pic{
+    &-pic {
       overflow: hidden;
       position: relative;
-      &-hint{
+      &-hint {
         width: 100%;
         line-height: 70rpx;
         font-size: 24rpx;
         position: absolute;
         bottom: 0;
         text-align: center;
-        color:#fff;
-        background: rgba(0,0,0,.5)
+        color: #fff;
+        background: rgba(0, 0, 0, 0.5);
       }
     }
-    .active{
+    .active {
       width: 550rpx;
       height: 550rpx;
       border-radius: 50%;
-      border:2px solid #f3f3f3;
+      border: 2px solid #f3f3f3;
     }
   }
-  &-item:nth-of-type(1){
+  &-item:nth-of-type(1) {
     padding-left: 100rpx;
   }
 }
