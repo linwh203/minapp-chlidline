@@ -23,7 +23,8 @@
       <div class="sub-nav-line" v-if="showSub"></div>
       <div class="sub-nav-btn" v-if="showSub">
         <div class="sub-nav-btn-in ">
-          <img src="../../assets/icon-list-share.png" alt="" class="btn-share" @click="showShareBox">
+          <button open-type="share" class="btn-share-origin"></button>
+          <img src="../../assets/icon-list-share.png" alt="" class="btn-share" >
         </div>
       </div>
     </div>
@@ -397,9 +398,9 @@ export default {
     height: 80rpx;
     border-radius: 50%;
     position: fixed;
-    bottom: 12.5%;
+    bottom: 16.5%;
     right: 74rpx;
-    z-index: 999;
+    z-index: 9999;
     background: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
@@ -462,8 +463,8 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  width: 144rpx;
-  height: 168rpx;
+  width: 100%;
+  height: 100%;
   background: transparent;
   border: none;
 }
