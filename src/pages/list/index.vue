@@ -63,41 +63,39 @@
 </template>
 
 <script>
-import {config} from '../../utils/index'
+import { config } from "../../utils/index";
 export default {
   data() {
     return {
       fromMap: false,
       showSub: false,
       innerAudioContext: null,
-      videoUrl:'',
+      videoUrl: "",
       audioOff: true,
-      audioUrl: '',
+      audioUrl: "",
       mainPic: "",
       scrollTop: 0,
       activeIndex: 1,
       sharebox: false,
-      listItem:[]
+      listItem: []
     };
   },
-  computed: {
-
-  },
+  computed: {},
   components: {},
 
   methods: {
     setStorage(key, val) {
       try {
-        wx.setStorageSync(key,val)
-      } catch(e) {
-        wx.setStorage(key,val)
+        wx.setStorageSync(key, val);
+      } catch (e) {
+        wx.setStorage(key, val);
       }
     },
     getStorage(key) {
       try {
-        wx.getStorageSync(key)
-      } catch(e) {
-        wx.getStorage(key)
+        wx.getStorageSync(key);
+      } catch (e) {
+        wx.getStorage(key);
       }
     },
     bindTab() {
@@ -122,38 +120,46 @@ export default {
       wx.navigateTo({ url: "../video/main?video_url=" + this.videoUrl });
     },
     showShareBox() {
-      this.sharebox = true
+      this.sharebox = true;
     },
     hideShareBox() {
-      this.sharebox = false
+      this.sharebox = false;
     },
     changeArticle(id) {
       this.audioOff = true;
-      if (this.innerAudioContext) { this.innerAudioContext.stop() }
-      let spot_id = ''
-      for(let i = 0;i < this.listItem.length; i++) {
+      if (this.innerAudioContext) {
+        this.innerAudioContext.stop();
+      }
+      let spot_id = "";
+      for (let i = 0; i < this.listItem.length; i++) {
         if (this.listItem[i].sortNo == id) {
-          spot_id = this.listItem[i].spot_id
+          spot_id = this.listItem[i].spot_id;
         }
       }
-      const currentId = parseInt(id)
-      this.activeIndex = currentId
+      const currentId = parseInt(id);
+      this.activeIndex = currentId;
       wx.request({
-        url: config.base + 'spot/listdetail', //开发者服务器接口地址",
+        url: config.base + "spot/listdetail", //开发者服务器接口地址",
         data: {
           spot_id: spot_id,
           lineId: config.lineId
         }, //请求的参数",
-        method: 'GET',
-        dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+        method: "GET",
+        dataType: "json", //如果设为json，会尝试对返回的数据做一次 JSON.parse
         success: res => {
-          console.log(res.data.data)
-          this.mainPic = config.prefix + res.data.data[0].image_url
+          console.log(res.data.data);
+          this.mainPic = config.prefix + res.data.data[0].image_url;
           this.innerAudioContext = wx.createInnerAudioContext();
-          this.audioUrl = res.data.data[0].audio_url == null ? '' :  config.prefix + res.data.data[0].audio_url
-          this.videoUrl = res.data.data[0].video_url == null ? '' :  config.prefix + res.data.data[0].video_url
+          this.audioUrl =
+            res.data.data[0].audio_url == null
+              ? ""
+              : config.prefix + res.data.data[0].audio_url;
+          this.videoUrl =
+            res.data.data[0].video_url == null
+              ? ""
+              : config.prefix + res.data.data[0].video_url;
           if (this.audioUrl) {
-            this.innerAudioContext.src = this.audioUrl
+            this.innerAudioContext.src = this.audioUrl;
           }
         },
         fail: () => {},
@@ -161,19 +167,19 @@ export default {
       });
     },
     getSpot() {
-      const self = this
+      const self = this;
       wx.request({
-        url: config.base + 'spot/list', //开发者服务器接口地址",
+        url: config.base + "spot/list", //开发者服务器接口地址",
         data: {
-          lineId:config.lineId
+          lineId: config.lineId
         }, //请求的参数",
-        method: 'GET',
-        dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+        method: "GET",
+        dataType: "json", //如果设为json，会尝试对返回的数据做一次 JSON.parse
         success: res => {
           // console.log(res)
           // self.GLOBAL.spot_list = res.data.data
-          this.listItem = res.data.data
-          this.setStorage('spotList',res.data.data)
+          this.listItem = res.data.data;
+          this.setStorage("spotList", res.data.data);
         },
         fail: () => {},
         complete: () => {}
@@ -185,20 +191,20 @@ export default {
     // this.innerAudioContext.src = this.audioUrl;
   },
   onLoad(option) {
-    if (wx.getStorageSync('spotList')) {
-      this.listItem = wx.getStorageSync('spotList');
+    if (wx.getStorageSync("spotList")) {
+      this.listItem = wx.getStorageSync("spotList");
     } else {
-      this.getSpot()
+      this.getSpot();
     }
     if (option.from) {
-      this.fromMap = true
-      this.changeArticle(option.spot_index)
+      this.fromMap = true;
+      this.changeArticle(option.spot_index);
     } else if (option.spot_index) {
-      this.changeArticle(option.spot_index)
+      this.changeArticle(option.spot_index);
     } else {
-      this.changeArticle(1)
+      this.changeArticle(1);
     }
-    this.innerAudioContext = wx.createInnerAudioContext()
+    this.innerAudioContext = wx.createInnerAudioContext();
   },
   onHide() {
     this.audioOff = true;
@@ -268,15 +274,17 @@ export default {
     background: #9e7044;
   }
   &-btn {
-    width: 66rpx;
-    height: 66rpx;
+    @size: 80rpx;
+    width: @size;
+    height: @size;
     border-radius: 50%;
     border: 2rpx solid #9e7044;
     background: #f6ca47;
     .center();
     &-in {
-      width: 50rpx;
-      height: 50rpx;
+      @insize: 0.76 * @size;
+      width: @insize;
+      height: @insize;
       border-radius: 50%;
       border: 2rpx solid #9e7044;
       background: #f7eec5;
@@ -284,7 +292,7 @@ export default {
       .center();
     }
   }
-  
+
   .btn-show {
     width: 30rpx;
     height: 16rpx;
@@ -361,13 +369,13 @@ export default {
     &-img {
       width: 120rpx;
       height: 120rpx;
-      border:2px solid #b28e69;
+      border: 2px solid #b28e69;
       border-radius: 50%;
       background: #fff;
       margin-bottom: 12rpx;
     }
-    &-img-active{
-      border:2px solid #00cbff;
+    &-img-active {
+      border: 2px solid #00cbff;
     }
     &-title {
       width: 160rpx;
@@ -409,7 +417,7 @@ export default {
   height: 100%;
   display: block;
 }
-.share-box{
+.share-box {
   width: 100%;
   height: 320rpx;
   background: #fff;
@@ -420,23 +428,23 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  &-body{
+  &-body {
     height: 220rpx;
     .center();
-    &-item{
+    &-item {
       position: relative;
-      img{
+      img {
         width: 144rpx;
         height: 168rpx;
         display: block;
       }
     }
   }
-  &-close{
+  &-close {
     width: 100%;
     height: 100rpx;
     background: #efefef;
-    color:#000;
+    color: #000;
     font-size: 34rpx;
     text-align: center;
     line-height: 98rpx;
@@ -449,9 +457,9 @@ export default {
   width: 144rpx;
   height: 168rpx;
   background: transparent;
-  border:none;
+  border: none;
 }
 .btn-share-origin::after {
   border: 0;
-} 
+}
 </style>
