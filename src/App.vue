@@ -16,9 +16,6 @@ export default {
 page {
   height: 100%;
   background-color: #53c6f7;
-  font-family: monospace;
-  color: red;
-  font-weight: 700;
 }
 .container {
   height: 100%;

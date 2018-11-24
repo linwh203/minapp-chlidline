@@ -33,16 +33,19 @@
       </scroll-view>
     </div>
     <div class="article-border"></div>
-    <scroll-view scroll-x class="index-list">
-      <div class="index-list-box">
-        <div class="index-list-item" v-for="(item,index) in listItem" :key=index>
-          <div class="index-list-item-img" :class="activeIndex == index+1 ? 'index-list-item-img-active':''" @click="changeArticle(index+1)">
-            <img :src="'../../assets/list-pic-'+(index+1)+'.png'" alt="">
+    <div class="index-list">
+      <div class="index-list-title">课程目录</div>
+      <scroll-view scroll-x >
+        <div class="index-list-box">
+          <div class="index-list-item" v-for="(item,index) in listItem" :key=index>
+            <div class="index-list-item-img" :class="activeIndex == index+1 ? 'index-list-item-img-active':''" @click="changeArticle(index+1)">
+              <img :src="'../../assets/list-pic-'+(index+1)+'.png'" alt="">
+            </div>
+            <div class="index-list-item-title">{{item.spot_name}}</div>
           </div>
-          <div class="index-list-item-title">{{item.spot_name}}</div>
         </div>
-      </div>
-    </scroll-view>
+      </scroll-view>
+    </div>
     <div class="index-list-close">
       <div class="index-list-close-body" @click="bindTab">
         <img src="../../assets/btn-close-list.png" alt="">
@@ -348,6 +351,11 @@ export default {
   left: 0;
   width: 100%;
   background: rgba(0, 0, 0, 0.7);
+  &-title {
+    margin: 10rpx 0 10rpx 20rpx;
+    color: white;
+    height: 20rpx;
+  }
   img {
     width: 100%;
     height: 100%;
