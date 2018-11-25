@@ -1,6 +1,6 @@
 <template>
   <movable-area class="container">
-    <movable-view class="index-bg" direction="all" :x="x" :y="y" @change="startTouch">
+    <movable-view class="index-bg" direction="all" :x="x" :y="y" scale :scale-min="scaleValue" scale-max="2" :scale-value="scaleValue" @change="startTouch">
       <img class="mapImg" src="../../assets/bg-map.png" alt="" >
       <img class="userIcon" id="usericon" src="../../assets/icon-avator.png" v-bind:style="{ top: userLat + 'rpx',left: userLng + 'rpx'}">
       <div class="spot" v-for="(item,index) in spotList" :key="item.sortNo">
@@ -60,6 +60,7 @@ import { config } from "../../utils/index";
 export default {
   data() {
     return {
+      scaleValue: 0.65,
       spotList: [],
       activeSpot: 0,
       activeWindow: -1,
