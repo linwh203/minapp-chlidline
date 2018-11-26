@@ -1,6 +1,5 @@
 {
   "pages": [
-    
     "pages/index/main",
     "pages/scan/main",
     "pages/quiz/main",
@@ -12,14 +11,15 @@
     "pages/first/main",
     "pages/list/main",
     "pages/video/main",
-    
+
     "pages/my/main",
     "pages/my-rule/main",
     "pages/my-statement/main",
     "pages/my-about/main",
     "pages/my-suggest/main",
     "pages/logs/main",
-    "pages/counter/main"
+    "pages/counter/main",
+    "pages/developing/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

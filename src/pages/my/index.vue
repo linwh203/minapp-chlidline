@@ -13,11 +13,13 @@
         </div>
       </div>
       <div class="my-tab-body">
-        <div class="my-tab-body-item" @click="bindTab('../my-reward/main')">
+        <!-- <div class="my-tab-body-item" @click="bindTab('../my-reward/main')"> -->
+        <div class="my-tab-body-item" @click="bindTab('../developing/main')">
           <img src="https://gw.alicdn.com/tfs/TB1VPxWk9zqK1RjSZFjXXblCFXa-179-132.png" class="my-tab-body-item-icon"/>
           <div class="my-tab-body-item-name">个人成就</div>
         </div>
-        <div class="my-tab-body-item" @click="bindTab('../my-msg/main')">
+        <!-- <div class="my-tab-body-item" @click="bindTab('../my-msg/main')"> -->
+        <div class="my-tab-body-item" @click="bindTab('../developing/main')">
           <img src="https://gw.alicdn.com/tfs/TB1PVF0k7zoK1RjSZFlXXai4VXa-178-132.png" class="my-tab-body-item-icon"/>
           <div class="my-tab-body-item-name">消息中心</div>
         </div>
@@ -39,9 +41,7 @@
 <script>
 export default {
   data() {
-    return {
-      
-    };
+    return {};
   },
 
   components: {},
@@ -52,14 +52,12 @@ export default {
     }
   },
 
-  created() {
-    
-  }
+  created() {}
 };
 </script>
 
 <style scoped lang="less">
-.center{
+.center {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -69,39 +67,40 @@ export default {
   width: 100%;
   height: 100%;
   position: relative;
-  background: url('https://gw.alicdn.com/tfs/TB1_p0GkZfpK1RjSZFOXXa6nFXa-640-1008.png') no-repeat top/cover;
+  background: url("https://gw.alicdn.com/tfs/TB1_p0GkZfpK1RjSZFOXXa6nFXa-640-1008.png")
+    no-repeat top/cover;
   .center();
 }
-.userName{
-  padding:0 60rpx;
+.userName {
+  padding: 0 60rpx;
   line-height: 70rpx;
   background: #ff9899;
-  color:#fff;
+  color: #fff;
   border-radius: 38rpx;
   position: absolute;
   top: 24%;
 }
-.my-tab{
+.my-tab {
   position: absolute;
   top: 40%;
   width: 100%;
-  &-body{
+  &-body {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin: 0 105rpx;
-    &-item{
+    &-item {
       .center();
       width: 210rpx;
       margin-bottom: 36rpx;
-      &-icon{
+      &-icon {
         width: 210rpx;
         height: 156rpx;
         display: block;
       }
-      &-name{
-        font-size:26rpx;
-        color:#3f2306;
+      &-name {
+        font-size: 26rpx;
+        color: #3f2306;
       }
     }
   }
