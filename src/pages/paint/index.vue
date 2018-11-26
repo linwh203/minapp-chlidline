@@ -8,35 +8,70 @@
         </div>
       </div>
     </scroll-view>
-    <scroll-view scroll-x class="paint-bg">
+    <!-- <scroll-view scroll-x class="paint-bg">
       <img :src="prefix+mainPic" @load="imageLoad" lazy-load v-bind:style="{ width: imgWidth + 'rpx'}">
-    </scroll-view>
+    </scroll-view> -->
+    <movable-area class="m-area">
+      <movable-view class="m-view"  direction="all" :style="{ width: imgWidth + 'rpx'}" :x="x" :y="y" scale :scale-min="1" scale-max="2"  @change="startTouch">
+        <img :src="prefix+mainPic" @load="imageLoad" lazy-load  :style="{ width: imgWidth + 'rpx'}">
+      </movable-view>
+    </movable-area>
   </div>
 </template>
 
 <script>
-import { config } from '../../utils/index'
+import { config } from "../../utils/index";
 export default {
   data() {
     return {
       // mainPic:'https://gw.alicdn.com/tfs/TB1jQgHiXzqK1RjSZFCXXbbxVXa-3657-2717.jpg',
-      mainPic:'',
-      imgWidth:'',
-      activeIndex:0,
-      tabList:[
-        {src:"https://gw.alicdn.com/tfs/TB1mPsKimzqK1RjSZFHXXb3CpXa-143-145.png"},
-        {src:"https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"},
-        {src:"https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"},
-        {src:"https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"},
-        {src:"https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"},
-        {src:"https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"},
-        {src:"https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"},
-        {src:"https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"},
-        {src:"https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"},
-        {src:"https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"}
+      mainPic: "",
+      imgWidth: "",
+      activeIndex: 0,
+      tabList: [
+        {
+          src:
+            "https://gw.alicdn.com/tfs/TB1mPsKimzqK1RjSZFHXXb3CpXa-143-145.png"
+        },
+        {
+          src:
+            "https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"
+        },
+        {
+          src:
+            "https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"
+        },
+        {
+          src:
+            "https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"
+        },
+        {
+          src:
+            "https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"
+        },
+        {
+          src:
+            "https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"
+        },
+        {
+          src:
+            "https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"
+        },
+        {
+          src:
+            "https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"
+        },
+        {
+          src:
+            "https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"
+        },
+        {
+          src:
+            "https://gw.alicdn.com/tfs/TB1QqUKimzqK1RjSZFjXXblCFXa-187-146.png"
+        }
       ],
-      paintList:[],
-      prefix:config.prefix
+      paintList: [],
+      prefix: config.prefix
     };
   },
 
@@ -46,20 +81,20 @@ export default {
     bindTab(url) {
       wx.navigateTo({ url: url });
     },
-    setWidth(index,e) {
-      const ratio = e.target.width/e.target.height
-      this.tabList[index].width = parseInt(145*ratio)
-      console.log(index,this.tabList[index].width)
+    setWidth(index, e) {
+      const ratio = e.target.width / e.target.height;
+      this.tabList[index].width = parseInt(145 * ratio);
+      console.log(index, this.tabList[index].width);
     },
     imageLoad(e) {
-      const height = 1206
-      const ratio = e.target.width/e.target.height
-      this.imgWidth = parseInt(height*ratio)
+      const height = 1206;
+      const ratio = e.target.width / e.target.height;
+      this.imgWidth = parseInt(height * ratio);
     },
-    changeArticle(id,item) {
-      const currentId = parseInt(id)
-      this.activeIndex = currentId
-      this.mainPic = item.pic_image
+    changeArticle(id, item) {
+      const currentId = parseInt(id);
+      this.activeIndex = currentId;
+      this.mainPic = item.pic_image;
       /* switch (currentId) {
         case 0:
           this.mainPic = "https://gw.alicdn.com/tfs/TB1jQgHiXzqK1RjSZFCXXbbxVXa-3657-2717.jpg"
@@ -95,26 +130,24 @@ export default {
     }
   },
 
-  created() {
-    
-  },
+  created() {},
   mounted() {
     wx.request({
-      url: config.base + 'pic/list', //开发者服务器接口地址",
+      url: config.base + "pic/list", //开发者服务器接口地址",
       data: {
         lineId: config.lineId
       }, //请求的参数",
-      method: 'GET',
-      dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+      method: "GET",
+      dataType: "json", //如果设为json，会尝试对返回的数据做一次 JSON.parse
       success: res => {
         // console.log(res.data)
-        this.paintList = res.data.data
-        this.mainPic = this.paintList[0].pic_image
+        this.paintList = res.data.data;
+        this.mainPic = this.paintList[0].pic_image;
       },
       fail: () => {},
       complete: () => {}
     });
-  },
+  }
 };
 </script>
 
@@ -159,9 +192,19 @@ export default {
   width: auto;
   height: 100%;
   display: block;
-  img{
+  img {
     width: 1620rpx;
     height: 100%;
+  }
+}
+.m-area {
+  width: 100vw;
+  height: 100vh;
+  .m-view {
+    height: 120vh;
+    img {
+      height: 100vh;
+    }
   }
 }
 </style>
