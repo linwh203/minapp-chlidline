@@ -43,17 +43,17 @@
         <img src="../../assets/btn-close-list.png" alt="">
       </div>
     </div>
-    <img src="../../assets/bg-index.jpg" alt="" class="index-bg">
+    <img src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-index.jpg&fileType=ChildLineFile" alt="" class="index-bg">
   </div>
 </template>
 
 <script>
-import { config } from '../../utils/index'
+import { config } from "../../utils/index";
 export default {
   data() {
     return {
-      userCode:'',
-      score:''
+      userCode: "",
+      score: ""
     };
   },
 
@@ -68,19 +68,17 @@ export default {
     }
   },
 
-  created() {
-    
-  },
+  created() {},
   mounted() {
     // this.userCode = wx.getStorageSync('userCode');
     // wx.request({
-    //   url: config.base + 'quiz/getcheckpoint', 
+    //   url: config.base + 'quiz/getcheckpoint',
     //   data: {
     //     LineId: config.lineId,
     //     token: this.userCode
-    //   }, 
+    //   },
     //   method: 'GET',
-    //   dataType: 'json', 
+    //   dataType: 'json',
     //   success: res => {
     //     console.log(res.data)
     //     this.score = res.data.data
@@ -90,18 +88,18 @@ export default {
     // });
   },
   onShow() {
-    this.userCode = wx.getStorageSync('userCode');
+    this.userCode = wx.getStorageSync("userCode");
     wx.request({
-      url: config.base + 'quiz/getcheckpoint', 
+      url: config.base + "quiz/getcheckpoint",
       data: {
         LineId: config.lineId,
         token: this.userCode
-      }, 
-      method: 'GET',
-      dataType: 'json', 
+      },
+      method: "GET",
+      dataType: "json",
       success: res => {
-        console.log(res.data)
-        this.score = res.data.data
+        console.log(res.data);
+        this.score = res.data.data;
       },
       fail: () => {},
       complete: () => {}
@@ -168,14 +166,15 @@ export default {
       height: 138rpx;
       border-radius: 50%;
       margin: 0 20rpx 4rpx;
-      background: url('https://gw.alicdn.com/tfs/TB17GHAi6TpK1RjSZKPXXa3UpXa-135-135.png') no-repeat center/cover;
+      background: url("https://gw.alicdn.com/tfs/TB17GHAi6TpK1RjSZKPXXa3UpXa-135-135.png")
+        no-repeat center/cover;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
     }
-    &-img-active{
-      border:2px solid #00cbff;
+    &-img-active {
+      border: 2px solid #00cbff;
     }
     &-title {
       width: 160rpx;
@@ -212,17 +211,16 @@ export default {
       }
     }
   }
-  .unlock{
+  .unlock {
     width: 64rpx;
     height: 78rpx;
   }
-  .stage{
-    color:#567d17;
+  .stage {
+    color: #567d17;
     font-size: 24rpx;
-    &-number{
+    &-number {
       font-size: 80rpx;
     }
   }
 }
-
 </style>

@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <div class="first-visit">
-      <img src="../../assets/bg-first-visit.jpg" alt="">
+      <img src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-first-visit.png&fileType=ChildLineFile" alt="">
       <div class="close-btn" @click="bindNext"></div>
     </div>
     <div class="modal" v-if="motto">
       <div class="modal-container">
-        <img src="../../assets/bg-auth.png" alt="">
+        <img src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-auth.png&fileType=ChildLineFile" alt="">
         <button class="auth-confirm" open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="getUserInfo1">授权登录</button>
         <button class="auth-cancel" @click="cancelAuth">拒绝授权</button>
       </div>
@@ -18,7 +18,7 @@
 export default {
   data() {
     return {
-      motto: false,
+      motto: false
     };
   },
 
@@ -27,20 +27,20 @@ export default {
   methods: {
     setStorage(key, val) {
       try {
-        wx.setStorageSync(key,val)
-      } catch(e) {
-        wx.setStorage(key,val)
+        wx.setStorageSync(key, val);
+      } catch (e) {
+        wx.setStorage(key, val);
       }
     },
     getStorage(key) {
       try {
-        wx.getStorageSync(key)
-      } catch(e) {
-        wx.getStorage(key)
+        wx.getStorageSync(key);
+      } catch (e) {
+        wx.getStorage(key);
       }
     },
     bindNext() {
-      wx.setStorageSync('firsttime', true)
+      wx.setStorageSync("firsttime", true);
       const url = "../index/main";
       wx.redirectTo({ url: url });
     },
@@ -54,7 +54,7 @@ export default {
             // 已经授权，可以直接调用 getUserInfo 获取头像昵称
             wx.getUserInfo({
               success: function(res) {
-                console.log('first page',res.userInfo);
+                console.log("first page", res.userInfo);
               }
             });
           } else {
@@ -90,7 +90,7 @@ export default {
         const city = userInfo.city;
         const country = userInfo.country;
         // wx.setStorageSync("userInfo", userInfo);
-        this.setStorage("userInfo", userInfo)
+        this.setStorage("userInfo", userInfo);
         this.motto = false;
       } else {
         //用户按了拒绝按钮

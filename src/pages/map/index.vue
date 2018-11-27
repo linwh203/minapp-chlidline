@@ -1,7 +1,7 @@
 <template>
   <movable-area class="container">
     <movable-view class="index-bg" direction="all" :x="x" :y="y" scale :scale-min="scaleValue" scale-max="2" :scale-value="scaleValue" @change="startTouch">
-      <img class="mapImg" src="../../assets/bg-map.png" alt="" @click="touchMap" >
+      <img class="mapImg" src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-map.png&fileType=ChildLineFile" alt="" @click="touchMap" >
       <img class="userIcon" id="usericon" src="../../assets/icon-avator.png" v-bind:style="{ top: userLat + 'rpx',left: userLng + 'rpx'}">
       <div class="spot" v-for="(item,index) in spotList" :key="item.sortNo">
         <div class="spot-icon" :class="'icon-'+item.sortNo" v-if="activeSpot == index" @click="showWindow(index)">

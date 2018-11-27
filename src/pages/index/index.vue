@@ -19,7 +19,7 @@
       </div>
     </div>
     
-    <img src="../../assets/bg-index.jpg" alt="" class="index-bg">
+    <img src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-index.jpg&fileType=ChildLineFile" alt="" class="index-bg">
   </div>
 </template>
 
