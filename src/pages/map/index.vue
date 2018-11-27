@@ -47,9 +47,9 @@
       </div>
     </div>
     <div class="message" v-if="showMessage">
-      <div class="message-close">
+      <!-- <div class="message-close">
         <img src="../../assets/btn-close-list.png" alt="" @click="closeMessage">
-      </div>
+      </div> -->
       您当前不在研习径范围内,不能进行定位讲解
     </div>
   </movable-area>
@@ -341,6 +341,9 @@ export default {
           longitude > Math.max(this.mapStart.lng, this.mapEnd.lng);
         if (isOut) {
           this.showMessage = true;
+          setTimeout(() => {
+            this.showMessage = false;
+          }, 2000);
         }
       },
       fail: () => {
