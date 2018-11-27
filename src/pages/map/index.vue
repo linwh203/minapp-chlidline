@@ -606,16 +606,20 @@ export default {
       background: #f7eec5;
       position: relative;
       .center();
+      img {
+        width: 65%;
+        height: 65%;
+      }
     }
   }
 
-  .btn-show {
-    width: 30rpx;
-    height: 30rpx;
-  }
-  .btn-audio {
-    width: 34rpx;
-    height: 28rpx;
-  }
+  // .btn-show {
+  //   width: 30rpx;
+  //   height: 30rpx;
+  // }
+  // .btn-audio {
+  //   width: 34rpx;
+  //   height: 28rpx;
+  // }
 }
 </style>
