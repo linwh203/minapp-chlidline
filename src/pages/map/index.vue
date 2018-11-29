@@ -2,7 +2,7 @@
   <movable-area class="container">
     <movable-view class="index-bg" direction="all" :x="x" :y="y" scale :scale-min="scaleValue" scale-max="2" :scale-value="scaleValue" @change="startTouch">
       <img class="mapImg" src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-map.png&fileType=ChildLineFile" alt="" @click="touchMap" >
-      <img class="userIcon" id="usericon" src="../../assets/icon-avator.png" v-bind:style="{ top: userLat + 'rpx',left: userLng + 'rpx'}">
+      <img class="userIcon" id="usericon" src="../../assets/icon-avator.png" v-bind:style="{ top: userLat+'%' ,left: userLng+'%' }">
       <div class="spot" v-for="(item,index) in spotList" :key="item.sortNo">
         <div class="spot-icon" :class="'icon-'+item.sortNo" v-if="activeSpot == index" @click="showWindow(index)">
           <img class="active-spot" src="https://gw.alicdn.com/tfs/TB1aICmi6DpK1RjSZFrXXa78VXa-30-24.png" />
@@ -12,6 +12,9 @@
           <div class="spot-window-text">{{item.spot_name}}</div>
           <img class="spot-window-img" :src="prefix + item.spot_image" />
         </div>
+      </div>
+      <div class="spot">
+        <div class="spot-icon icon-99">99</div>
       </div>
     </movable-view>
     <div class="map-sub">
@@ -78,11 +81,26 @@ export default {
       nearSpot: 0,
       prefix: config.prefix,
       // showMessage: false
-      showMessage: true
+      showMessage: true,
+      lng: 0,
+      lat: 0,
+      // 地理坐标轮询的句柄
+      _tForLocation: undefined,
+      abc: 0
     };
   },
   computed: {
+    // 纬度
+    //  mapStart: {
+    //     lng: 114.49358,
+    //     lat: 22.61034
+    //   },
+    //   mapEnd: {
+    //     lng: 114.50023,
+    //     lat: 22.59959
+    //   },
     userLat() {
+      return this.lat2percent(this.lat);
       //  top
       switch (this.nearSpot) {
         case 0:
@@ -110,6 +128,9 @@ export default {
       }
     },
     userLng() {
+      // 经度
+      return this.lng2percent(this.lng);
+
       // left
       switch (this.nearSpot) {
         case 0:
@@ -155,6 +176,19 @@ export default {
         wx.getStorage(key);
       }
     },
+    // 插值函数
+    _insertFn(x1, y1, x2, y2, x) {
+      return (x - x2) * ((y2 - y1) / (x2 - x1)) + y2;
+    },
+    // 经度转百分比
+    lng2percent(value) {
+      return this._insertFn(114.498953, 70.5, 114.499209, 73.7, value);
+    },
+    lat2percent(value) {
+      return this._insertFn(22.607684, 22.2, 22.601153, 78.7, value);
+    },
+    // 输入经度纬度返回
+    locate2percent(lng, lat) {},
     showNear() {
       if (this.nearSpot == 0) {
         this.showWindow(this.nearSpot);
@@ -304,29 +338,69 @@ export default {
     touchMap() {
       console.log("touch map");
       this.activeWindow = -1;
+    },
+    // 调整地理坐标
+    adjustLocation() {
+      wx.getLocation({
+        type: "wgs84", //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标,
+        success: res => {
+          console.info("getLocation success: ", res);
+          const latitude = res.latitude;
+          const longitude = res.longitude;
+          const speed = res.speed;
+          const accuracy = res.accuracy;
+          console.log("地理坐标", { latitude, longitude });
+          this.lng = longitude;
+          this.lat = latitude;
+          return;
+          // this.narrowSpot(latitude, longitude);
+
+          // 测试
+          this.abc++;
+          let n = this.abc;
+          console.log({ n }, this.abc);
+          // this.narrowSpot(latitude + n * 0.001, longitude + n * 0.001);
+          // n = 0;
+          this.lng = this.mapStart.lng + n * 0.00001;
+          this.lat = this.mapEnd.lat + n * 0.00001;
+          // 10的位置
+          // this.lng = 114.496348;
+          // this.lat = 22.603917;
+          // // 1的位置
+          // this.lng = 114.496869;
+          // this.lat = 22.605782;
+          // // 4的位置
+          // this.lng = 114.498953;
+          // this.lat = 22.607684;
+          console.log(this.lng, this.lat);
+        },
+        fail: () => {
+          console.log("getLocation failed");
+        }
+      });
     }
   },
   created() {
+    console.log("....", this.abc);
     if (this.getStorage("spotList")) {
       this.spotList = this.getStorage("spotList");
     } else {
       this.getSpot();
     }
-    wx.getLocation({
-      type: "wgs84", //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标,
-      success: res => {
-        console.info("getLocation success: ", res);
-        const latitude = res.latitude;
-        const longitude = res.longitude;
-        const speed = res.speed;
-        const accuracy = res.accuracy;
-        this.narrowSpot(latitude, longitude);
-      },
-      fail: () => {
-        console.log("getLocation failed");
-      }
-    });
   },
+  onShow() {
+    console.log("onShow");
+    this.adjustLocation();
+    this._tForLocation = setInterval(() => {
+      this.adjustLocation();
+    }, 5000);
+  },
+  onHide() {
+    if (this._tForLocation) {
+      clearInterval(this._tForLocation);
+    }
+  },
+
   mounted() {
     this.locate(this.mapStart, this.mapEnd);
 
@@ -405,7 +479,8 @@ export default {
   z-index: 99999;
 }
 .container {
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
   position: relative;
   z-index: 2;
 }
@@ -444,11 +519,12 @@ export default {
     width: 1180rpx;
     height: 2000rpx;
   }
-  .userIcon {
-    width: 80rpx;
-    height: 120rpx;
-    position: absolute;
-  }
+}
+.userIcon {
+  width: 80rpx;
+  height: 120rpx;
+  position: absolute;
+  z-index: 888;
 }
 .spot-window {
   position: absolute;
@@ -494,6 +570,9 @@ export default {
 .icon-five {
   left: 810rpx;
   top: 880rpx;
+}
+.icon-99 {
+  color: red;
 }
 .icon-1 {
   left: 500rpx;
