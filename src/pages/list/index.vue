@@ -47,11 +47,11 @@
         </div>
       </scroll-view>
     </div>
-    <div class="index-list-close">
+    <!-- <div class="index-list-close">
       <div class="index-list-close-body" @click="bindTab">
         <img src="../../assets/btn-close-list.png" alt="">
       </div>
-    </div>
+    </div> -->
     <div class="share-box" v-if="sharebox">
       <div class="share-box-body">
         <div class="share-box-body-item">
