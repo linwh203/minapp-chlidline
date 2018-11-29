@@ -182,10 +182,10 @@ export default {
     },
     // 经度转百分比
     lng2percent(value) {
-      return this._insertFn(114.498953, 70.5, 114.499209, 73.7, value);
+      return this._insertFn(114.498955, 70.5, 114.499207, 73.7, value);
     },
     lat2percent(value) {
-      return this._insertFn(22.607684, 22.2, 22.601153, 78.7, value);
+      return this._insertFn(22.607683, 22.2, 22.601152, 78.7, value);
     },
     // 输入经度纬度返回
     locate2percent(lng, lat) {},
