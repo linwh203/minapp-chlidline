@@ -66,7 +66,7 @@ export default {
     return {
       scaleValue: 0.65,
       spotList: [],
-      activeSpot: 0,
+      activeSpot: -1,
       activeWindow: -1,
       x: 0,
       y: 0,
@@ -216,7 +216,7 @@ export default {
       this.activeWindow == index
         ? (this.activeWindow = -1)
         : (this.activeWindow = index);
-      this.activeSpot = index
+      this.activeSpot == index
         ? (this.activeSpot = -1)
         : (this.activeSpot = index);
       switch (index) {
