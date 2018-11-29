@@ -1,16 +1,54 @@
 <template>
   <movable-area class="container">
-    <movable-view class="index-bg" direction="all" :x="x" :y="y" scale :scale-min="scaleValue" scale-max="2" :scale-value="scaleValue" @change="startTouch">
-      <img class="mapImg" src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-map.png&fileType=ChildLineFile" alt="" @click="touchMap" >
-      <img class="userIcon" id="usericon" src="../../assets/icon-avator.png" v-bind:style="{ top: userLat+'%' ,left: userLng+'%' }">
+    <movable-view
+      class="index-bg"
+      direction="all"
+      :x="x"
+      :y="y"
+      scale
+      :scale-min="scaleValue"
+      scale-max="2"
+      :scale-value="scaleValue"
+      @change="startTouch"
+    >
+      <img
+        class="mapImg"
+        src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-map.png&fileType=ChildLineFile"
+        alt
+        @click="touchMap"
+      >
+      <img
+        class="userIcon"
+        id="usericon"
+        src="../../assets/icon-avator.png"
+        v-bind:style="{ top: 'calc(' + userLat + '% - 120rpx)' ,left: userLng+'%' }"
+      >
       <div class="spot" v-for="(item,index) in spotList" :key="item.sortNo">
-        <div class="spot-icon" :class="'icon-'+item.sortNo" v-if="activeSpot == index" @click="showWindow(index)">
-          <img class="active-spot" src="https://gw.alicdn.com/tfs/TB1aICmi6DpK1RjSZFrXXa78VXa-30-24.png" />
+        <div
+          class="spot-icon"
+          :class="'icon-'+item.sortNo"
+          v-if="activeSpot == index"
+          @click="showWindow(index)"
+        >
+          <img
+            class="active-spot"
+            src="https://gw.alicdn.com/tfs/TB1aICmi6DpK1RjSZFrXXa78VXa-30-24.png"
+          >
         </div>
-        <div class="spot-icon" :class="'icon-'+item.sortNo" v-else @click="showWindow(index)">{{item.sortNo}}</div>
-        <div class="spot-window" :class="'window-'+item.sortNo" v-if="activeWindow == index" @click="viewDetail(item)">
+        <div
+          class="spot-icon"
+          :class="'icon-'+item.sortNo"
+          v-else
+          @click="showWindow(index)"
+        >{{item.sortNo}}</div>
+        <div
+          class="spot-window"
+          :class="'window-'+item.sortNo"
+          v-if="activeWindow == index"
+          @click="viewDetail(item)"
+        >
           <div class="spot-window-text">{{item.spot_name}}</div>
-          <img class="spot-window-img" :src="prefix + item.spot_image" />
+          <img class="spot-window-img" :src="prefix + item.spot_image">
         </div>
       </div>
       <div class="spot">
@@ -21,38 +59,38 @@
       <div class="map-sub-line"></div>
       <div class="map-sub-btn">
         <div class="map-sub-btn-in" @click="showNear">
-          <img src="../../assets/icon-map-gps.png" alt="" class="btn-show">
+          <img src="../../assets/icon-map-gps.png" alt class="btn-show">
         </div>
       </div>
       <div class="map-sub-line"></div>
       <div class="map-sub-btn">
-        <div class="map-sub-btn-in " @click="bindTab('../paint/main')">
-          <img src="../../assets/icon-map-pic.png" alt="" class="btn-audio" >
+        <div class="map-sub-btn-in" @click="bindTab('../paint/main')">
+          <img src="../../assets/icon-map-pic.png" alt class="btn-audio">
         </div>
       </div>
     </div>
     <div class="map-tab">
       <div class="map-tab-item icon-list" @click="bindTab('../index/main')">
-        <img src="../../assets/icon-index-list.png" alt="">
+        <img src="../../assets/icon-index-list.png" alt>
       </div>
       <div class="map-tab-item icon-map" @click="bindTab('../map/main')">
-        <img src="../../assets/icon-index-map.png" alt="">
+        <img src="../../assets/icon-index-map.png" alt>
       </div>
       <div class="map-tab-item icon-scan" @click="bindTab('../scan/main')">
-        <img src="../../assets/icon-index-scan.png" alt="">
+        <img src="../../assets/icon-index-scan.png" alt>
       </div>
       <!-- <div class="map-tab-item icon-quiz" @click="bindTab('../quiz/main')"> -->
       <div class="map-tab-item icon-quiz" @click="bindTab('../developing/main')">
-        <img src="../../assets/icon-index-quiz.png" alt="">
+        <img src="../../assets/icon-index-quiz.png" alt>
       </div>
       <div class="map-tab-item icon-my" @click="bindTab('../my/main')">
-        <img src="../../assets/icon-index-my.png" alt="">
+        <img src="../../assets/icon-index-my.png" alt>
       </div>
     </div>
     <div class="message" v-if="showMessage">
       <!-- <div class="message-close">
         <img src="../../assets/btn-close-list.png" alt="" @click="closeMessage">
-      </div> -->
+      </div>-->
       您当前不在研习径范围内,不能进行定位讲解
     </div>
   </movable-area>
@@ -352,7 +390,7 @@ export default {
           console.log("地理坐标", { latitude, longitude });
           this.lng = longitude;
           this.lat = latitude;
-          return;
+          // return;
           // this.narrowSpot(latitude, longitude);
 
           // 测试
@@ -364,14 +402,14 @@ export default {
           this.lng = this.mapStart.lng + n * 0.00001;
           this.lat = this.mapEnd.lat + n * 0.00001;
           // 10的位置
-          // this.lng = 114.496348;
-          // this.lat = 22.603917;
-          // // 1的位置
-          // this.lng = 114.496869;
-          // this.lat = 22.605782;
-          // // 4的位置
-          // this.lng = 114.498953;
-          // this.lat = 22.607684;
+          this.lng = 114.496348;
+          this.lat = 22.603917;
+          // 1的位置
+          this.lng = 114.496869;
+          this.lat = 22.605782;
+          // 4的位置
+          this.lng = 114.498953;
+          this.lat = 22.607684;
           console.log(this.lng, this.lat);
         },
         fail: () => {
