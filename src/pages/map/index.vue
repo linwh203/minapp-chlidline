@@ -51,9 +51,6 @@
           <img class="spot-window-img" :src="prefix + item.spot_image">
         </div>
       </div>
-      <div class="spot">
-        <div class="spot-icon icon-99">99</div>
-      </div>
     </movable-view>
     <div class="map-sub">
       <div class="map-sub-line"></div>
@@ -257,6 +254,7 @@ export default {
       this.activeSpot == index
         ? (this.activeSpot = -1)
         : (this.activeSpot = index);
+      this.active(this.activeSpot);
       switch (index) {
         case 0:
           this.x = -100;
@@ -375,7 +373,7 @@ export default {
     },
     touchMap() {
       console.log("touch map");
-      this.activeWindow = -1;
+      this.active(-1);
     },
     // 调整地理坐标
     adjustLocation() {
@@ -390,6 +388,7 @@ export default {
           console.log("地理坐标", { latitude, longitude });
           this.lng = longitude;
           this.lat = latitude;
+          this.isNear();
           return;
           // this.narrowSpot(latitude, longitude);
 
@@ -411,15 +410,74 @@ export default {
           this.lng = 114.498953;
           this.lat = 22.607684;
           console.log(this.lng, this.lat);
+          this.isNear();
         },
         fail: () => {
           console.log("getLocation failed");
         }
       });
+    },
+    // 是否靠近了某个景点,如果是,则自动播放
+    isNear() {
+      if (this.spotList) {
+        this.spotList.find(n => {
+          let { longitude, latitude, sortNo } = n;
+          const distance = 0.00001;
+          if (
+            this.lng &&
+            this.lat &&
+            Math.abs(this.lng - longitude) <= distance &&
+            Math.abs(this.lat - latitude) <= distance &&
+            this.activeSpot === -1 &&
+            1
+          ) {
+            // 激活最近点
+            this.active(sortNo - 1);
+          }
+        });
+      }
+    },
+    // 激活景点
+    active(index) {
+      this.activeSpot = index;
+      this.activeWindow = index;
+      if (index === -1) {
+        // 停止播放音乐
+        this.playAudio();
+      } else {
+        //  自动播放音乐
+        let spot_id = this.spotList.find(n => n.sortNo === index + 1).spot_id;
+        console.log({ index, spot_id });
+        wx.request({
+          url: config.base + "spot/listdetail", //开发者服务器接口地址",
+          data: {
+            spot_id: spot_id,
+            lineId: config.lineId
+          }, //请求的参数",
+          method: "GET",
+          dataType: "json", //如果设为json，会尝试对返回的数据做一次 JSON.parse
+          success: res => {
+            let data = res.data.data;
+            console.log(data);
+            let audioUrl = config.prefix + res.data.data[0].audio_url;
+            this.playAudio(audioUrl);
+          }
+        });
+      }
+    },
+    playAudio(url) {
+      if (url) {
+        this.innerAudioContext.src = url;
+        this.innerAudioContext.play();
+      } else {
+        this.innerAudioContext.stop();
+      }
     }
   },
   created() {
-    console.log("....", this.abc);
+    if (!this.innerAudioContext) {
+      this.innerAudioContext = wx.createInnerAudioContext();
+    }
     if (this.getStorage("spotList")) {
       this.spotList = this.getStorage("spotList");
     } else {
@@ -534,6 +592,7 @@ export default {
   align-items: center;
   background: #d5aa80;
   z-index: 99;
+  display: none;
   &-item {
     @size: 110rpx;
     width: @size;

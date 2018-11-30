@@ -4,27 +4,32 @@
       <div class="sub-nav-line"></div>
       <div class="sub-nav-btn">
         <div class="sub-nav-btn-in" @click="displaySub">
-          <img src="../../assets/icon-list-show.png" alt="" class="btn-show" :class="showSub?'':'reverse'">
+          <img
+            src="../../assets/icon-list-show.png"
+            alt
+            class="btn-show"
+            :class="showSub?'':'reverse'"
+          >
         </div>
       </div>
       <div class="sub-nav-line" v-if="showSub && audioUrl != ''"></div>
       <div class="sub-nav-btn" v-if="showSub && audioUrl != ''">
-        <div class="sub-nav-btn-in " @click="playAudio">
-          <img src="../../assets/icon-list-audio.png" alt="" class="btn-audio" v-if="audioOff">
-          <img src="../../assets/icon-list-audio-play.png" alt="" class="btn-audio" v-else>
+        <div class="sub-nav-btn-in" @click="playAudio">
+          <img src="../../assets/icon-list-audio.png" alt class="btn-audio" v-if="audioOff">
+          <img src="../../assets/icon-list-audio-play.png" alt class="btn-audio" v-else>
         </div>
       </div>
       <div class="sub-nav-line" v-if="showSub && videoUrl != ''"></div>
       <div class="sub-nav-btn" v-if="showSub && videoUrl != ''">
-        <div class="sub-nav-btn-in " @click="goVideo">
-          <img src="../../assets/icon-list-video.png" alt="" class="btn-video">
+        <div class="sub-nav-btn-in" @click="goVideo">
+          <img src="../../assets/icon-list-video.png" alt class="btn-video">
         </div>
       </div>
       <div class="sub-nav-line" v-if="showSub"></div>
       <div class="sub-nav-btn" v-if="showSub">
-        <div class="sub-nav-btn-in ">
+        <div class="sub-nav-btn-in">
           <button open-type="share" class="btn-share-origin"></button>
-          <img src="../../assets/icon-list-share.png" alt="" class="btn-share" >
+          <img src="../../assets/icon-list-share.png" alt class="btn-share">
         </div>
       </div>
     </div>
@@ -36,11 +41,15 @@
     <div class="article-border"></div>
     <div class="index-list">
       <div class="index-list-title">课程目录</div>
-      <scroll-view scroll-x >
+      <scroll-view scroll-x>
         <div class="index-list-box">
-          <div class="index-list-item" v-for="(item,index) in listItem" :key=index>
-            <div class="index-list-item-img" :class="activeIndex == index+1 ? 'index-list-item-img-active':''" @click="changeArticle(index+1)">
-              <img :src="'../../assets/list-pic-'+(index+1)+'.png'" alt="">
+          <div class="index-list-item" v-for="(item,index) in listItem" :key="index">
+            <div
+              class="index-list-item-img"
+              :class="activeIndex == index+1 ? 'index-list-item-img-active':''"
+              @click="changeArticle(index+1)"
+            >
+              <img :src="'../../assets/list-pic-'+(index+1)+'.png'" alt>
             </div>
             <div class="index-list-item-title">{{item.spot_name}}</div>
           </div>
@@ -51,18 +60,21 @@
       <div class="index-list-close-body" @click="bindTab">
         <img src="../../assets/btn-close-list.png" alt="">
       </div>
-    </div> -->
+    </div>-->
     <div class="share-box" v-if="sharebox">
       <div class="share-box-body">
         <div class="share-box-body-item">
           <button open-type="share" class="btn-share-origin"></button>
-          <img src="../../assets/icon-share-weixin.png" alt="">
-          
+          <img src="../../assets/icon-share-weixin.png" alt>
         </div>
       </div>
       <div class="share-box-close" @click="hideShareBox">取消</div>
     </div>
-    <img src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-index.jpg&fileType=ChildLineFile" alt="" class="index-bg">
+    <img
+      src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-index.jpg&fileType=ChildLineFile"
+      alt
+      class="index-bg"
+    >
   </div>
 </template>
 
