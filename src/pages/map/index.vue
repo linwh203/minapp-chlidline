@@ -390,7 +390,7 @@ export default {
           console.log("地理坐标", { latitude, longitude });
           this.lng = longitude;
           this.lat = latitude;
-          // return;
+          return;
           // this.narrowSpot(latitude, longitude);
 
           // 测试
