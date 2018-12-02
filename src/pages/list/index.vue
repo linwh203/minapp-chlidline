@@ -226,6 +226,7 @@ export default {
     this.audioOff = true;
     this.showSub = false;
     this.innerAudioContext.stop();
+    console.log("list page hide");
     // this.innerAudioContext = null
   },
   onUnload() {

@@ -1,7 +1,13 @@
 <template>
   <div class="container">
-    <camera :device-position="cameraDirection" flash="off" binderror="error" class="cameraArea" v-if="!showResult"></camera>
-    <img class="cameraArea" v-if="showResult" :src="src" />
+    <camera
+      :device-position="cameraDirection"
+      flash="off"
+      binderror="error"
+      class="cameraArea"
+      v-if="!showResult"
+    ></camera>
+    <img class="cameraArea" v-if="showResult" :src="src">
     <div class="index-tab" style="color:#fff;font-size:24rpx;">
       <div class="index-tab-left">
         <img src="../../assets/icon-scan-hint.png" @click="showDesc = !showDesc">
@@ -16,20 +22,24 @@
         <p>镜头切换</p>
       </div>
     </div>
-    <div class="modal" v-if="showResult" @click="init" >
-      
-    </div>
+    <div class="modal" v-if="showResult" @click="init"></div>
     <div class="result-tab" v-if="showResult">
       <scroll-view scroll-x class="result-tab-scroll" :scroll-into-view="toView">
         <div class="result-tab-box">
-          <div class="result-tab-item" v-for="(item,index) in matchItem" :key="index" :id="'result'+index">
+          <div
+            @click="toWebview(item.detail_url)"
+            class="result-tab-item"
+            v-for="(item,index) in matchItem"
+            :key="index"
+            :id="'result'+index"
+          >
             <div class="result-tab-item-name">{{item.name}}</div>
             <div class="result-tab-item-desc">{{item.desc}}</div>
             <div class="result-tab-item-pic active">
-              <img :src="src" >
+              <img :src="src">
               <div class="result-tab-item-pic-hint">匹配度:{{item.match}}%</div>
             </div>
-         </div>
+          </div>
         </div>
       </scroll-view>
     </div>
@@ -37,6 +47,9 @@
       <cover-view>拍照识别物种：对准你好奇的物种，</cover-view>
       <cover-view>点击拍一拍吧！</cover-view>
     </cover-view>
+    <div class="webview" v-if="showWebview">
+      <web-view :src="webviewUrl"/>
+    </div>
   </div>
 </template>
 
@@ -52,13 +65,20 @@ export default {
       showResult: false,
       userCode: "",
       matchItem: [],
-      toView: "result0"
+      toView: "result0",
+      webviewUrl: "",
+      showWebview: false
     };
   },
 
   components: {},
 
   methods: {
+    toWebview(url) {
+      console.log("show webview");
+      this.webviewUrl = url;
+      this.showWebview = true;
+    },
     bindTab(e) {
       console.log(e.currentTarget);
     },

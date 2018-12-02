@@ -385,7 +385,7 @@ export default {
           const longitude = res.longitude;
           const speed = res.speed;
           const accuracy = res.accuracy;
-          console.log("地理坐标", { latitude, longitude });
+          // console.log("地理坐标", { latitude, longitude });
           this.lng = longitude;
           this.lat = latitude;
           this.isNear();
@@ -492,11 +492,21 @@ export default {
     }, 5000);
   },
   onHide() {
+    console.log("on hide");
     if (this._tForLocation) {
       clearInterval(this._tForLocation);
     }
+    this.innerAudioContext.stop();
+    console.log("stop audio");
   },
-
+  onUnload() {
+    console.log("on unload");
+    if (this._tForLocation) {
+      clearInterval(this._tForLocation);
+    }
+    this.innerAudioContext.stop();
+    console.log("stop audio");
+  },
   mounted() {
     this.locate(this.mapStart, this.mapEnd);
 
