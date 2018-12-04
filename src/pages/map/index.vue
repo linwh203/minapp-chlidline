@@ -99,6 +99,8 @@ import { config } from "../../utils/index";
 export default {
   data() {
     return {
+      isMock: false,
+      // isMock: true,
       scaleValue: 0.65,
       spotList: [],
       activeSpot: -1,
@@ -115,13 +117,17 @@ export default {
       },
       nearSpot: 0,
       prefix: config.prefix,
-      // showMessage: false
-      showMessage: true,
+      showMessage: false,
       lng: 0,
       lat: 0,
       // 地理坐标轮询的句柄
-      _tForLocation: undefined,
-      abc: 0
+      tForLocation: undefined,
+      // 是否存在主动播放
+      hasActivePlay: false,
+      // 延时取消主动播放
+      tForActivePlay: -1,
+      abc: 0,
+      def: -1
     };
   },
   computed: {
@@ -226,9 +232,9 @@ export default {
     locate2percent(lng, lat) {},
     showNear() {
       if (this.nearSpot == 0) {
-        this.showWindow(this.nearSpot);
+        this.showWindow(this.nearSpot, true);
       } else {
-        this.showWindow(this.nearSpot - 1);
+        this.showWindow(this.nearSpot - 1, true);
       }
     },
     bindTab(url) {
@@ -247,14 +253,16 @@ export default {
           "&from=map"
       });
     },
-    showWindow(index) {
+    // index 需要激活的点
+    // isAuto 是否是自动激活(是自动激活,就不是手动激活,手动激活优先级高)
+    showWindow(index, isAuto) {
       this.activeWindow == index
         ? (this.activeWindow = -1)
         : (this.activeWindow = index);
       this.activeSpot == index
         ? (this.activeSpot = -1)
         : (this.activeSpot = index);
-      this.active(this.activeSpot);
+      this.active(this.activeSpot, isAuto);
       switch (index) {
         case 0:
           this.x = -100;
@@ -373,14 +381,14 @@ export default {
     },
     touchMap() {
       console.log("touch map");
-      this.active(-1);
+      this.hasActivePlay = false;
+      this.active(-1, false);
     },
     // 调整地理坐标
     adjustLocation() {
       wx.getLocation({
         type: "wgs84", //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标,
         success: res => {
-          console.info("getLocation success: ", res);
           const latitude = res.latitude;
           const longitude = res.longitude;
           const speed = res.speed;
@@ -388,6 +396,15 @@ export default {
           // console.log("地理坐标", { latitude, longitude });
           this.lng = longitude;
           this.lat = latitude;
+          // 测试
+          if (this.isMock) {
+            this.abc++;
+            if (this.abc === 3) {
+              this.lng = 114.498028;
+              this.lat = 22.602427;
+              (this.lat = 22.601118), (this.lng = 114.499079);
+            }
+          }
           this.isNear();
           return;
           // this.narrowSpot(latitude, longitude);
@@ -419,32 +436,61 @@ export default {
     },
     // 是否靠近了某个景点,如果是,则自动播放
     isNear() {
+      // 30米的经纬度差距
+      const LNG_INTERVAL = 0.00029505;
+      const LAT_INTERVAL = 0.00029608;
+      const DIST = 30;
+      let getDistance = (lng1, lat1, lng2, lat2) => {
+        let d1 = Math.abs(lng1 - lng2) / LNG_INTERVAL * DIST;
+        let d2 = Math.abs(lat1 - lat2) / LAT_INTERVAL * DIST;
+        return Math.sqrt(d1 * d1 + d2 * d2);
+      };
+      //       我设置的起点是114.496872, 22.605782
+      // 得到的30米偏差的经纬度坐标114.496602505415, 22.6055332100731
+      // console.log(
+      //   "getDistance",
+      //   getDistance(114.496872, 22.605782, 114.496602505415, 22.6055332100731)
+      // );
+
       if (this.spotList) {
         this.spotList.find(n => {
           let { longitude, latitude, sortNo } = n;
-          const distance = 0.00001;
           if (
             this.lng &&
             this.lat &&
-            Math.abs(this.lng - longitude) <= distance &&
-            Math.abs(this.lat - latitude) <= distance &&
-            this.activeSpot === -1 &&
+            getDistance(this.lng, this.lat, longitude, latitude) <= DIST &&
             1
           ) {
             // 激活最近点
-            this.active(sortNo - 1);
+            console.log("尝试激活最近点", sortNo - 1);
+            this.active(sortNo - 1, true);
           }
         });
       }
     },
-    // 激活景点
-    active(index) {
+    // 激活景点,-1则停止播放
+    active(index, isAuto) {
       this.activeSpot = index;
       this.activeWindow = index;
+
       if (index === -1) {
         // 停止播放音乐
         this.playAudio();
       } else {
+        if (isAuto) {
+          if (this.hasActivePlay) {
+            return;
+          }
+        } else {
+          this.hasActivePlay = true;
+          if (this.tForActivePlay) {
+            clearTimeout(this.tForActivePlay);
+          }
+          this.tForActivePlay = setTimeout(() => {
+            this.hasActivePlay = false;
+          }, 5 * 60 * 1000);
+        }
+
         //  自动播放音乐
         let spot_id = this.spotList.find(n => n.sortNo === index + 1).spot_id;
         console.log({ index, spot_id });
@@ -487,22 +533,28 @@ export default {
   onShow() {
     console.log("onShow");
     this.adjustLocation();
-    this._tForLocation = setInterval(() => {
+    this.tForLocation = setInterval(() => {
       this.adjustLocation();
     }, 5000);
+    if (this.isMock) {
+      console.log("show window 6");
+      setTimeout(() => {
+        this.showWindow(1);
+      }, 2000);
+    }
   },
   onHide() {
     console.log("on hide");
-    if (this._tForLocation) {
-      clearInterval(this._tForLocation);
+    if (this.tForLocation) {
+      clearInterval(this.tForLocation);
     }
     this.innerAudioContext.stop();
     console.log("stop audio");
   },
   onUnload() {
     console.log("on unload");
-    if (this._tForLocation) {
-      clearInterval(this._tForLocation);
+    if (this.tForLocation) {
+      clearInterval(this.tForLocation);
     }
     this.innerAudioContext.stop();
     console.log("stop audio");
@@ -514,15 +566,19 @@ export default {
       type: "wgs84", //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标,
       success: res => {
         console.info("getLocation success: ", res);
-        const latitude = res.latitude;
-        const longitude = res.longitude;
-        const speed = res.speed;
-        const accuracy = res.accuracy;
+        let latitude = res.latitude;
+        let longitude = res.longitude;
+        let speed = res.speed;
+        let accuracy = res.accuracy;
+        //  22.6010800000,114.4991950000
+        // latitude = 22.60108;
+        // longitude = 114.499195;
         let isOut =
           latitude < Math.min(this.mapStart.lat, this.mapEnd.lat) ||
-          latitude > Math.max(this.mapStart.lat, this.mapStart.lat) ||
+          latitude > Math.max(this.mapStart.lat, this.mapEnd.lat) ||
           longitude < Math.min(this.mapStart.lng, this.mapEnd.lng) ||
           longitude > Math.max(this.mapStart.lng, this.mapEnd.lng);
+        console.log(isOut);
         if (isOut) {
           this.showMessage = true;
           setTimeout(() => {
