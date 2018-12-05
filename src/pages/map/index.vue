@@ -3,13 +3,11 @@
     <movable-view
       class="index-bg"
       direction="all"
-      :x="x"
-      :y="y"
       scale
-      :scale-min="scaleValue"
+      :scale-min="0.65"
       scale-max="2"
       :scale-value="scaleValue"
-      @change="startTouch"
+      @scale="onScale"
     >
       <img
         class="mapImg"
@@ -101,7 +99,7 @@ export default {
     return {
       isMock: false,
       // isMock: true,
-      scaleValue: 0.65,
+      scaleValue: 0.6,
       spotList: [],
       activeSpot: -1,
       activeWindow: -1,
@@ -126,6 +124,8 @@ export default {
       hasActivePlay: false,
       // 延时取消主动播放
       tForActivePlay: -1,
+      // 延时设置地图的scale
+      tForMapScale: -1,
       abc: 0,
       def: -1
     };
@@ -203,6 +203,19 @@ export default {
   components: {},
 
   methods: {
+    onScale(e) {
+      console.log(e);
+      let detail = e.mp.detail;
+      let scale = detail.scale;
+      this.scaleValue = scale;
+      // if (this.tForMapScale) {
+      //   clearTimeout(this.tForMapScale);
+      // }
+      // this.tForMapScale = setTimeout(() => {
+      //   // this.scaleValue = scale;
+      //   console.log("map scale", scale);
+      // }, 100);
+    },
     setStorage(key, val) {
       try {
         wx.setStorageSync(key, val);
@@ -399,7 +412,7 @@ export default {
           // 测试
           if (this.isMock) {
             this.abc++;
-            if (this.abc === 3) {
+            if (this.abc >= 2) {
               this.lng = 114.498028;
               this.lat = 22.602427;
               (this.lat = 22.601118), (this.lng = 114.499079);
@@ -470,25 +483,25 @@ export default {
     },
     // 激活景点,-1则停止播放
     active(index, isAuto) {
-      this.activeSpot = index;
-      this.activeWindow = index;
-
       if (index === -1) {
+        this.activeSpot = -1;
+        this.activeWindow = -1;
         // 停止播放音乐
         this.playAudio();
       } else {
-        if (isAuto) {
-          if (this.hasActivePlay) {
-            return;
-          }
-        } else {
+        if (isAuto && this.hasActivePlay) {
+          return;
+        }
+        this.activeSpot = index;
+        this.activeWindow = index;
+        if (!isAuto) {
           this.hasActivePlay = true;
-          if (this.tForActivePlay) {
-            clearTimeout(this.tForActivePlay);
-          }
-          this.tForActivePlay = setTimeout(() => {
-            this.hasActivePlay = false;
-          }, 5 * 60 * 1000);
+          // if (this.tForActivePlay) {
+          //   clearTimeout(this.tForActivePlay);
+          // }
+          // this.tForActivePlay = setTimeout(() => {
+          //   this.hasActivePlay = false;
+          // }, 5 * 60 * 1000);
         }
 
         //  自动播放音乐
@@ -523,6 +536,11 @@ export default {
   created() {
     if (!this.innerAudioContext) {
       this.innerAudioContext = wx.createInnerAudioContext();
+      console.log(this.innerAudioContext);
+      this.innerAudioContext.onEnded(() => {
+        console.log("ended audio");
+        this.hasActivePlay = false;
+      });
     }
     if (this.getStorage("spotList")) {
       this.spotList = this.getStorage("spotList");
@@ -537,10 +555,10 @@ export default {
       this.adjustLocation();
     }, 5000);
     if (this.isMock) {
-      console.log("show window 6");
       setTimeout(() => {
-        this.showWindow(1);
-      }, 2000);
+        // console.log("show window 6");
+        // this.showWindow(1);
+      }, 5000);
     }
   },
   onHide() {
