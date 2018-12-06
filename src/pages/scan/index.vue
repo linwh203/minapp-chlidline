@@ -36,7 +36,7 @@
             <div class="result-tab-item-name">{{item.name}}</div>
             <div class="result-tab-item-desc">{{item.desc}}</div>
             <div class="result-tab-item-pic active">
-              <img :src="src">
+              <img :src="item.reference_url">
               <div class="result-tab-item-pic-hint">匹配度:{{item.match}}%</div>
             </div>
           </div>
@@ -47,9 +47,6 @@
       <cover-view>拍照识别物种：对准你好奇的物种，</cover-view>
       <cover-view>点击拍一拍吧！</cover-view>
     </cover-view>
-    <div class="webview" v-if="showWebview">
-      <web-view :src="webviewUrl"/>
-    </div>
   </div>
 </template>
 
@@ -65,19 +62,19 @@ export default {
       showResult: false,
       userCode: "",
       matchItem: [],
-      toView: "result0",
-      webviewUrl: "",
-      showWebview: false
+      toView: "result0"
     };
   },
 
   components: {},
 
   methods: {
-    toWebview(url) {
-      console.log("show webview");
-      this.webviewUrl = url;
-      this.showWebview = true;
+    toWebview(webviewUrl) {
+      let url = "../webview/main";
+      url += "?webviewUrl=" + encodeURIComponent(webviewUrl);
+      // url += "?id=1";
+      console.log("show webview", url);
+      wx.navigateTo({ url });
     },
     bindTab(e) {
       console.log(e.currentTarget);

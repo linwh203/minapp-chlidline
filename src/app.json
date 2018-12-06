@@ -12,6 +12,8 @@
     "pages/list/main",
     "pages/video/main",
 
+    "pages/webview/main",
+
     "pages/my/main",
     "pages/my-rule/main",
     "pages/my-statement/main",
