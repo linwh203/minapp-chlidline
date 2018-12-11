@@ -164,7 +164,7 @@ export default {
         dataType: "json", //如果设为json，会尝试对返回的数据做一次 JSON.parse
         success: res => {
           console.log(res.data.data);
-          this.mainPic = config.prefix + res.data.data[0].image_url;
+          this.mainPic = res.data.data[0].image_url;
           this.innerAudioContext = wx.createInnerAudioContext();
           this.audioUrl =
             res.data.data[0].audio_url == null
