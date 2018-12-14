@@ -244,11 +244,22 @@ export default {
     // 输入经度纬度返回
     locate2percent(lng, lat) {},
     showNear() {
-      if (this.nearSpot == 0) {
-        this.showWindow(this.nearSpot, true);
-      } else {
-        this.showWindow(this.nearSpot - 1, true);
-      }
+      this.getGps().then(posi => {
+        let { lng, lat } = posi;
+        let isOut = this.isOut(lng, lat);
+        if (isOut) {
+          this.showOutNotice();
+        } else {
+          this.lng = lng;
+          this.lat = lat;
+          this.isNear();
+        }
+      });
+      // if (this.nearSpot == 0) {
+      //   this.showWindow(this.nearSpot, true);
+      // } else {
+      //   this.showWindow(this.nearSpot - 1, true);
+      // }
     },
     bindTab(url) {
       wx.navigateTo({ url: url });
@@ -397,54 +408,30 @@ export default {
       this.hasActivePlay = false;
       this.active(-1, false);
     },
+    getGps() {
+      return new Promise(resolve => {
+        wx.getLocation({
+          type: "wgs84", //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标,
+          success: res => {
+            resolve({
+              lng: res.longitude,
+              lat: res.latitude
+            });
+          },
+          fail: () => {
+            resolve(null);
+          }
+        });
+      });
+    },
     // 调整地理坐标
     adjustLocation() {
-      wx.getLocation({
-        type: "wgs84", //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标,
-        success: res => {
-          const latitude = res.latitude;
-          const longitude = res.longitude;
-          const speed = res.speed;
-          const accuracy = res.accuracy;
-          // console.log("地理坐标", { latitude, longitude });
-          this.lng = longitude;
-          this.lat = latitude;
-          // 测试
-          if (this.isMock) {
-            this.abc++;
-            if (this.abc >= 2) {
-              this.lng = 114.498028;
-              this.lat = 22.602427;
-              (this.lat = 22.601118), (this.lng = 114.499079);
-            }
-          }
-          this.isNear();
-          return;
-          // this.narrowSpot(latitude, longitude);
-
-          // 测试
-          this.abc++;
-          let n = this.abc;
-          console.log({ n }, this.abc);
-          // this.narrowSpot(latitude + n * 0.001, longitude + n * 0.001);
-          // n = 0;
-          this.lng = this.mapStart.lng + n * 0.00001;
-          this.lat = this.mapEnd.lat + n * 0.00001;
-          // 10的位置
-          this.lng = 114.496348;
-          this.lat = 22.603917;
-          // 1的位置
-          this.lng = 114.496869;
-          this.lat = 22.605782;
-          // 4的位置
-          this.lng = 114.498953;
-          this.lat = 22.607684;
-          console.log(this.lng, this.lat);
-          this.isNear();
-        },
-        fail: () => {
-          console.log("getLocation failed");
+      this.getGps().then(posi => {
+        if (posi) {
+          this.lng = posi.lng;
+          this.lat = posi.lat;
         }
+        this.isNear();
       });
     },
     // 是否靠近了某个景点,如果是,则自动播放
@@ -531,6 +518,21 @@ export default {
       } else {
         this.innerAudioContext.stop();
       }
+    },
+    isOut(lng, lat) {
+      let rst =
+        lat < Math.min(this.mapStart.lat, this.mapEnd.lat) ||
+        lat > Math.max(this.mapStart.lat, this.mapEnd.lat) ||
+        lng < Math.min(this.mapStart.lng, this.mapEnd.lng) ||
+        lng > Math.max(this.mapStart.lng, this.mapEnd.lng);
+      console.log("in isout", lng, lat, rst);
+      return rst;
+    },
+    showOutNotice() {
+      this.showMessage = true;
+      setTimeout(() => {
+        this.showMessage = false;
+      }, 2000);
     }
   },
   created() {
@@ -579,33 +581,9 @@ export default {
   },
   mounted() {
     this.locate(this.mapStart, this.mapEnd);
-
-    wx.getLocation({
-      type: "wgs84", //默认为 wgs84 返回 gps 坐标，gcj02 返回可用于wx.openLocation的坐标,
-      success: res => {
-        console.info("getLocation success: ", res);
-        let latitude = res.latitude;
-        let longitude = res.longitude;
-        let speed = res.speed;
-        let accuracy = res.accuracy;
-        //  22.6010800000,114.4991950000
-        // latitude = 22.60108;
-        // longitude = 114.499195;
-        let isOut =
-          latitude < Math.min(this.mapStart.lat, this.mapEnd.lat) ||
-          latitude > Math.max(this.mapStart.lat, this.mapEnd.lat) ||
-          longitude < Math.min(this.mapStart.lng, this.mapEnd.lng) ||
-          longitude > Math.max(this.mapStart.lng, this.mapEnd.lng);
-        console.log(isOut);
-        if (isOut) {
-          this.showMessage = true;
-          setTimeout(() => {
-            this.showMessage = false;
-          }, 2000);
-        }
-      },
-      fail: () => {
-        console.log("getLocation failed");
+    this.getGps().then(posi => {
+      if (this.isOut(posi.lng, posi.lat)) {
+        this.showOutNotice();
       }
     });
   },

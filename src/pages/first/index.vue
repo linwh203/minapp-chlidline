@@ -1,13 +1,24 @@
 <template>
   <div class="container">
     <div class="first-visit">
-      <img src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-first-visit.png&fileType=ChildLineFile" alt="">
+      <img
+        src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-first-visit.png&fileType=ChildLineFile"
+        alt
+      >
       <div class="close-btn" @click="bindNext"></div>
     </div>
     <div class="modal" v-if="motto">
       <div class="modal-container">
-        <img src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-auth.png&fileType=ChildLineFile" alt="">
-        <button class="auth-confirm" open-type="getUserInfo" @getuserinfo="bindGetUserInfo" @click="getUserInfo1">授权登录</button>
+        <img
+          src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-auth.png&fileType=ChildLineFile"
+          alt
+        >
+        <button
+          class="auth-confirm"
+          open-type="getUserInfo"
+          @getuserinfo="bindGetUserInfo"
+          @click="getUserInfo1"
+        >授权登录</button>
         <button class="auth-cancel" @click="cancelAuth">拒绝授权</button>
       </div>
     </div>
