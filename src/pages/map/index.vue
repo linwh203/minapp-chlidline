@@ -74,8 +74,8 @@
       <div class="map-tab-item icon-scan" @click="bindTab('../scan/main')">
         <img src="../../assets/icon-index-scan.png" alt>
       </div>
-      <!-- <div class="map-tab-item icon-quiz" @click="bindTab('../quiz/main')"> -->
-      <div class="map-tab-item icon-quiz" @click="bindTab('../developing/main')">
+      <div class="map-tab-item icon-quiz" @click="bindTab('../quiz/main')">
+        <!-- <div class="map-tab-item icon-quiz" @click="bindTab('../developing/main')"> -->
         <img src="../../assets/icon-index-quiz.png" alt>
       </div>
       <div class="map-tab-item icon-my" @click="bindTab('../my/main')">
