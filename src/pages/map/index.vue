@@ -11,16 +11,18 @@
     >
       <img
         class="mapImg"
-        src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-map.png&fileType=ChildLineFile"
+        src="https://child-line.oss-cn-shenzhen.aliyuncs.com/map/background_map.png?1"
         alt
         @click="touchMap"
       >
-      <img
+      <div
         class="userIcon"
-        id="usericon"
-        src="../../assets/icon-avator.png"
         v-bind:style="{ top: 'calc(' + userLat + '% - 120rpx)' ,left: userLng+'%' }"
       >
+        <!-- <div class="userIcon" v-bind:style="{ top: '200rpx' ,left: '400rpx' }"> -->
+        <img id="usericon" src="../../assets/icon-avator.png">
+      </div>
+
       <div class="spot" v-for="(item,index) in spotList" :key="item.sortNo">
         <div
           class="spot-icon"
@@ -685,10 +687,20 @@ export default {
   }
 }
 .userIcon {
-  width: 80rpx;
-  height: 120rpx;
+  @size: 200rpx;
+  width: @size;
+  height: @size;
+  border-radius: 50%;
+  background-color: rgba(3, 130, 249, 0.25);
   position: absolute;
   z-index: 888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 80rpx;
+    height: 120rpx;
+  }
 }
 .spot-window {
   position: absolute;
