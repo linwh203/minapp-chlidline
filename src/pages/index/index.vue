@@ -2,13 +2,13 @@
   <div class="container">
     <div class="index-tab">
       <div class="index-tab-item icon-list" @click="bindTab('../list/main')">
-        <img src="../../assets/icon-index-list.png" alt>
+        <img src="https://child-line.oss-cn-shenzhen.aliyuncs.com/other/menu_class.png" alt>
       </div>
       <div class="index-tab-item icon-map" @click="bindTab('../map/main')">
         <img src="../../assets/icon-index-map.png" alt>
       </div>
       <div class="index-tab-item icon-scan" @click="bindTab('../scan/main')">
-        <img src="../../assets/icon-index-scan.png" alt>
+        <img src="https://child-line.oss-cn-shenzhen.aliyuncs.com/other/menu_photo.png" alt>
       </div>
       <div class="index-tab-item icon-quiz" @click="bindTab('../quiz/main')">
         <!-- <div class="index-tab-item icon-quiz" @click="bindTab('../developing/main')"> -->
