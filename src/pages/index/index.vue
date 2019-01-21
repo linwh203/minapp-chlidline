@@ -20,7 +20,7 @@
     </div>
 
     <img
-      src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-index.jpg&fileType=ChildLineFile"
+      src="https://child-line.oss-cn-shenzhen.aliyuncs.com/other/background.png"
       alt
       class="index-bg"
     >
