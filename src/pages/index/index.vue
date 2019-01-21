@@ -111,7 +111,17 @@ export default {
     this.getSpot();
     // console.log(this.GLOBAL);
   },
-  onLoad() {
+  onLoad(option) {
+    if (option.share_from) {
+      if (option.share_from === "list") {
+        this.bindTab(
+          `../${option.share_from}/main?spot_index=${option.spot_index}`
+        );
+      } else {
+        this.bindTab(`../${option.share_from}/main`);
+      }
+      return;
+    }
     // 判断是否第一次使用
     const firsttime = wx.getStorageSync("firsttime");
     if (!firsttime) {
