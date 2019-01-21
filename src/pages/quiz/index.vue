@@ -3,47 +3,97 @@
     <scroll-view scroll-x class="index-list">
       <div class="index-list-box">
         <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 1 ? 'index-list-item-img-active':''" @click="startQuiz(1)">
-            <div class="stage"> 第<span class="stage-number">1</span>关 </div>
+          <div
+            class="index-list-item-img"
+            :class="activeIndex == 1 ? 'index-list-item-img-active':''"
+            @click="startQuiz(1)"
+          >
+            <div class="stage">第
+              <span class="stage-number">1</span>关
+            </div>
           </div>
           <div class="index-list-item-title">破壳而出</div>
         </div>
         <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 2 ? 'index-list-item-img-active':''" @click="startQuiz(2)">
-            <img src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png" class="unlock" v-if="score<1">
-            <div class="stage" v-else> 第<span class="stage-number">2</span>关 </div>
+          <div
+            class="index-list-item-img"
+            :class="activeIndex == 2 ? 'index-list-item-img-active':''"
+            @click="startQuiz(2)"
+          >
+            <img
+              src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png"
+              class="unlock"
+              v-if="score<1"
+            >
+            <div class="stage" v-else>第
+              <span class="stage-number">2</span>关
+            </div>
           </div>
           <div class="index-list-item-title">萌力担当</div>
         </div>
         <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 3 ? 'index-list-item-img-active':''" @click="startQuiz(3)">
-            <img src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png" class="unlock" v-if="score<2">
-            <div class="stage" v-else> 第<span class="stage-number">3</span>关 </div>
+          <div
+            class="index-list-item-img"
+            :class="activeIndex == 3 ? 'index-list-item-img-active':''"
+            @click="startQuiz(3)"
+          >
+            <img
+              src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png"
+              class="unlock"
+              v-if="score<2"
+            >
+            <div class="stage" v-else>第
+              <span class="stage-number">3</span>关
+            </div>
           </div>
           <div class="index-list-item-title">虫虫小将</div>
         </div>
         <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 4 ? 'index-list-item-img-active':''" @click="startQuiz(4)">
-            <img src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png" class="unlock" v-if="score<3">
-            <div class="stage" v-else> 第<span class="stage-number">4</span>关 </div>
+          <div
+            class="index-list-item-img"
+            :class="activeIndex == 4 ? 'index-list-item-img-active':''"
+            @click="startQuiz(4)"
+          >
+            <img
+              src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png"
+              class="unlock"
+              v-if="score<3"
+            >
+            <div class="stage" v-else>第
+              <span class="stage-number">4</span>关
+            </div>
           </div>
           <div class="index-list-item-title">舞林萌主</div>
         </div>
         <div class="index-list-item">
-          <div class="index-list-item-img" :class="activeIndex == 5 ? 'index-list-item-img-active':''" @click="startQuiz(5)">
-            <img src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png" class="unlock" v-if="score<4">
-            <div class="stage" v-else> 第<span class="stage-number">5</span>关 </div>
+          <div
+            class="index-list-item-img"
+            :class="activeIndex == 5 ? 'index-list-item-img-active':''"
+            @click="startQuiz(5)"
+          >
+            <img
+              src="https://gw.alicdn.com/tfs/TB1x8jwiY2pK1RjSZFsXXaNlXXa-64-79.png"
+              class="unlock"
+              v-if="score<4"
+            >
+            <div class="stage" v-else>第
+              <span class="stage-number">5</span>关
+            </div>
           </div>
           <div class="index-list-item-title">一代虫师</div>
         </div>
       </div>
     </scroll-view>
-    <div class="index-list-close">
+    <!-- <div class="index-list-close">
       <div class="index-list-close-body" @click="bindTab">
         <img src="../../assets/btn-close-list.png" alt="">
       </div>
-    </div>
-    <img src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-index.jpg&fileType=ChildLineFile" alt="" class="index-bg">
+    </div>-->
+    <img
+      src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-index.jpg&fileType=ChildLineFile"
+      alt
+      class="index-bg"
+    >
   </div>
 </template>
 
