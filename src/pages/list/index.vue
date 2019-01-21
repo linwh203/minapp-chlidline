@@ -342,6 +342,7 @@ export default {
   height: 84%;
   &-view {
     height: 100%;
+    background-color: #c4ebfc;
     img {
       width: 100%;
       height: auto;
@@ -382,15 +383,20 @@ export default {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    padding-left: 15rpx;
   }
   &-item {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-right: 20rpx;
+    padding-bottom: 10rpx;
+
     &-img {
-      width: 120rpx;
-      height: 120rpx;
+      @size: 140rpx;
+      width: @size;
+      height: @size;
       border: 2px solid #b28e69;
       border-radius: 50%;
       background: #fff;
