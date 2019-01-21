@@ -1,10 +1,7 @@
 <template>
   <div class="container">
     <div class="first-visit">
-      <img
-        src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-first-visit.png&fileType=ChildLineFile"
-        alt
-      >
+      <img src="https://child-line.oss-cn-shenzhen.aliyuncs.com/other/introlduction.jpg" alt>
       <div class="close-btn" @click="bindNext"></div>
     </div>
     <div class="modal" v-if="motto">
