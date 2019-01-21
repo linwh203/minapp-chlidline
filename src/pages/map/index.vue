@@ -1,5 +1,5 @@
 <template>
-  <movable-area class="container">
+  <movable-area class="container" @click="closeTip">
     <movable-view
       class="index-bg"
       direction="all"
@@ -65,6 +65,16 @@
           <img src="../../assets/icon-map-pic.png" alt class="btn-audio">
         </div>
       </div>
+      <div class="map-sub-line"></div>
+      <div class="map-sub-btn">
+        <div class="map-sub-btn-in" @click="showTip">
+          <img
+            src="https://child-line.oss-cn-shenzhen.aliyuncs.com/map/help_icon.png"
+            alt
+            class="btn-audio"
+          >
+        </div>
+      </div>
     </div>
     <div class="map-tab">
       <div class="map-tab-item icon-list" @click="bindTab('../index/main')">
@@ -90,6 +100,11 @@
       </div>-->
       您当前不在研习径范围内,不能进行定位讲解
     </div>
+    <div class="modal" v-if="isTip">
+      <div class="modal-container">
+        <img mode="widthFix" src="https://child-line.oss-cn-shenzhen.aliyuncs.com/map/help.png" alt>
+      </div>
+    </div>
   </movable-area>
 </template>
 
@@ -100,6 +115,7 @@ export default {
   data() {
     return {
       isMock: false,
+      isTip: false,
       // isMock: true,
       scaleValue: 0.6,
       spotList: [],
@@ -205,6 +221,18 @@ export default {
   components: {},
 
   methods: {
+    showTip() {
+      if (!this.isTip) {
+        setTimeout(() => {
+          this.isTip = true;
+        }, 100);
+      }
+    },
+    closeTip() {
+      if (this.isTip) {
+        this.isTip = false;
+      }
+    },
     onScale(e) {
       console.log(e);
       let detail = e.mp.detail;
@@ -876,5 +904,21 @@ export default {
   //   width: 34rpx;
   //   height: 28rpx;
   // }
+}
+.modal {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  &-container {
+    position: relative;
+  }
 }
 </style>
