@@ -38,7 +38,7 @@
           :class="'icon-'+item.sortNo"
           v-else
           @click="showWindow(index)"
-        >{{item.sortNo}}</div>
+        >{{item.letter}}</div>
         <div
           class="spot-window"
           :class="'window-'+item.sortNo"
@@ -393,8 +393,13 @@ export default {
         success: res => {
           // console.log(res)
           // self.GLOBAL.spot_list = res.data.data
-          this.spotList = res.data.data;
-          this.setStorage("spotList", res.data.data);
+          let data = res.data.data;
+          data = data.map(n => {
+            n.letter = "!ABCDEFGHIJKLMN".split("")[n.sortNo];
+            return n;
+          });
+          this.setStorage("spotList", data);
+          this.spotList = data;
         },
         fail: () => {},
         complete: () => {}
