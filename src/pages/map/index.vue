@@ -772,6 +772,7 @@ export default {
   text-align: center;
   color: #fff;
   font-size: 30rpx;
+  transform: scale(1.2);
 }
 .icon-five {
   left: 810rpx;
