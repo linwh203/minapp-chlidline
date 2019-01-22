@@ -84,7 +84,7 @@ export default {
   data() {
     return {
       fromMap: false,
-      showSub: false,
+      showSub: true,
       innerAudioContext: null,
       videoUrl: "",
       audioOff: true,
