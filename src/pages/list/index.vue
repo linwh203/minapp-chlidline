@@ -71,7 +71,7 @@
       <div class="share-box-close" @click="hideShareBox">取消</div>
     </div>
     <img
-      src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-index.jpg&fileType=ChildLineFile"
+      src="https://etx.funsomestudio.com/File/Download?fileName=local/bg-index.jpg&fileType=ChildLineFile"
       alt
       class="index-bg"
     >

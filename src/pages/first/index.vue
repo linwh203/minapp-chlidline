@@ -7,7 +7,7 @@
     <div class="modal" v-if="motto">
       <div class="modal-container">
         <img
-          src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-auth.png&fileType=ChildLineFile"
+          src="https://etx.funsomestudio.com/File/Download?fileName=local/bg-auth.png&fileType=ChildLineFile"
           alt
         >
         <button

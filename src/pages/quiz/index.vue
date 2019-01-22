@@ -8,7 +8,8 @@
             :class="activeIndex == 1 ? 'index-list-item-img-active':''"
             @click="startQuiz(1)"
           >
-            <div class="stage">第
+            <div class="stage">
+              第
               <span class="stage-number">1</span>关
             </div>
           </div>
@@ -25,7 +26,8 @@
               class="unlock"
               v-if="score<1"
             >
-            <div class="stage" v-else>第
+            <div class="stage" v-else>
+              第
               <span class="stage-number">2</span>关
             </div>
           </div>
@@ -42,7 +44,8 @@
               class="unlock"
               v-if="score<2"
             >
-            <div class="stage" v-else>第
+            <div class="stage" v-else>
+              第
               <span class="stage-number">3</span>关
             </div>
           </div>
@@ -59,7 +62,8 @@
               class="unlock"
               v-if="score<3"
             >
-            <div class="stage" v-else>第
+            <div class="stage" v-else>
+              第
               <span class="stage-number">4</span>关
             </div>
           </div>
@@ -76,7 +80,8 @@
               class="unlock"
               v-if="score<4"
             >
-            <div class="stage" v-else>第
+            <div class="stage" v-else>
+              第
               <span class="stage-number">5</span>关
             </div>
           </div>
@@ -90,7 +95,7 @@
       </div>
     </div>-->
     <img
-      src="https://yxj.forestvisual.com/File/Download?fileName=local/bg-index.jpg&fileType=ChildLineFile"
+      src="https://etx.funsomestudio.com/File/Download?fileName=local/bg-index.jpg&fileType=ChildLineFile"
       alt
       class="index-bg"
     >

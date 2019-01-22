@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <img class="dev" mode="widthFix" src="https://yxj.forestvisual.com/File/Download?fileName=local/developing.jpg&fileType=ChildLineFile">
+    <img
+      class="dev"
+      mode="widthFix"
+      src="https://etx.funsomestudio.com/File/Download?fileName=local/developing.jpg&fileType=ChildLineFile"
+    >
   </div>
 </template>
 

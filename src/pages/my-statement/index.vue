@@ -3,7 +3,7 @@
     <scroll-view scroll-y class="article-view">
       <img
         mode="widthFix"
-        src="https://yxj.forestvisual.com/File/Download?fileName=local/law.jpg&fileType=ChildLineFile"
+        src="https://etx.funsomestudio.com/File/Download?fileName=local/law.jpg&fileType=ChildLineFile"
       >
     </scroll-view>
   </div>
