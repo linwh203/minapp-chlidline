@@ -15,38 +15,42 @@
       <div class="my-tab-btm">
         <div class="my-tab-btm-head">闯关记录</div>
         <div class="my-tab-btm-main">
-          <div class="my-tab-btm-item relative mrgin70">
-            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<1" >
-            <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
-            <div class="my-tab-btm-item-name">第一关</div>
-            <!-- <div class="my-tab-btm-item-time">(******)</div> -->
-            <div class="my-tab-btm-item-line"></div>
+          <div class="my-tab-btm-main-row">
+            <div class="my-tab-btm-row-item relative mrgin70">
+              <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<1" >
+              <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
+              <div class="my-tab-btm-row-item-name">第一关</div>
+              <!-- <div class="my-tab-btm-item-time">(******)</div> -->
+              <div class="my-tab-btm-row-item-line"></div>
+            </div>
+            <div class="my-tab-btm-row-item relative mrgin70">
+              <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<2" >
+              <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
+              <div class="my-tab-btm-row-item-name">第二关</div>
+              <!-- <div class="my-tab-btm-item-time">(******)</div> -->
+              <div class="my-tab-btm-row-item-line"></div>
+            </div>
+            <div class="my-tab-btm-row-item relative columnLine">
+              <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<3" >
+              <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
+              <div class="my-tab-btm-row-item-name">第三关</div>
+              <!-- <div class="my-tab-btm-item-time">(******)</div> -->
+            </div>
           </div>
-          <div class="my-tab-btm-item relative mrgin70">
-            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<2" >
-            <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
-            <div class="my-tab-btm-item-name">第二关</div>
-            <!-- <div class="my-tab-btm-item-time">(******)</div> -->
-            <div class="my-tab-btm-item-line"></div>
-          </div>
-          <div class="my-tab-btm-item relative">
-            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<3" >
-            <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
-            <div class="my-tab-btm-item-name">第三关</div>
-            <!-- <div class="my-tab-btm-item-time">(******)</div> -->
-          </div>
-          <div class="my-tab-btm-item relative mrgin70">
-            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<4" >
-            <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
-            <div class="my-tab-btm-item-name">第四关</div>
-            <!-- <div class="my-tab-btm-item-time">(******)</div> -->
-            <div class="my-tab-btm-item-line"></div>
-          </div>
-          <div class="my-tab-btm-item relative">
-            <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<5" >
-            <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
-            <div class="my-tab-btm-item-name">第五关</div>
-            <!-- <div class="my-tab-btm-item-time">(******)</div> -->
+          <div class="my-tab-btm-main-row reverse">
+            <div class="my-tab-btm-row-item relative ">
+              <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<4" >
+              <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
+              <div class="my-tab-btm-row-item-name">第四关</div>
+              <!-- <div class="my-tab-btm-item-time">(******)</div> -->
+            </div>
+            <div class="my-tab-btm-row-item relative mrgin70">
+              <img src="https://gw.alicdn.com/tfs/TB1wtV2kY2pK1RjSZFsXXaNlXXa-110-80.png" class="icon-noclear" v-if="score<5" >
+              <img src="https://gw.alicdn.com/tfs/TB1ir86k3HqK1RjSZFgXXa7JXXa-110-80.png" class="icon-clear" v-else>
+              <div class="my-tab-btm-row-item-name">第五关</div>
+              <div class="my-tab-btm-row-item-line"></div>
+              <!-- <div class="my-tab-btm-item-time">(******)</div> -->
+            </div>
           </div>
         </div>
         <img src="../../assets/bg-my-reward.png" class="my-tab-btm-bg">
@@ -159,24 +163,32 @@ export default {
     &-main{
       padding:96rpx 84rpx 0;
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       justify-content: flex-start;
       align-items: center;
-    }
-    &-item{
-      .center();
-      font-size: 20rpx;
-      margin-bottom: 64rpx;
-      &-name{
-        margin-top: 6rpx;
+      &-row{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
       }
-      &-line{
-        position: absolute;
-        z-index: 2;
-        right: -94rpx; top: 44rpx;
-        width: 100rpx;
-        height: 0;
-        border-top:3px dotted #d5aa80;
+    }
+    &-row{
+      
+      &-item{
+        .center();
+        font-size: 23rpx;
+        margin-bottom: 64rpx;
+        &-name{
+          margin-top: 6rpx;
+        }
+        &-line{
+          position: absolute;
+          z-index: 2;
+          right: -94rpx; top: 44rpx;
+          width: 100rpx;
+          height: 7rpx;
+          background: url('https://gw.alicdn.com/tfs/TB1g1kQDjTpK1RjSZKPXXa3UpXa-84-3.png') repeat-x top/contain;
+        }
       }
     }
     &-bg{
@@ -186,6 +198,20 @@ export default {
       left: 0;
       width: 100%;
       height: 560rpx;
+    }
+    .reverse{
+      flex-direction: row-reverse;
+      width:100%;
+    }
+    .columnLine:after{
+      content:'';
+      position: absolute;
+      z-index: 2;
+      top:127rpx;
+      right: 54rpx;
+      width: 10rpx;
+      height: 64rpx;
+      background: url('https://gw.alicdn.com/tfs/TB1fp.SDXzqK1RjSZFvXXcB7VXa-3-68.png') repeat-y top/contain;
     }
   }
 }

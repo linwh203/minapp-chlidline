@@ -119,6 +119,9 @@ export default {
       wx.navigateTo({ url: "../index/main" });
     },
     startQuiz(id) {
+      if(id>this.score+1) {
+        return
+      }
       wx.navigateTo({ url: "../quizdetail/main?checkpoint=" + id });
     }
   },
