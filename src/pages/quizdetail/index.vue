@@ -104,8 +104,8 @@
       <div class="largeImg">
         <img :src="prefix+largeSrc">
         <div class="hint-close" @click="showLarge = false">
-            <img src="../../assets/btn-close-list.png" alt="">
-          </div>
+          <img src="../../assets/btn-close-list.png" style="width:70%;height:70%;margin:auto;">
+        </div>
       </div>
     </div>
   </div>
@@ -638,8 +638,8 @@ export default {
     height: 100%;
   }
   &-close {
-    height: 54rpx;
-    width: 52rpx;
+    height: 68rpx;
+    width: 68rpx;
     position: absolute;
     top: 0;
     right: 0;
