@@ -166,14 +166,8 @@ export default {
           console.log(res.data.data);
           this.mainPic = res.data.data[0].image_url;
           this.innerAudioContext = wx.createInnerAudioContext();
-          this.audioUrl =
-            res.data.data[0].audio_url == null
-              ? ""
-              : config.prefix + res.data.data[0].audio_url;
-          this.videoUrl =
-            res.data.data[0].video_url == null
-              ? ""
-              : config.prefix + res.data.data[0].video_url;
+          this.audioUrl = res.data.data[0].audio_url;
+          this.videoUrl = res.data.data[0].video_url;
           if (this.audioUrl) {
             this.innerAudioContext.src = this.audioUrl;
           }

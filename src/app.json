@@ -29,5 +29,10 @@
     "backgroundColor": "#53c6f7",
     "navigationBarTitleText": "儿童研习径",
     "navigationBarTextStyle": "#ffffff"
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示"
+    }
   }
 }

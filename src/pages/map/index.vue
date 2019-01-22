@@ -631,8 +631,8 @@ export default {
 
 <style scoped lang="less">
 .message {
-  @w: 80vw;
-  @h: 20vh;
+  @w: 70vw;
+  @h: 15vh;
   width: @w;
   height: @h;
   position: absolute;
@@ -641,8 +641,10 @@ export default {
   background-color: black;
   opacity: 0.6;
   color: white;
-  padding: 5% 15% 0;
+  padding: 0 10% 0;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
   &-close {
     position: absolute;
     @size: 50rpx;
