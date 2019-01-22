@@ -366,6 +366,7 @@ export default {
     margin: 10rpx 0 10rpx 20rpx;
     color: white;
     height: 20rpx;
+    font-size: 34rpx;
   }
   img {
     width: 100%;
