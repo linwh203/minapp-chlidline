@@ -19,8 +19,8 @@
         </div>
       </div>
       <div class="my-tab-body">
-        <!-- <div class="my-tab-body-item" @click="bindTab('../my-reward/main')"> -->
-        <div class="my-tab-body-item" @click="bindTab('../developing/main')">
+        <div class="my-tab-body-item" @click="bindTab('../my-reward/main')">
+          <!-- <div class="my-tab-body-item" @click="bindTab('../developing/main')"> -->
           <img
             src="https://gw.alicdn.com/tfs/TB1VPxWk9zqK1RjSZFjXXblCFXa-179-132.png"
             class="my-tab-body-item-icon"

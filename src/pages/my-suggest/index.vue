@@ -5,32 +5,35 @@
     </div>
     <div class="section imgList" v-if="imgList.length>0">
       <div class="img-item" v-for="(item,index) in imgList" :key="index">
-        <img :src="item" >
+        <img :src="item">
       </div>
     </div>
     <div class="section flex" v-if="imgList.length<9">
-      <img src="../../assets/icon-my-suggest.png" class="upload" @click="upload">
-      <div class="upload-text">上传照片</div>
+      <img
+        src="https://child-line.oss-cn-shenzhen.aliyuncs.com/other/upload_image.jpg"
+        class="upload"
+        @click="upload"
+      >
+      <!-- <img src="../../assets/icon-my-suggest.png" class="upload" @click="upload"> -->
+      <!-- <div class="upload-text">上传照片</div> -->
     </div>
     <div class="contact">
-       <input type="number" placeholder="留下联系方式，便于我们联系你" v-model="contact"/>
+      <input type="number" placeholder="留下联系方式，便于我们联系你" v-model="contact">
     </div>
-    <div class="submit" @click="submit">
-      确定提交
-    </div>
+    <div class="submit" @click="submit">确定提交</div>
   </div>
 </template>
 
 <script>
-import {config} from '../../utils/index'
+import { config } from "../../utils/index";
 export default {
   data() {
     return {
-      text:'',
-      contact:'',
-      imgList:[],
-      tempFile:[],
-      userCode:''
+      text: "",
+      contact: "",
+      imgList: [],
+      tempFile: [],
+      userCode: ""
     };
   },
 
@@ -39,15 +42,14 @@ export default {
   methods: {
     upload() {
       wx.chooseImage({
-        count: '9', //最多可以选择的图片张数,
+        count: "9", //最多可以选择的图片张数,
         success: res => {
-          console.log(res)
-          this.imgList = res.tempFilePaths
-          const self = this
-          for(let i=0;i<res.tempFilePaths.length;i++){
-            self.postImg(res.tempFilePaths[i])
+          console.log(res);
+          this.imgList = res.tempFilePaths;
+          const self = this;
+          for (let i = 0; i < res.tempFilePaths.length; i++) {
+            self.postImg(res.tempFilePaths[i]);
           }
-          
         }, //返回图片的本地文件路径列表 tempFilePaths,
         fail: () => {},
         complete: () => {}
@@ -55,13 +57,13 @@ export default {
     },
     postImg(file) {
       wx.uploadFile({
-        url: config.base + 'photo/UpdatePhoto', //开发者服务器 url
+        url: config.base + "photo/UpdatePhoto", //开发者服务器 url
         filePath: file, //要上传文件资源的路径
-        name: 'name', //文件对应的 key , 开发者在服务器端通过这个 key 可以获取到文件二进制内容
+        name: "name", //文件对应的 key , 开发者在服务器端通过这个 key 可以获取到文件二进制内容
         success: res => {
-          let data = JSON.parse(res.data).data
-          console.log(res.data)
-          this.tempFile.push(config.prefix + data)
+          let data = JSON.parse(res.data).data;
+          console.log(res.data);
+          this.tempFile.push(config.prefix + data);
         },
         fail: () => {},
         complete: () => {}
@@ -70,61 +72,60 @@ export default {
     submit() {
       if (!this.text) {
         wx.showToast({
-          title: '请输入内容', //提示的内容,
-          icon: 'none', //图标,
+          title: "请输入内容", //提示的内容,
+          icon: "none", //图标,
           duration: 2000, //延迟时间,
           mask: true, //显示透明蒙层，防止触摸穿透,
           success: res => {}
         });
-        return 
+        return;
       }
       if (!this.contact) {
-         wx.showToast({
-          title: '请输入联系方式', //提示的内容,
-          icon: 'none', //图标,
+        wx.showToast({
+          title: "请输入联系方式", //提示的内容,
+          icon: "none", //图标,
           duration: 2000, //延迟时间,
           mask: true, //显示透明蒙层，防止触摸穿透,
           success: res => {}
         });
-        return 
+        return;
       }
-      const token = wx.getStorageSync('userCode');
+      const token = wx.getStorageSync("userCode");
       wx.request({
-        url: config.base + 'my/suggest', //开发者服务器接口地址",
+        url: config.base + "my/suggest", //开发者服务器接口地址",
         data: {
           lineId: config.lineId,
           suggest: this.text,
           phone: this.contact,
           image_url_list: this.tempFile
         }, //请求的参数",
-        method: 'post',
+        method: "post",
         header: {
-          token: token,
+          token: token
         },
-        dataType: 'json', //如果设为json，会尝试对返回的数据做一次 JSON.parse
+        dataType: "json", //如果设为json，会尝试对返回的数据做一次 JSON.parse
         success: res => {
-          console.log(res.data)
+          console.log(res.data);
           if (res.data.res_code == 0) {
             wx.showToast({
-              title: '反馈成功', //提示的内容,
-              icon: 'success', //图标,
+              title: "反馈成功", //提示的内容,
+              icon: "success", //图标,
               duration: 2000, //延迟时间,
               mask: true, //显示透明蒙层，防止触摸穿透,
               success: res => {}
             });
-            this.text=''
-            this.contact=''
-            this.imgList=[]
-            this.tempFile=[]
+            this.text = "";
+            this.contact = "";
+            this.imgList = [];
+            this.tempFile = [];
           } else {
             wx.showToast({
-              title: '反馈失败，请稍后再试', //提示的内容,
+              title: "反馈失败，请稍后再试", //提示的内容,
               duration: 2000, //延迟时间,
               mask: true, //显示透明蒙层，防止触摸穿透,
               success: res => {}
             });
           }
-         
         },
         fail: () => {},
         complete: () => {}
@@ -133,68 +134,66 @@ export default {
   },
 
   created() {
-    this.userCode = wx.getStorageSync('userCode');
+    this.userCode = wx.getStorageSync("userCode");
   },
-  mounted() {
-  }
+  mounted() {}
 };
 </script>
 
 <style scoped lang="less">
-.container{
+.container {
   background: #f3f3f3;
 }
-.section{
+.section {
   background: #fff;
-  padding:20rpx;
-  min-height:160rpx;
-  font-size:26rpx;
+  padding: 20rpx;
+  min-height: 160rpx;
+  font-size: 26rpx;
 }
-.upload{
+.upload {
   width: 140rpx;
   height: 140rpx;
   display: block;
-  &-text{
-    color:#909090;
-    margin-left:20rpx;
+  &-text {
+    color: #909090;
+    margin-left: 20rpx;
   }
 }
-.imgList{
+.imgList {
   display: flex;
   flex-wrap: wrap;
 }
-.img-item{
-  margin-right:20rpx;
-  margin-bottom:30rpx;
-  border:1px solid #e9e9e9;
-  img{
+.img-item {
+  margin-right: 20rpx;
+  margin-bottom: 30rpx;
+  border: 1px solid #e9e9e9;
+  img {
     width: 110rpx;
     height: 140rpx;
     display: block;
   }
 }
-.contact{
+.contact {
   margin-top: 24rpx;
-  padding:20rpx;
-  font-size:26rpx;
+  padding: 20rpx;
+  font-size: 26rpx;
   background: #fff;
-  border-top:1px solid #e0e0e0;
-  border-bottom:1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
 }
-.submit{
+.submit {
   width: 700rpx;
   line-height: 90rpx;
   text-align: center;
   background: #53c6f7;
   border-radius: 30rpx;
   margin: 70rpx auto;
-  color:#fff;
+  color: #fff;
 }
-.flex{
+.flex {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  border-bottom:1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
 }
-
 </style>
