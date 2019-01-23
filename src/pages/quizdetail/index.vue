@@ -704,10 +704,11 @@ export default {
     line-height: 130rpx;
   }
   &-text {
-    width: 100%;
+    // width: 100%;
     font-size: 28rpx;
     text-align: center;
-    padding-bottom: 60rpx;
+    padding: 0 30rpx;
+    height: 120rpx;
     border-bottom: 1px solid #a0a0a0;
   }
   &-btn {
