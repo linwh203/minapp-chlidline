@@ -116,6 +116,7 @@ import { config } from "../../utils/index";
 export default {
   data() {
     return {
+      isClear:0,
       prefix:config.prefix,
       userCode: "",
       index: 0,
@@ -255,7 +256,8 @@ export default {
       } else {
         this.index--;
         this.currentQuiz = this.questionList[this.index];
-        this.choiceIndex = this.currentQuiz.right_answer;
+        this.choiceIndex = parseInt(this.currentQuiz.right_answer) - 1;
+        console.log(this.currentQuiz,this.choiceIndex );
         this.isPlayAudio = false;
         this.innerAudioContext.stop();
       }
@@ -268,7 +270,7 @@ export default {
           this.index++;
           this.currentQuiz = this.questionList[this.index];
           this.questionList[this.index].is_right
-            ? (this.choiceIndex = this.currentQuiz.right_answer)
+            ? (this.choiceIndex = parseInt(this.currentQuiz.right_answer) - 1)
             : (this.choiceIndex = -1);
           this.isPlayAudio = false;
           this.innerAudioContext.stop();
@@ -314,7 +316,7 @@ export default {
           lineId: config.lineId,
           token: token,
           checkpoint: this.checkpoint,
-          newExtract: 0
+          newExtract: this.isClear
         }, //请求的参数",
         method: "GET",
         dataType: "json", //如果设为json，会尝试对返回的数据做一次 JSON.parse
@@ -352,8 +354,9 @@ export default {
     // this.getList()
   },
   onLoad(option) {
-    console.log(option.checkpoint);
+    console.log(option);
     this.checkpoint = option.checkpoint;
+    this.isClear = option.isclear || 0;
     this.innerAudioContext = wx.createInnerAudioContext();
   },
   onShow(option) {

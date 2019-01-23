@@ -121,8 +121,11 @@ export default {
     startQuiz(id) {
       if(id>this.score+1) {
         return
+      } else if (id == this.score + 1) {
+        wx.navigateTo({ url: "../quizdetail/main?checkpoint=" + id });
+      } else {
+        wx.navigateTo({ url: "../quizdetail/main?checkpoint=" + id + "&isclear=" + 1});
       }
-      wx.navigateTo({ url: "../quizdetail/main?checkpoint=" + id });
     }
   },
 
