@@ -129,7 +129,7 @@
           <img src="../../assets/icon-reward.png" class="finish-icon">
           <div class="finish-text">获得:1个勋章</div>
           <div class="finish-btns">
-            <div class="finish-btns-left" @click="bindTab('../quiz/main')">继续闯关</div>
+            <div class="finish-btns-left" @click="goBack">继续闯关</div>
             <div class="finish-btns-right" @click="bindTab('../my-reward/main')">查看成就</div>
           </div>
           <div class="hint-close" @click="bindTab('../quiz/main')">
@@ -216,6 +216,11 @@ export default {
   components: {},
 
   methods: {
+    goBack() {
+      wx.navigateBack({
+        delta: 1 //返回的页面数，如果 delta 大于现有页面数，则返回到首页,
+      });
+    },
     bindTab(url) {
       wx.redirectTo({ url: url });
     },
