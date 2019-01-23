@@ -714,12 +714,15 @@ export default {
     text-align: center;
     padding: 0 30rpx;
     height: 120rpx;
-    border-bottom: 1px solid #a0a0a0;
+    // border-bottom: 1px solid #a0a0a0;
   }
   &-btn {
+    width: 100%;
+    border-top: 1px solid #a0a0a0;
     color: #00baea;
     font-size: 36rpx;
     line-height: 90rpx;
+    text-align: center;
   }
 }
 .finish {
