@@ -571,8 +571,10 @@ export default {
       align-items: center;
       border-bottom: 1px solid #9e7044;
       font-size: 28rpx;
+      @padding: 60rpx;
       &-text {
         position: relative;
+        padding: 0 @padding;
       }
       &-icon {
         width: 46rpx;
@@ -581,7 +583,7 @@ export default {
         background: url("https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png")
           no-repeat top/cover;
         position: absolute;
-        left: -50rpx;
+        left: calc(@padding - 50rpx);
       }
     }
     &-item:nth-last-of-type(1) {
