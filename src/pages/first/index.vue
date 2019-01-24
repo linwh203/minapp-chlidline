@@ -26,7 +26,8 @@
 export default {
   data() {
     return {
-      motto: false
+      motto: false,
+      tForAutoClose: undefined
     };
   },
 
@@ -48,6 +49,7 @@ export default {
       }
     },
     bindNext() {
+      clearTimeout(this.tForAutoClose);
       wx.setStorageSync("firsttime", true);
       const url = "../index/main";
       wx.redirectTo({ url: url });
@@ -65,6 +67,7 @@ export default {
                 console.log("first page", res.userInfo);
               }
             });
+            that.autoClose();
           } else {
             that.motto = true;
           }
@@ -100,6 +103,7 @@ export default {
         // wx.setStorageSync("userInfo", userInfo);
         this.setStorage("userInfo", userInfo);
         this.motto = false;
+        this.autoClose();
       } else {
         //用户按了拒绝按钮
         console.log("用户按了拒绝按钮");
@@ -107,12 +111,20 @@ export default {
     },
     cancelAuth() {
       this.motto = false;
+    },
+    autoClose() {
+      this.tForAutoClose = setTimeout(() => {
+        console.log("auto close");
+        this.bindNext();
+      }, 5000);
     }
   },
-
+  onLoad() {
+    this.getUser();
+  },
   created() {
     // 调用应用实例的方法获取全局数据
-    this.getUser();
+    // this.getUser();
   }
 };
 </script>
