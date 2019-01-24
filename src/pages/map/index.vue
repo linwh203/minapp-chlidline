@@ -540,7 +540,7 @@ export default {
           success: res => {
             let data = res.data.data;
             console.log(data);
-            let audioUrl = config.prefix + res.data.data[0].audio_url;
+            let audioUrl = res.data.data[0].audio_url;
             this.playAudio(audioUrl);
           }
         });
