@@ -77,10 +77,10 @@ export default {
     }
   },
 
-  created() {
+  onLoad() {
     this.userCode = wx.getStorageSync('userCode');
   },
-  mounted() {
+  onShow() {
     wx.request({
       url: config.base + 'quiz/getcheckpoint', 
       data: {
