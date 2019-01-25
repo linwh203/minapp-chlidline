@@ -91,7 +91,7 @@ export default {
       dataType: 'json', 
       success: res => {
         console.log(res.data)
-        this.score = res.data.data
+        this.score = res.data.data || 0
       },
       fail: () => {},
       complete: () => {}
