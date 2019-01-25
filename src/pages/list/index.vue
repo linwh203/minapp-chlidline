@@ -12,15 +12,15 @@
           >
         </div>
       </div>
-      <div class="sub-nav-line" v-if="showSub && audioUrl != ''"></div>
-      <div class="sub-nav-btn" v-if="showSub && audioUrl != ''">
+      <div class="sub-nav-line" v-if="showSub && audioUrl "></div>
+      <div class="sub-nav-btn" v-if="showSub && audioUrl ">
         <div class="sub-nav-btn-in" @click="playAudio">
           <img src="../../assets/icon-list-audio.png" alt class="btn-audio" v-if="audioOff">
           <img src="../../assets/icon-list-audio-play.png" alt class="btn-audio" v-else>
         </div>
       </div>
-      <div class="sub-nav-line" v-if="showSub && videoUrl != ''"></div>
-      <div class="sub-nav-btn" v-if="showSub && videoUrl != ''">
+      <div class="sub-nav-line" v-if="showSub && videoUrl "></div>
+      <div class="sub-nav-btn" v-if="showSub && videoUrl ">
         <div class="sub-nav-btn-in" @click="goVideo">
           <img src="../../assets/icon-list-video.png" alt class="btn-video">
         </div>
@@ -218,14 +218,14 @@ export default {
   },
   onHide() {
     this.audioOff = true;
-    this.showSub = false;
+    this.showSub = true;
     this.innerAudioContext.stop();
     console.log("list page hide");
     // this.innerAudioContext = null
   },
   onUnload() {
     this.audioOff = true;
-    this.showSub = false;
+    this.showSub = true;
     this.innerAudioContext.stop();
     // this.innerAudioContext = null
   },

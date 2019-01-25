@@ -9,8 +9,18 @@
       <div class="quiz-mid-question">
         <div class="quiz-mid-question-body">
           <div class="quiz-mid-question-body-text">{{currentQuiz.title}}</div>
-          <img class="quiz-mid-question-body-play" src="https://gw.alicdn.com/tfs/TB1.aY2j9zqK1RjSZPxXXc4tVXa-69-70.png" v-if="hasAudio && !isPlayAudio" @click="startAudio" />
-          <img class="quiz-mid-question-body-pause" src="https://gw.alicdn.com/tfs/TB163v1j9rqK1RjSZK9XXXyypXa-69-70.png" v-if="hasAudio && isPlayAudio" @click="pauseAudio" />
+          <img
+            class="quiz-mid-question-body-play"
+            src="https://gw.alicdn.com/tfs/TB1.aY2j9zqK1RjSZPxXXc4tVXa-69-70.png"
+            v-if="hasAudio && !isPlayAudio"
+            @click="startAudio"
+          >
+          <img
+            class="quiz-mid-question-body-pause"
+            src="https://gw.alicdn.com/tfs/TB163v1j9rqK1RjSZK9XXXyypXa-69-70.png"
+            v-if="hasAudio && isPlayAudio"
+            @click="pauseAudio"
+          >
         </div>
       </div>
       <div class="quiz-mid-msg">从下面选出正确的答案</div>
@@ -21,69 +31,97 @@
     <div class="quiz-choice">
       <div class="image-choice" v-if="imageType">
         <div class="image-choice-item">
-          <img :src="prefix+currentQuiz.answer_list[0].image" @click="showLargeImg(currentQuiz.answer_list[0].image_big)">
-          <div class="image-choose"  @click="chooseItem(0,currentQuiz.answer_list[0])">
-            <img src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png" v-if="choiceIndex == 0">
+          <img
+            :src="prefix+currentQuiz.answer_list[0].image"
+            @click="showLargeImg(currentQuiz.answer_list[0].image_big)"
+          >
+          <div class="image-choose" @click="chooseItem(0,currentQuiz.answer_list[0])">
+            <img
+              src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png"
+              v-if="choiceIndex == 0"
+            >
           </div>
         </div>
         <div class="image-choice-item">
-          <img :src="prefix+currentQuiz.answer_list[1].image" @click="showLargeImg(currentQuiz.answer_list[1].image_big)">
-          <div class="image-choose"  @click="chooseItem(1,currentQuiz.answer_list[1])">
-            <img src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png" v-if="choiceIndex == 1">
+          <img
+            :src="prefix+currentQuiz.answer_list[1].image"
+            @click="showLargeImg(currentQuiz.answer_list[1].image_big)"
+          >
+          <div class="image-choose" @click="chooseItem(1,currentQuiz.answer_list[1])">
+            <img
+              src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png"
+              v-if="choiceIndex == 1"
+            >
           </div>
         </div>
         <div class="image-choice-item">
-          <img :src="prefix+currentQuiz.answer_list[2].image" @click="showLargeImg(currentQuiz.answer_list[2].image_big)">
-          <div class="image-choose"  @click="chooseItem(2,currentQuiz.answer_list[2])">
-            <img src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png" v-if="choiceIndex == 2">
+          <img
+            :src="prefix+currentQuiz.answer_list[2].image"
+            @click="showLargeImg(currentQuiz.answer_list[2].image_big)"
+          >
+          <div class="image-choose" @click="chooseItem(2,currentQuiz.answer_list[2])">
+            <img
+              src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png"
+              v-if="choiceIndex == 2"
+            >
           </div>
         </div>
         <div class="image-choice-item">
-          <img :src="prefix+currentQuiz.answer_list[3].image" @click="showLargeImg(currentQuiz.answer_list[3].image_big)">
-          <div class="image-choose"  @click="chooseItem(3,currentQuiz.answer_list[3])">
-            <img src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png" v-if="choiceIndex == 3">
+          <img
+            :src="prefix+currentQuiz.answer_list[3].image"
+            @click="showLargeImg(currentQuiz.answer_list[3].image_big)"
+          >
+          <div class="image-choose" @click="chooseItem(3,currentQuiz.answer_list[3])">
+            <img
+              src="https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png"
+              v-if="choiceIndex == 3"
+            >
           </div>
         </div>
       </div>
       <div class="quiz-choice-body" v-if="!imageType&&currentQuiz.answer_list.length>0">
         <div class="quiz-choice-body-item" @click="chooseItem(0,currentQuiz.answer_list[0])">
-          <span class="quiz-choice-body-item-text"><span class="quiz-choice-body-item-icon" v-if="choiceIndex == 0"></span>{{currentQuiz.answer_list[0].answer}}</span> 
+          <span class="quiz-choice-body-item-text">
+            <span class="quiz-choice-body-item-icon" v-if="choiceIndex == 0"></span>
+            {{currentQuiz.answer_list[0].answer}}
+          </span>
         </div>
         <div class="quiz-choice-body-item" @click="chooseItem(1,currentQuiz.answer_list[1])">
-          <span class="quiz-choice-body-item-text"><span class="quiz-choice-body-item-icon" v-if="choiceIndex == 1"></span>{{currentQuiz.answer_list[1].answer}}</span> 
+          <span class="quiz-choice-body-item-text">
+            <span class="quiz-choice-body-item-icon" v-if="choiceIndex == 1"></span>
+            {{currentQuiz.answer_list[1].answer}}
+          </span>
         </div>
         <div class="quiz-choice-body-item" @click="chooseItem(2,currentQuiz.answer_list[2])">
-          <span class="quiz-choice-body-item-text"><span class="quiz-choice-body-item-icon" v-if="choiceIndex == 2"></span>{{currentQuiz.answer_list[2].answer}}</span> 
+          <span class="quiz-choice-body-item-text">
+            <span class="quiz-choice-body-item-icon" v-if="choiceIndex == 2"></span>
+            {{currentQuiz.answer_list[2].answer}}
+          </span>
         </div>
         <div class="quiz-choice-body-item" @click="chooseItem(3,currentQuiz.answer_list[3])">
-          <span class="quiz-choice-body-item-text"><span class="quiz-choice-body-item-icon" v-if="choiceIndex == 3"></span>{{currentQuiz.answer_list[3].answer}}</span> 
+          <span class="quiz-choice-body-item-text">
+            <span class="quiz-choice-body-item-icon" v-if="choiceIndex == 3"></span>
+            {{currentQuiz.answer_list[3].answer}}
+          </span>
         </div>
       </div>
     </div>
-    <div class="quiz-btm" @click="submitAnswer">
-
-    </div>
+    <div class="quiz-btm" @click="submitAnswer"></div>
     <div class="modal" v-if="showHint || showAnswer || showFinish">
       <div class="modal-container">
         <div class="hint" v-if="showHint">
           <div class="hint-title">温馨提示</div>
-          <div class="hint-text">
-            {{currentQuiz.tooltip}}
-          </div>
+          <div class="hint-text">{{currentQuiz.tooltip}}</div>
           <div class="hint-close" @click="closeHint">
-            <img src="../../assets/btn-close-list.png" alt="">
+            <img src="../../assets/btn-close-list.png" alt>
           </div>
         </div>
-        <div class="hint answer" v-if="showAnswer">
+        <div class="hint answer" v-if="showAnswer" @click="closeAnswer">
           <div class="answer-title">{{wrongAnswer?'再想想':'你真棒'}}</div>
-          <div class="answer-text">
-            {{wrongAnswer?'不是'+choiceName+'选错了!':'找对了,继续加油哦!'}}
-          </div>
-          <div class="answer-btn" @click=closeAnswer>
-            {{wrongAnswer?'重新回答':'下一题'}}
-          </div>
+          <div class="answer-text">{{wrongAnswer?'不是'+choiceName+'选错了!':'找对了,继续加油哦!'}}</div>
+          <div class="answer-btn">{{wrongAnswer?'重新回答':'下一题'}}</div>
           <div class="hint-close" @click="closeAnswer">
-            <img src="../../assets/btn-close-list.png" alt="">
+            <img src="../../assets/btn-close-list.png" alt>
           </div>
         </div>
         <div class="hint finish" v-if="showFinish">
@@ -95,7 +133,7 @@
             <div class="finish-btns-right" @click="bindTab('../my-reward/main')">查看成就</div>
           </div>
           <div class="hint-close" @click="bindTab('../quiz/main')">
-            <img src="../../assets/btn-close-list.png" alt="">
+            <img src="../../assets/btn-close-list.png" alt>
           </div>
         </div>
       </div>
@@ -116,8 +154,8 @@ import { config } from "../../utils/index";
 export default {
   data() {
     return {
-      isClear:0,
-      prefix:config.prefix,
+      isClear: 0,
+      prefix: config.prefix,
       userCode: "",
       index: 0,
       showHint: false,
@@ -262,7 +300,7 @@ export default {
         this.index--;
         this.currentQuiz = this.questionList[this.index];
         this.choiceIndex = parseInt(this.currentQuiz.right_answer) - 1;
-        console.log(this.currentQuiz,this.choiceIndex );
+        console.log(this.currentQuiz, this.choiceIndex);
         this.isPlayAudio = false;
         this.innerAudioContext.stop();
       }
@@ -286,19 +324,19 @@ export default {
     },
     login(code) {
       wx.request({
-        url: config.base + 'wxlogin/login',
+        url: config.base + "wxlogin/login",
         data: {
           code: code,
           lineId: config.lineId
-        }, 
-        method: 'GET',
-        dataType: 'json', 
+        },
+        method: "GET",
+        dataType: "json",
         success: res => {
           // console.log('login',res.data.data)
-          this.setStorage('userCode',res.data.data)
+          this.setStorage("userCode", res.data.data);
         },
         fail: err => {
-          console.log('hasError',err)
+          console.log("hasError", err);
         }
       });
     },
@@ -328,7 +366,7 @@ export default {
         success: res => {
           if (res.data.res_code == 0) {
             this.questionList = res.data.data;
-            if (this.questionList.length>0){
+            if (this.questionList.length > 0) {
               this.questionList.forEach(item => {
                 item.answer_list = selectSort(item.answer_list);
                 this.currentQuiz = this.questionList[0];
@@ -336,12 +374,10 @@ export default {
             }
           } else {
             wx.showToast({
-              title: res.data.res_msg, 
-              duration: 1000, 
+              title: res.data.res_msg,
+              duration: 1000,
               mask: true,
-              success: res=>{
-                
-              }
+              success: res => {}
             });
           }
         },
@@ -353,7 +389,6 @@ export default {
 
   created() {
     this.currentQuiz = this.questionList[0];
-    
   },
   mounted() {
     // this.getList()
@@ -367,7 +402,7 @@ export default {
   onShow(option) {
     this.userCode = wx.getStorageSync("userCode");
     // this.innerAudioContext = wx.createInnerAudioContext();
-    this.getList()
+    this.getList();
   },
   onHide() {
     this.index = 0;
@@ -541,8 +576,10 @@ export default {
       align-items: center;
       border-bottom: 1px solid #9e7044;
       font-size: 28rpx;
+      @padding: 60rpx;
       &-text {
         position: relative;
+        padding: 0 @padding;
       }
       &-icon {
         width: 46rpx;
@@ -551,7 +588,7 @@ export default {
         background: url("https://gw.alicdn.com/tfs/TB1_3MDj9zqK1RjSZFHXXb3CpXa-46-38.png")
           no-repeat top/cover;
         position: absolute;
-        left: -50rpx;
+        left: calc(@padding - 50rpx);
       }
     }
     &-item:nth-last-of-type(1) {
@@ -672,16 +709,20 @@ export default {
     line-height: 130rpx;
   }
   &-text {
-    width: 100%;
+    // width: 100%;
     font-size: 28rpx;
     text-align: center;
-    padding-bottom: 60rpx;
-    border-bottom: 1px solid #a0a0a0;
+    padding: 0 30rpx;
+    height: 120rpx;
+    // border-bottom: 1px solid #a0a0a0;
   }
   &-btn {
+    width: 100%;
+    border-top: 1px solid #a0a0a0;
     color: #00baea;
     font-size: 36rpx;
     line-height: 90rpx;
+    text-align: center;
   }
 }
 .finish {

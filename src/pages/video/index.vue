@@ -1,13 +1,30 @@
 <template>
   <div class="container">
-    <video id="myVideo" :src="videoSrc" :poster="coverSrc" controls objectFit="cover" class="video-container" v-if="!showModal"></video>
+    <!-- <video id="myVideo" :src="videoSrc" :poster="coverSrc" controls objectFit="cover" class="video-container" v-if="!showModal"></video> -->
+    <video
+      id="myVideo"
+      :src="videoSrc"
+      controls
+      objectFit="cover"
+      class="video-container"
+      v-if="!showModal"
+    ></video>
     <cover-view class="reverse" @click="reverse">
-      <cover-image class="img" src="https://gw.alicdn.com/tfs/TB1An.ujNTpK1RjSZFMXXbG_VXa-114-101.png" />
+      <cover-image
+        class="img"
+        src="https://gw.alicdn.com/tfs/TB1An.ujNTpK1RjSZFMXXbG_VXa-114-101.png"
+      />
     </cover-view>
     <div class="modal" v-if="showModal">
-      <div class="modal-top"><img src="../../assets/video-hint-1.png" alt=""></div>
-      <div class="modal-mid"><img src="../../assets/video-hint-2.png" alt=""></div>
-      <div class="modal-btm" @click="closeModal"><img src="../../assets/video-hint-3.png" alt=""></div>
+      <div class="modal-top">
+        <img src="../../assets/video-hint-1.png" alt>
+      </div>
+      <div class="modal-mid">
+        <img src="../../assets/video-hint-2.png" alt>
+      </div>
+      <div class="modal-btm" @click="closeModal">
+        <img src="../../assets/video-hint-3.png" alt>
+      </div>
     </div>
   </div>
 </template>
@@ -21,8 +38,8 @@ export default {
       showModal: false,
       coverSrc:
         "https://gw.alicdn.com/tfs/TB1IegWhkPoK1RjSZKbXXX1IXXa-640-1008.jpg",
-      videoSrc:''
-        // "http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400"
+      videoSrc: ""
+      // "http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400"
     };
   },
 
@@ -50,7 +67,7 @@ export default {
     }
   },
   onLoad(option) {
-    this.videoSrc = option.video_url
+    this.videoSrc = option.video_url;
   },
   onReady() {
     this.videoCtx = wx.createVideoContext("myVideo");
@@ -72,7 +89,7 @@ export default {
   bottom: 10rpx;
   right: 0;
   z-index: 99;
-  .img{
+  .img {
     width: 112rpx;
     height: 100rpx;
   }
