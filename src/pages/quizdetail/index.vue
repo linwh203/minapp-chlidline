@@ -613,8 +613,10 @@ export default {
   &-item {
     border: 1px solid #9e7044;
     position: relative;
+    width: 50%;
+    box-sizing: border-box;
     img {
-      width: 267rpx;
+      width: 100%;
       height: 100%;
     }
   }
